@@ -34,7 +34,7 @@ iptables		1.2.7a
 linux			2.4.20
 openvpn			1.5-beta7
 pcmcia-cs		3.2.3
-uClibc			0.9.17, 0.9.20(*)
+uClibc			0.9.17, 0.9.20, 0.9.21(*)
 wireless_tools		25
 
 (*) default used versions
