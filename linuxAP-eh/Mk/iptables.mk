@@ -7,6 +7,8 @@ SUBDIR_INSTALL  += iptables-install
 SUBDIR_CLEAN    += iptables-clean
 SUBDIR_DISTCLEAN+= iptables-distclean
 
+COND_KERNEL     += iptables/$(IPTABLES_VERSION)
+
 iptables-config:
 	@echo -e "\nExtract and Configure iptables version $(IPTABLES_VERSION)."
 	@scripts/util_config iptables $(IPTABLES_VERSION) $(ARCHIVE_DIR) \
@@ -55,3 +57,5 @@ iptables-distclean:
 	@rm -f iptables-build
 	@rm -f iptables-config
 	@rm -rf iptables-$(IPTABLES_VERSION) iptables
+	@scripts/util_cond - linux $(KERNEL_VERSION) iptables/$(IPTABLES_VERSION)
+	@echo "   ATTENTION: Should clean flash's kernel image ans sources (make kernel-clean-flash)"

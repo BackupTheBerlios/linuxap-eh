@@ -1,3 +1,6 @@
+21-10-2003
+  * Changed kernel's iptables support to conditional patching
+
 20-10-2003
   * Added script ./pack_links.sh to automate links.tgz creation
 
