@@ -153,7 +153,7 @@ flash: kernel image squashfs-build alios-build
 	@echo ""
 	@echo $(DATE_TIME) \
 		> $(IMAGE_DIR)/etc/linuxAP-version
-	@echo "3" > RW.default/runlevel
+	@echo "$(CONFIG_WLRL)" > RW.default/runlevel
 	@./aptools/image_rdev ./kernel 31 0
 	@touch pcmcia-cs-config
 	@touch pcmcia-cs-build
