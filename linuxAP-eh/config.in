@@ -9,7 +9,7 @@ define_ustring CF_BASEDEV           /dev/sda
 define_ustring CF_MOUNTPOINT        /mnt/cf
 
 # Some version defines we may ask for at a later date
-define_ustring BUSYBOX_VERSION      1.00-pre2
+define_ustring BUSYBOX_VERSION      1.00-pre3
 define_ustring BUTILS_VERSION       0.9.6
 define_ustring CKERMIT_VERSION      206
 define_ustring CIPE_VERSION         1.5.4
@@ -135,7 +135,7 @@ ustring 'Kernel Version' KERNEL_VERSION '2.4.20'
 
 bool "NBD/Swap Support?"    CONFIG_NBD
 
-bool "Kernel AODV dynamic routing? (not working yet)" CONFIG_KERNEL_AODV
+bool "Kernel AODV dynamic routing?" CONFIG_KERNEL_AODV
 if [ "$CONFIG_KERNEL_AODV" = "y" ]; then
     ustring 'Kernel AODV Version' KERNEL_AODV_VERSION KERNEL_AODV_VERSION
 fi

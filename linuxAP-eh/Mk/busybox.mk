@@ -18,6 +18,8 @@ ifeq ($(CONFIG_SOEKRIS),y)
 		>> /tmp/busybox-config
 endif
 endif
+	@scripts/util_cond + busybox $(BUSYBOX_VERSION) $(COND_BUSYBOX) \
+		>> /tmp/busybox-config 2>&1
 	@$(MAKE) -C busybox oldconfig \
 		KERNEL_DIR=$(KERNEL_DIR) \
 		CROSS_COMPILE=$(CROSS_COMPILE) \
