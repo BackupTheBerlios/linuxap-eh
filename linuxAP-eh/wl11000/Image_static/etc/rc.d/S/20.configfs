@@ -1,0 +1,60 @@
+#! /bin/sh
+#
+# configfs
+#
+MTD0=/dev/mtd/0
+case "$1" in
+    start|S)
+        cd /etc/rw
+# Load the defaults
+        if [ -f /RW.default ]
+        then
+            echo "loading default config."
+            tar xf /RW.default
+        fi
+        dd if=$MTD0 bs=8192 count=2 skip=124 of=/tmp/etc.tar
+        if [ -f /tmp/etc.tar ]
+        then
+            if tar xvf /tmp/etc.tar 2>/dev/null
+            then
+                echo "loaded saved config."
+            fi
+            rm -f /tmp/etc.tar
+        fi
+        echo "Done."
+        ;;
+    stop|1)
+        echo -n "Stopping $NAME: "
+        rm -rf /etc/rw/*
+        echo "Done."
+        ;;
+    commit)
+        echo -n "Committing $NAME: "
+        rm -f /tmp/etc_rw.tar
+        cd /etc/rw
+        tar cvf /tmp/etc_rw.tar *
+        /sbin/update /dev/mtd/0 0xf8000 0x4000
+# do not remove me!!! update will not work i promise dave:
+        dd if=/tmp/etc_rw.tar of=$MTD0 bs=8192 count=2 seek=124 conv=notrunc
+        rm -f /tmp/etc_rw.tar
+        echo "Done."
+        ;;
+    clear)
+        echo -n "Clearing Configuration: "
+        /sbin/update $MTD0 0xf8000 0x4000
+        echo "Done."
+        ;;
+    restart)
+        $0 stop
+        sleep 1
+        $0 start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|commit|clear}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
+
+

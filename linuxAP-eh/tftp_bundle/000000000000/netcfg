@@ -1,0 +1,25 @@
+# netcfg
+
+# Primary Interface (RL2/wlan0, RL3/br0, RL4/eth0)
+# Need first 3 if not dhcp
+# p_dhcp should be either enabled or disabled
+p_dhcp=enabled
+p_address=
+p_netmask=
+p_broadcast=
+
+# Secondary Interface (RL2/eth0, RL4/wlan0)
+# Ignored at RL3
+s_dhcp=disabled
+s_address=65.223.47.65
+s_netmask=255.255.255.192
+s_broadcast=65.223.47.127
+
+# These should pull from dhcp ...
+router=
+tftphost=192.168.65.1
+logaddr=192.168.65.1
+
+# Network Swapping
+swaphost=192.168.65.1
+swapport=4400

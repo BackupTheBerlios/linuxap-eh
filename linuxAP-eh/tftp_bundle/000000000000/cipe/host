@@ -1,0 +1,8 @@
+ipaddr  192.168.66.0
+ptpaddr 65.223.47.2
+peer    192.168.65.1:4500
+cttl    96
+dynip   1
+maxerr  -1
+mtu     1600
+key     fc0abb50ec453c2c509d0c9ad6fa1175
