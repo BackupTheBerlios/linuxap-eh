@@ -12,28 +12,30 @@ kernel-patch: wireless_tools-config
 	@echo -e "Please be patient. . ."
 	@scripts/util_config linux $(KERNEL_VERSION) $(ARCHIVE_DIR) \
 		> /tmp/kernel-patch 2>&1
-	@cp wireless_tools/wireless.h linux/include/linux/wireless.h
+ifneq ($(shell ./scripts/cmp_ver $(KERNEL_VERSION) 2.6.6),1)
+	@$(MAKE) -C $(KERNEL_DIR) include/linux/version.h >> /tmp/kernel-patch 2>&1
+endif
 	@mv /tmp/kernel-patch .
 
 kernel-config: kernel-patch $(AP_BUILD)/kernel-config/$(KERNEL_VERSION)
 	@echo -e "\nConfiguring $(AP_BUILD) Linux Kernel Version $(KERNEL_VERSION)."
 	@echo -e "Please be patient. . ."
-	@touch /tmp/kernel-config
 	@cp $(AP_BUILD)/kernel-config/$(KERNEL_VERSION)/base linux/.config
 	@scripts/util_cond + linux $(KERNEL_VERSION) '$(COND_KERNEL)' \
 		> /tmp/kernel-config 2>&1
 	@$(MAKE) -C $(KERNEL_DIR) oldconfig >> /tmp/kernel-config 2>& 1
+	@cp wireless_tools/wireless.h linux/include/linux/wireless.h
 	@$(MAKE) -C $(KERNEL_DIR) dep >> /tmp/kernel-config 2>&1
 	@mv /tmp/kernel-config .
 
 kernel: kernel-config
 	@echo -e "\nBuilding $(AP_BUILD) kernel, this may take a while ..."
-	@$(MAKE) -C $(KERNEL_DIR) CROSS_COMPILE=$(CROSS_COMPILE) \
-		bzImage > /tmp/kernel-build 2>&1
-	@echo "make bzImage done".
-	@$(MAKE) -C $(KERNEL_DIR) CROSS_COMPILE=$(CROSS_COMPILE) \
-		modules >> /tmp/kernel-build 2>&1
-	@echo "make modules done".
+	@$(MAKE) -C $(KERNEL_DIR) bzImage \
+		> /tmp/kernel-build 2>&1
+	@echo "$(MAKE) bzImage done".
+	@$(MAKE) -C $(KERNEL_DIR) modules \
+		>> /tmp/kernel-build 2>&1
+	@echo "$(MAKE) modules done".
 	@cp -va $(KERNEL_DIR)/arch/i386/boot/bzImage ./kernel
 	@mv /tmp/kernel-build .
 	@echo -e "Built ./kernel\n"
@@ -48,23 +50,30 @@ kernel-config-sram: kernel-patch $(AP_BUILD)/kernel-config/$(KERNEL_VERSION)/sra
 
 kernel-sram: kernel-config-sram
 	@echo -e "\nBuilding SRAM kernel, this may take a while ..."
-	@$(MAKE) -C $(KERNEL_DIR) CROSS_COMPILE=$(CROSS_COMPILE) \
-		bzImage > /tmp/kernel-build-sram 2>&1
-	@echo "make bzImage done".
+	@$(MAKE) -C $(KERNEL_DIR) bzImage \
+		> /tmp/kernel-build-sram 2>&1
+	@echo "$(MAKE) bzImage done".
 	@cp -va $(KERNEL_DIR)/arch/i386/boot/bzImage ./kernel-sram
-	@mv /tmp/kernel-build-sram .
 	@echo -e "Built ./kernel-sram\n"
+	@echo -e "\nBegin Cleaning linux source directory (to ensure next kernel's cleanliness)."
+	@$(MAKE) -C $(KERNEL_DIR) clean \
+		>> /tmp/kernel-build-sram 2>&1
+	@mv /tmp/kernel-build-sram .
 
 kernel-install:
 	@echo -e "\nInstalling kernel modules to $(IMAGE_DIR)"
-	@$(MAKE) -C $(KERNEL_DIR) INSTALL_MOD_PATH=$(IMAGE_DIR) \
-		CROSS_COMPILE=$(CROSS_COMPILE) \
-		modules_install > /tmp/kernel-install.out 2>&1
-	#find $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/kernel -type f -name '*.o' \
+	@$(MAKE) -C $(KERNEL_DIR) modules_install \
+		INSTALL_MOD_PATH=$(IMAGE_DIR) \
+		> /tmp/kernel-install.out 2>&1
+	#find $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/kernel -type f -name '*.$(OPTS_KERNEL_MODEXT)' \
 		-exec $(STRIP) $(STRIPFLAGS) {} \;
-	@find $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/kernel -type f -name '*.o' \
+	@find $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/kernel -type f -name '*.$(OPTS_KERNEL_MODEXT)' \
 		-exec $(STRIP) $(STRIPFLAGS) {} \;
-	@echo -e "kernel modules installed.\n"
+ifeq ($(AP_BUILD),wl11000)
+	@rm -f $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/build
+	@rm -f $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/modules.*
+endif
+	@echo "kernel modules installed."
 
 kernel-clean:
 	@echo -e "\nBegin Cleaning linux source directory."
