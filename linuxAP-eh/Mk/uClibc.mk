@@ -54,6 +54,7 @@ uClibc-clean:
 	@echo -e "\nCleaning uClibc version $(UCLIBC_VERSION) ..."
 	@rm -f uClibc-install
 	@rm -f uClibc-build
+	@rm -Rf /usr/i386-linux-uclibc i386-linux-uclibc-$(UCLIBC_VERSION)
 	@-$(MAKE) -C uClibc clean > /dev/null 2>&1
 
 uClibc-distclean:
@@ -62,3 +63,4 @@ uClibc-distclean:
 	@rm -f uClibc-build
 	@rm -f uClibc-config uClibc-patch
 	@rm -rf uClibc-$(UCLIBC_VERSION) uClibc
+	@rm -Rf /usr/i386-linux-uclibc i386-linux-uclibc-$(UCLIBC_VERSION)
