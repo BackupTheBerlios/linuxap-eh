@@ -15,13 +15,26 @@
 # time)
 #---------------------------------------------------------------------------
 install () {
+    actual=`pwd`
     for dir in $pre/patches/$utility/files \
 	       $pre/patches/$utility/$version/files
     do
 	if [ -d $dir ]
 	then
+	    cd $dir
 	    echo "Installing files from $dir"
-	    cp -va $dir/* ./
+	    for i in `find . |grep -v "CVS$" | grep -v "/CVS/"`
+	    do
+		if [ -f $i ]
+		then
+		    if [ ! -d $actual/`dirname $i` ]
+		    then
+			mkdir $actual/`dirname $i`
+		    fi
+		    cp -v $i $actual/$i
+		fi
+	    done
+	    cd $actual
 	fi
     done
 }
@@ -34,7 +47,7 @@ clean() {
 	if [ -d $dir ]
 	then
 	    cd $dir
-	    files=`find . -type f | grep -v ^./Image_final`
+	    files=`find . -type f | grep -v "^./Image_final" | grep -v "CVS/*"`
 	    cd $actual
 	    if [ "$files" != "" ]
 	    then
@@ -43,7 +56,7 @@ clean() {
 		rm -Rf $files
 	    fi
 	    cd $dir
-	    dirs=`find . -type d | grep -v ^./Image_final | grep -v ^.$`
+	    dirs=`find . -type d | grep -v "^./Image_final" | grep -v "CVS/*" | grep -v ^.$`
 	    cd $actual
 	    if [ "$dirs" != "" ]
 	    then
