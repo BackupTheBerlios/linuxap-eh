@@ -63,4 +63,4 @@ uClibc-distclean:
 	@rm -f uClibc-build
 	@rm -f uClibc-config uClibc-patch
 	@rm -rf uClibc-$(UCLIBC_VERSION) uClibc
-	@rm -Rf /usr/i386-linux-uclibc i386-linux-uclibc-$(UCLIBC_VERSION)
+	@rm -Rf /usr/i386-linux-uclibc /usr/i386-linux-uclibc-$(UCLIBC_VERSION)

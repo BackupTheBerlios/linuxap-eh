@@ -25,9 +25,11 @@ udhcp-install: udhcp-build
 	@$(MAKE) IMAGE_DIR=$(IMAGE_DIR) CROSS_COMPILE=$(CROSS_COMPILE) \
 		-C udhcp install > /tmp/udhcp-install 2>&1
 	@rm $(IMAGE_DIR)/usr/share/udhcpc/*
-	@cp -a ./udhcp/samples/simple.script \
-		$(IMAGE_DIR)/usr/share/udhcpc/default.script
-	@chmod 0775 $(IMAGE_DIR)/usr/share/udhcpc/default.script
+	#@cp -a ./udhcp/samples/simple.script \
+	#	$(IMAGE_DIR)/usr/share/udhcpc/default.script
+	#@chmod 0775 $(IMAGE_DIR)/usr/share/udhcpc/default.script
+	@scripts/util_setup install udhcp $(UDHCP_VERSION) \
+		>> /tmp/udhcp-install 2>&1
 ifeq ($(AP_BUILD),wl11000)
 	rm -rf $(IMAGE_DIR)/usr/bin/dumpleases
 	@ln -s /var/etc/rw/udhcpd.conf $(IMAGE_DIR)/etc/udhcpd.conf
@@ -39,9 +41,11 @@ udhcp-clean:
 	@rm -f udhcp-build
 	@rm -f udhcp-config
 	@-$(MAKE) -C udhcp clean > /dev/null 2>&1
+	@scripts/util_setup clean udhcp $(UDHCP_VERSION)
 
 udhcp-distclean:
 	@echo -e "\nPurging udhcp version $(UDHCP_VERSION)."
 	@rm -f udhcp-build
 	@rm -f udhcp-config
 	@rm -rf udhcp-$(UDHCP_VERSION) udhcp
+	@scripts/util_setup clean udhcp $(UDHCP_VERSION)

@@ -11,11 +11,15 @@ busybox-config:
 	@echo -e "\nExtract and Configure busybox version $(BUSYBOX_VERSION)."
 	@scripts/util_config busybox $(BUSYBOX_VERSION) $(ARCHIVE_DIR) \
 		> /tmp/busybox-config
+ifeq ($(BUSYBOX_VERSION),"0.60.5")
 ifneq ($(CONFIG_SYSVINIT),y)
-ifeq ($(CONFIG_SOEKRIS),y)
-	@cd busybox && patch -p1 < \
-		../$(AP_BUILD)/patches/busybox/$(BUSYBOX_VERSION)-init \
-		>> /tmp/busybox-config
+	@[ -f $(AP_BUILD)/patches/busybox/Config.h-$(BUSYBOX_VERSION) ] && \
+		cp $(AP_BUILD)/patches/busybox/Config.h-$(BUSYBOX_VERSION) \
+		   busybox/Config.h
+else
+	@[ -f $(AP_BUILD)/patches/busybox/noinit-$(BUSYBOX_VERSION) ] && \
+		cp $(AP_BUILD)/patches/busybox/noinit-$(BUSYBOX_VERSION) \
+		   busybox/Config.h
 endif
 endif
 ifneq ($(CONFIG_HTTPD),y)
@@ -57,10 +61,9 @@ ifeq ($(CONFIG_WL11000),y)
 	@ln -s /var/etc/rw/httpd.conf $(IMAGE_DIR)/etc/httpd.conf
 endif
 	@mkdir -p -m 0755 $(IMAGE_DIR)/usr/share/udhcpc/
-	@install busybox/examples/udhcp/simple.script $(IMAGE_DIR)/usr/share/udhcpc/default.script
+	#@install busybox/examples/udhcp/simple.script $(IMAGE_DIR)/usr/share/udhcpc/default.script
 	@scripts/util_setup install busybox $(BUSYBOX_VERSION) \
 		>> /tmp/busybox-install 2>&1
-
 
 busybox-clean:
 	@echo -e "\nCleaning busybox version $(BUSYBOX_VERSION)."

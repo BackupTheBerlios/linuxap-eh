@@ -3,15 +3,16 @@
 # tcpsrv
 #
 [ -f $CFGD/netcfg ] && . $CFGD/netcfg
+[ -f /var/udhcpc.lease ] && . /var/udhcpc.lease
 
 case "$1" in
 start|2|3|4)
     echo "Set date && start logging."
-    [ ! -z "$timehost" ] && rdate -s $timehost
-    [ ! -z "$logaddr" ] && syslogd -R $logaddr && klogd
+    [ ! -z "$timesvr" ] && rdate -s $timesvr
+    [ ! -z "$logsvr" ] && syslogd -R $logsvr && klogd
     ;;
 stop|0|1|6)
-    [ ! -z "$logaddr" ] && killall klogd syslogd
+    [ ! -z "$logsvr" ] && killall klogd syslogd
     sleep 2
     ;;
 restart)

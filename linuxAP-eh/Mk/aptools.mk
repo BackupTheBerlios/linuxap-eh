@@ -8,7 +8,7 @@ SUBDIR_DISTCLEAN+= aptools-distclean
 
 aptools-build:
 	@echo -e "\nBuilding linuxAP aptools."
-	@$(MAKE) -e -C aptools IMAGE_DIR=$(IMAGE_DIR) \
+	$(MAKE) -e -C aptools IMAGE_DIR=$(IMAGE_DIR) \
 		CROSS_COMPILE=$(CROSS_COMPILE) \
 		> /tmp/aptools-build > /tmp/aptools-build 2>&1
 	@mv /tmp/aptools-build .

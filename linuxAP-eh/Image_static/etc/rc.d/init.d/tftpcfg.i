@@ -15,6 +15,7 @@ fi
 echo "1" > /proc/sys/net/ipv4/ip_forward
 
 [ -f $CFGD/netcfg ] && . $CFGD/netcfg
+[ -f /var/udhcpc.lease ] && . /var/udhcpc.lease
 
 case "$1" in
     2|4)
@@ -25,6 +26,9 @@ esac
 hw=`/sbin/ifconfig wlan0 | \
     sed -n 's/.*HWaddr \(..\):\(..\):\(..\):\(..\):\(..\):\(..\)/\1\2\3\4\5\6/p'`
 
+# In order dhcp: tftp serverid cfg: tftphost
+[ "$tftp" ] && tftphost=$tftp
+[ ! "$tftp" -a "$serverid" ] && tftphost=$serverid
 if [ -z "$tftphost" ]
 then
     exit 0

@@ -20,7 +20,7 @@ openvpn-config:
 
 openvpn-build: openvpn-config
 	@echo -e "\nBuilding openvpn version $(OPENVPN_VERSION)."
-	@$(MAKE) -C openvpn CC=$(CC) > /tmp/openvpn-build > /tmp/openvpn-build 2>&1
+	@$(MAKE) -C openvpn CC=$(CC) > /tmp/openvpn-build 2>&1
 	@mv /tmp/openvpn-build .
 
 openvpn-install: openvpn-build
