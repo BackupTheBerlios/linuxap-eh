@@ -36,7 +36,7 @@ case "$1" in
             fi
             j=`expr $j + 1`
         done
-	parms=`head -n \`expr $eline - 1\` $CFG | tail -n \`expr $eline - $sline - 1\``
+	parms=`head -n \`expr $eline - 1\` $CFG |sed s/^#.*//| tail -n \`expr $eline - $sline - 1\``
 	openvpn --cd $CFGDIR --daemon $parms
 	i=`expr $i + 1`
 	echo "Up tunnel $name."
