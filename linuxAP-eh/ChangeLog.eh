@@ -1,4 +1,5 @@
 21-02-2004
+  * Added hostap(d|-drivers|-utils) 0.1.3 support
   * Added binary package release files
 
 17-02-2004

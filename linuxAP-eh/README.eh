@@ -17,7 +17,7 @@ The versions in menuconfig are:
 Utility 		Available and tested versions
 -------- 		--------------------------------
 kernel 			2.4.20
-hostap-driver		2002-10-12, 0.0.3, 0.0.4(+), 0.1.1, 0.1.2(*)
+hostap-driver		2002-10-12, 0.0.4(+), 0.1.2, 0.1.3(*)
 hostap-utils            0.1.0, 0.1.2(*)
 hostapd 		0.1.0
 kernel-aodv 		v2.0, v2.1(*)
