@@ -1,0 +1,114 @@
+#!/bin/sh
+#
+# iptables_list
+#
+# List the available iptables extensions in menuconfig
+#
+
+# Params
+out=$1
+archive=$2
+version=$3
+# 'y' or 'Y' to show IPV6 extensions (nothing if no IPV6 support)
+ipv6=$4
+if [ -z "$ipv6" ]; then
+    ipv6="n"
+fi
+
+utility=iptables
+
+exit_error ()
+{
+    echo "comment 'Could not find iptables package in $archive'" >> $out
+    exit 1
+}
+
+#----------------------------------------------------------------------
+# Search for an archive
+# Copied from 'util_config' script
+#----------------------------------------------------------------------
+ext_search()
+{
+    for ext in .tar.gz .tar.bz2 .tgz .tar
+    do
+        case "$ext" in
+          .tar.gz|.tgz) key=xfz ;;
+          .tar.bz2) key=xfj ;;
+          .tar) key=xf ;;
+        esac
+        if [ -f $tarname$ext ]
+        then
+            echo $key $tarname$ext
+            return
+        fi
+    done
+    echo "FAIL"
+}
+
+#----------------------------------------------------------------------
+# EXTRACT_ARCHIVE
+# Modified from 'util_config' script
+#----------------------------------------------------------------------
+extract_archive()
+{
+    for pun in "-" "." "_" ""
+    do
+        if [ "$archive" ]
+        then
+            if [ ! -d "$archive" ]
+            then
+                exit_error
+            fi
+            tarname=$archive/$utility$pun$version
+        else
+            tarname=$utility$pun$version
+        fi
+    
+        set `ext_search`
+        if [ $1 != "FAIL" ]
+        then
+            tarfile=$2
+            key=$1
+            break;
+        fi
+    done
+    if [ "$tarfile" = "" ]
+    then
+        exit_error
+    fi
+    (mkdir -p /tmp/MCdir ; cd /tmp/MCdir ; tar $key $tarfile)
+
+    tarname=/tmp/MCdir/$utility-$version
+    if [ -d $utility ]
+    then
+        mv $utility $tarname
+    fi
+}
+
+#----------------------------------------------------------------------
+# Return the bool list of iptables extensions
+#----------------------------------------------------------------------
+libipt_list () {
+    if [ -f "$out" ]; then
+	cat $out
+	exit 0
+    fi
+
+    for file in `ls $tarname/extensions/libip$1t_*.c | sed -e s/"\.c"//`; do
+	file=`basename $file`
+	echo "    bool '$file' $file" >> $out
+    done
+}
+
+tarname=/tmp/MCdir/$utility-$version
+if [ ! -d $tarname ]; then
+    extract_archive
+    rm -f /tmp/MCtmp*
+fi
+
+if [ "$ipv6" = "y" -o $ipv6 = "Y" ]; then
+    libipt_list 6
+else
+    libipt_list 
+fi
+

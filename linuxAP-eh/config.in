@@ -186,47 +186,19 @@ if [ "$CONFIG_IPTABLES" = "y" ]; then
    define_bool libipt_unclean y
    define_bool libipt_LOG y
 
-mainmenu_option next_comment
-    comment "Iptables extensions (needs manually added kernel support)"
-    bool 'libipt_ah' libipt_ah 
-    bool 'libipt_conntrack' libipt_conntrack
-    bool 'libipt_DNAT' libipt_DNAT
-    bool 'libipt_dscp' libipt_dscp
-    bool 'libipt_DSCP' libipt_DSCP
-    bool 'libipt_ecn' libipt_ecn
-    bool 'libipt_ECN' libipt_ECN
-    bool 'libipt_esp' libipt_esp
-    bool 'libipt_helper' libipt_helper
-    bool 'libipt_icmp' libipt_icmp
-    bool 'libipt_iplimit' libipt_iplimit
-    bool 'libipt_length' libipt_length
-    bool 'libipt_limit' libipt_limit
-    bool 'libipt_LOG' libipt_LOG
-    bool 'libipt_mac' libipt_mac
-    bool 'libipt_mark' libipt_mark
-    bool 'libipt_MARK' libipt_MARK
-    bool 'libipt_MASQUERADE' libipt_MASQUERADE
-    bool 'libipt_MIRROR' libipt_MIRROR
-    bool 'libipt_multiport' libipt_multiport
-    bool 'libipt_owner' libipt_owner
-    bool 'libipt_pkttype' libipt_pkttype
-    bool 'libipt_REDIRECT' libipt_REDIRECT
-    bool 'libipt_REJECT' libipt_REJECT
-    bool 'libipt_SAME' libipt_SAME
-    bool 'libipt_SNAT' libipt_SNAT
-    bool 'libipt_standard' libipt_standard
-    bool 'libipt_state' libipt_state
-    bool 'libipt_tcpmss' libipt_tcpmss
-    bool 'libipt_TCPMSS' libipt_TCPMSS
-    bool 'libipt_tcp' libipt_tcp
-    bool 'libipt_tos' libipt_tos
-    bool 'libipt_TOS' libipt_TOS
-    bool 'libipt_ttl' libipt_ttl
-    bool 'libipt_TTL' libipt_TTL
-    bool 'libipt_udp' libipt_udp
-    bool 'libipt_ULOG' libipt_ULOG
-    bool 'libipt_unclean' libipt_unclean
-endmenu
+   mainmenu_option next_comment
+      comment "Iptables extensions (IPv4)"
+      `./scripts/iptables_list /tmp/MCtmp4 $ARCHIVE_DIR $IPTABLES_VERSION`
+      `source  /tmp/MCtmp4`
+   endmenu
+
+   if [ "$CONFIG_IPV6" = "y" ]; then
+      mainmenu_option next_comment
+         comment "Iptables extensions (IPv6)"
+         `./scripts/iptables_list /tmp/MCtmp6 $ARCHIVE_DIR $IPTABLES_VERSION y`
+         `source  /tmp/MCtmp6`
+      endmenu
+   fi
 
    bool "MAC" CONFIG_MAC
 fi

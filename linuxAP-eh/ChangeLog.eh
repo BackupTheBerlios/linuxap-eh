@@ -1,4 +1,5 @@
 07-11-2004
+  * Fully automated selection of iptables extensions
   * Added version comparator script
   * Cleanup and reorder config.in
 
