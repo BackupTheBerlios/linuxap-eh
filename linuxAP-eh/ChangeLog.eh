@@ -1,3 +1,6 @@
+21-02-2004
+  * Added binary package release files
+
 17-02-2004
   * Updated and adapted linuxAP-eh to original linuxAP version 2003-09-13
   * Reversed the order of directory deletion on clean operation (bottom-up)
