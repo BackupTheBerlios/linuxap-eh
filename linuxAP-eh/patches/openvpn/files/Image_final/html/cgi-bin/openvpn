@@ -25,16 +25,23 @@ menu()
 <input type=hidden name=\"last_menu\" value=\"openvpn\">
 <h3>OpenVPN Config File</h3>
 <textarea cols=70 rows=8 name=vpn_conf>\c"
-    cat $CFGDIR/vpn.conf
+    for i in `ls $CFGDIR/vpn-*.conf 2> /dev/null`; do
+	name=`echo "$i" | sed s/".*vpn-"// | sed s/"\.conf"//`
+	echo "#--- +$name ---"
+	cat $i
+	echo "#--- -$name ---"
+    done
     echo -e "</textarea>
 <br>
-The contents of this file must be like being passed as parameters
-(--option=value, for help see openvpn --help), not as a normal config file.
+The contents of this file must be like as openvpn wants its normal config
+files (option=value, for help see 'openvpn --help', where it talks about
+--option=value).
 <br>
 To specify various tunnels, enclose each tunnel's configuration like this:
 <br>#--- +tunnelname ---
 <br>...
 <br>#--- -tunnelname ---
+<br>and tey'll be saven on different files called each one vpn-tunnelname.conf
 <br><br>
 <input type=hidden name=menu value=main>
 <input type=submit name=submit value=OK>
@@ -51,7 +58,25 @@ To specify various tunnels, enclose each tunnel's configuration like this:
 #----------------------------------------------------------------------
 write()
 {
-    echo -e "$CGI_vpn_conf" > $CFGDIR/vpn.conf
+  mkdir $CFGDIR/vpn_old                                                       
+  mv $CFGDIR/vpn-*.conf $CFGDIR/vpn_old/                                      
+  echo -e "$CGI_vpn_conf" > $CFGDIR/vpn.tmp                                   
+  names=`echo "$CGI_vpn_conf" | grep "^#--- +" | cut -f 2 -d " " | sed s/"+"//` 
+  for i in $names; do                                                           
+      sline=`grep -n "^#--- +$i ---" $CFGDIR/vpn.tmp | cut -f 1 -d ":"`         
+      eline=`grep -n "^#--- -$i ---" $CFGDIR/vpn.tmp | cut -f 1 -d ":"`         
+      if [ -z "$eline" ]; then                                                  
+          rm -f $CFGDIR/vpn-*.conf                                              
+          mv $CFGDIR/vpn_old/* $CFGDIR/                                         
+          rmdir $CFGDIR/vpn_old                                                 
+          exit 0                                                                
+      fi                                                                        
+      eline=`expr $eline - 1`                                                   
+      sline=`expr $eline - $sline`                                              
+      head -n $eline $CFGDIR/vpn.tmp | tail -n $sline > $CFGDIR/vpn-$i.conf     
+  done                                                                          
+  rm -Rf $CFGDIR/vpn_old                                                        
+  rm -f $CFGDIR/vpn.tmp        
 }
 
 $1

@@ -1,4 +1,3 @@
-#--- +netcfg ---
 #
 # netcfg
 #
@@ -35,15 +34,3 @@ swapport=4401
 # This assumes you've set up eth0 appropriately
 # elsewhere
 masq_net=10.0.1.0/27
-#--- -netcfg ---
-#--- +wlan0 ---
-#
-# wlan0
-#
-SSID=linuxAP
-# S/B one of 1,6,11
-CHANNEL=11
-wep=
-# Only for RL/3
-NWDS=0
-#--- -wlan0 ---

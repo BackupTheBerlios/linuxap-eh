@@ -22,12 +22,7 @@ option()
 #----------------------------------------------------------------------
 write()
 {
-    pre=`head -n \`grep -n "#--- +wlan0 ---" $CFGDIR/netcfg|cut -f 1 -d :\` $CFGDIR/netcfg`
-    total=`wc -l $CFGDIR/netcfg|tr -s " "|cut -f 2 -d " "`
-    end=`grep -n "#--- -wlan0 ---" $CFGDIR/netcfg|cut -f 1 -d :`
-    post=`tail -n \`expr $total - $end + 1\` $CFGDIR/netcfg`
-    echo -e "$pre
-#
+    echo -e "#
 # wlan0
 #
 SSID=$CGI_SSID
@@ -35,8 +30,7 @@ SSID=$CGI_SSID
 CHANNEL=$CGI_CHANNEL
 wep=$CGI_wep
 # Only for RL/3
-NWDS=$CGI_NWDS
-$post" > $CFGDIR/netcfg
+NWDS=$CGI_NWDS" > $CFGDIR/wlan0
 }
 
 
@@ -45,7 +39,7 @@ $post" > $CFGDIR/netcfg
 #----------------------------------------------------------------------
 menu()
 {
-    . $CFGDIR/netcfg
+    . $CFGDIR/wlan0
 
     echo -e "
 <form method=POST action="/cgi-bin/setup">

@@ -138,13 +138,7 @@ menu()
 
 write()
 {
-
-    pre=`head -n \`grep -n "#--- +netcfg ---" $CFGDIR/netcfg|cut -f 1 -d :\` $CFGDIR/netcfg`
-    total=`wc -l $CFGDIR/netcfg|tr -s " "|cut -f 2 -d " "`
-    end=`grep -n "#--- -netcfg ---" $CFGDIR/netcfg|cut -f 1 -d :`
-    post=`tail -n \`expr $total - $end + 1\` $CFGDIR/netcfg`
-    echo -e "$pre
-#
+    echo -e "#
 # netcfg
 #
 
@@ -179,8 +173,7 @@ swapport=$CGI_swapport
 # Will Masquerade 10.1.0.0-10.1.0.31
 # This assumes you've set up eth0 appropriately
 # elsewhere
-masq_net=$CGI_masq_net
-$post" > $CFGDIR/netcfg
+masq_net=$CGI_masq_net" > $CFGDIR/netcfg
 }
 
 #----------------------------------------

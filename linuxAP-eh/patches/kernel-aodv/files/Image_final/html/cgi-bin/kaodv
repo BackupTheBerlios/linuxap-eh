@@ -20,7 +20,7 @@ option()
 
 menu()
 {
-    . $CFGDIR/netcfg
+    . $CFGDIR/kaodv
     sel1=
     sel2=
     case "$kaodv" in
@@ -127,12 +127,7 @@ Gateway mode redirects traffic from AODV enabled interface to the exterior
 write()
 {
 
-    pre=`head -n \`grep -n "#--- +kernel_aodv ---" $CFGDIR/netcfg|cut -f 1 -d :\` $CFGDIR/netcfg`
-    total=`wc -l $CFGDIR/netcfg|tr -s " "|cut -f 2 -d " "`
-    end=`grep -n "#--- -kernel_aodv ---" $CFGDIR/netcfg|cut -f 1 -d :`
-    post=`tail -n \`expr $total - $end + 1\` $CFGDIR/netcfg`
-    echo -e "$pre
-#
+    echo -e "#
 # kernel_aodv
 #
 
@@ -164,8 +159,7 @@ kaodv_gw_gif=$CGI_kaodv_gw_gif
 kaodv_gw_aif=$CGI_kaodv_gw_aif
 
 # AODV subnet (0's as wildcards)
-kaodv_gw_subnet=$CGI_kaodv_gw_subnet
-$post" > $CFGDIR/netcfg
+kaodv_gw_subnet=$CGI_kaodv_gw_subnet" > $CFGDIR/kaodv
 }
 
 #----------------------------------------

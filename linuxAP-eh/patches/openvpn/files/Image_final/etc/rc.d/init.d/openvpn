@@ -1,45 +1,25 @@
 #!/bin/ash
+#
+# openvpn
+
 CFGDIR="/etc/rw/"
-CFG=$CFGDIR/vpn.conf
-if [ ! -f $CFG ]
+
+tunnels=`ls $CFGDIR vpn-*.conf 2> /dev/null`
+if [ -z "$tunnels" ]
 then
-    exit 0
+   echo "No tunnels to configure found"
+   exit 0
 fi
-names=`grep "#--- +.* ---" $CFG | sed -e s/"#--- +"// | sed -e s/" ---"//`
-slines=`grep -n "#--- +.* ---" $CFG | sed -e s/:.*//g`
-elines=`grep -n "#--- -.* ---" $CFG | sed -e s/:.*//g`
 
 set -e
 case "$1" in
   start|2|3|4)
-    i=0
-    for name in $names
+    for tunnel in $tunnels
     do
-        j=0
-        for name in $names; do
-            if [ $j -eq $i ]; then
-                break
-            fi
-            j=`expr $j + 1`
-        done
-        j=0
-        for eline in $elines; do
-            if [ $j -eq $i ]; then
-                break
-            fi
-            j=`expr $j + 1`
-        done
-        j=0
-        for sline in $slines; do
-            if [ $j -eq $i ]; then
-                break
-            fi
-            j=`expr $j + 1`
-        done
-	parms=`head -n \`expr $eline - 1\` $CFG | sed s/^#.*// | tail -n \`expr $eline - $sline - 1\``
-	openvpn --cd $CFGDIR --daemon $parms
-	i=`expr $i + 1`
-	echo "Up tunnel $name."
+        # already done
+	#echo 1 > /proc/sys/net/ipv4/ip_forward
+	openvpn --cd $CFGDIR --daemon --config $tunnel
+	echo "Up tunnel `echo \"$tunnel\" | sed s/\"vpn-\"// | sed s/\"\.conf\"//`."
     done
     echo "Done."
   ;;

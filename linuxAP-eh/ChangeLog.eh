@@ -1,3 +1,6 @@
+23-11-2003
+  * Modified configuration, init scripts and web configuration files to get back to the splitted file format
+
 10-11-2003
   * fixed nbd/swap included in base kernel even if unselected
   * added option to exclude httpd support and cgis

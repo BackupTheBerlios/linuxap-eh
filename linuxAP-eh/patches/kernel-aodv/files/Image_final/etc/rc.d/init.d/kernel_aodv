@@ -5,7 +5,7 @@
 
 MODULE=/lib/modules/`uname -r`/net/kernel_aodv.o
 
-[ -f $CFGD/netcfg ] && . $CFGD/netcfg
+[ -f $CFGD/kaodv ] && . $CFGD/kaodv
 
 if [ ! "$kaodv" = "enabled" ]; then
     exit 0

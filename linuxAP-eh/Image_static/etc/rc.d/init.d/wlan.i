@@ -8,7 +8,7 @@ SSID=test
 CHANNEL=1
 NWDS=0
 
-[ -f $CFGD/netcfg ] && . $CFGD/netcfg
+[ -f $CFGD/wlan0 ] && . $CFGD/wlan0
 
 case "$1" in
     2) pargs="iw_mode=2" ;;

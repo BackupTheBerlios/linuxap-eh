@@ -6,7 +6,7 @@ INTERVAL="30"
 case "$1" in
   start|2|3|4)
        echo "Starting iw_watch: "
-       . /etc/rw/netcfg
+       . /etc/rw/wlan0
 
        iw_watchdog $IFACE $CHANNEL $INTERVAL &
 

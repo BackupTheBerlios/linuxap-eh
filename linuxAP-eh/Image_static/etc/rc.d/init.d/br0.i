@@ -5,6 +5,7 @@
 NWDS=0
 
 [ -f $CFGD/netcfg ] && . $CFGD/netcfg
+[ -f $CFGD/wlan0 ] && . $CFGD/wlan0
 EXITCODE=1
 case "$1" in
     start|3)

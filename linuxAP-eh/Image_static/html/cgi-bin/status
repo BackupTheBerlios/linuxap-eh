@@ -28,7 +28,7 @@ option() {
     <input type=\"image\" src=\"/buttons/plus.png\"
          name=\"cfg-status\" alt=\"STATUS\">
     </td>
-    <td>Display wlan0 Status/Configuration</td>
+    <td>Display AP Status/Configuration</td>
   </tr>
 "
 }
