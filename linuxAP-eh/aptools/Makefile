@@ -3,7 +3,6 @@
 #
 # linuxAP specific Tools
 #
-CC=$(CROSS_COMPILE)gcc
 INSTALL=install
 STRIP=$(CROSS_COMPILE)strip
 
@@ -12,7 +11,7 @@ UPDATE_CFLAGS += -O2 -Wall -static -DDEBUG
 all: update image_rdev chr
 
 update:
-	$(CC) $(UPDATE_CFLAGS) update.c -o update
+	$(CROSS_COMPILE)$(CC) $(UPDATE_CFLAGS) update.c -o update
 
 clean:
 	rm -f update image_rdev chr *.o

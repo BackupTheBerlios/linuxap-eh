@@ -1,21 +1,16 @@
-#TOPDIR      := $(shell pwd)
-TOPDIR      := /usr/src/linuxAP-eh
+TOPDIR      := $(shell pwd)
+#TOPDIR      := /usr/src/linuxAP-eh
 KERNEL_DIR  := $(TOPDIR)/linux
 IMAGE_DIR   := $(TOPDIR)/Image_final
+COMPILER_MASQ_DIR:=$(TOPDIR)/compiler_masq
+
 
 ifeq ($(CONFIG_UCLIBC),y)
-
-ifeq ($(UCLIBC_VERSION),0.9.12)
-CROSS_COMPILE:= /usr/i386-linux-uclibc/bin/
-UCLIBC_PREFIX=/usr/i386-linux-uclibc/bin
+  CROSSDIR:=/usr/i386-linux-uclibc
+  LIBDIR:=/usr/i386-linux-uclibc/lib
+  CROSS_COMPILE:=$(CROSSDIR)/bin/i386-uclibc-
 else
-CROSS_COMPILE:= /usr/i386-linux-uclibc/usr/bin/
-UCLIBC_PREFIX=/usr/i386-linux-uclibc/usr/bin
-endif
-
-LIBDIR=/usr/i386-linux-uclibc/lib
-else
-LIBDIR=/lib
+  LIBDIR:=/lib
 endif
 
 CC=$(CROSS_COMPILE)gcc
@@ -26,7 +21,7 @@ STRIP=$(CROSS_COMPILE)strip
 MKNOD=/bin/mknod
 INSTALL=/usr/bin/install
 # STRIPFLAGS="--remove-section=.comment --remove-section=.note"
-STRIPFLAGS="--remove-section=.comment --strip-debug"
+STRIPFLAGS="--remove-section=.comment"
 CFLAGS       =-Wall -Wstrict-prototypes
 
 #
@@ -40,4 +35,3 @@ DATE=`date "+%Y-%m-%d"`
 DATE_TIME=`date "+%Y-%m-%d.%T"`
 
 #----------------------------------------------------------------------
-
