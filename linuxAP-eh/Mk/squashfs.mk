@@ -14,7 +14,7 @@ squashfs-config:
 
 squashfs-build: squashfs-config
 	@echo -e "\nBuilding squashfs utilities version $(SQUASHFS_VERSION)."
-	@cd squashfs/squashfs-tools && make $(KERNEL_DIR)> /tmp/squashfs-build 
+	@make -C squashfs/squashfs-tools  > /tmp/squashfs-build 
 	@mv /tmp/squashfs-build .
 
 squashfs-clean:

@@ -16,7 +16,8 @@ The versions in the conf menu are:
 Utility 		Available and tested versions
 -------- 		--------------------------------
 kernel 			2.4.20
-hostap 			2002-10-12, 0.0.3, 0.0.4 (*)
+hostap 			2002-10-12, 0.0.3, 0.0.4 (*), 0.1.1
+hostap-utils            x.x.x
 kernel-aodv 		v2.0, v2.1
 
 (*) this version have no txpower (it makes distorsions on radio signal)
@@ -30,6 +31,7 @@ bridge-utils		0.9.6
 busybox			0.60.5, 1.00-pre2, 1.00-pre3(*)
 cipe			1.5.4
 cramfs			1.1
+squashfs                1.2
 iptables		1.2.7a
 linux			2.4.20
 openvpn			1.5-beta7
