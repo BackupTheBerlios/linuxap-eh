@@ -15,9 +15,12 @@ case "$1" in
         dd if=$MTD0 bs=8192 count=2 skip=124 of=/tmp/etc.tar
         if [ -f /tmp/etc.tar ]
         then
-            if tar xvf /tmp/etc.tar 2>/dev/null
+            if [ `tar xvf /tmp/etc.tar 2>/dev/null` ]
             then
                 echo "loaded saved config."
+	    elif [ `tar xvzf /tmp/etc.tar 2>/dev/null` ]
+	    then
+		echo "loaded saved config"
             fi
             rm -f /tmp/etc.tar
         fi
@@ -32,7 +35,7 @@ case "$1" in
         echo -n "Committing $NAME: "
         rm -f /tmp/etc_rw.tar
         cd /etc/rw
-        tar cvf /tmp/etc_rw.tar *
+        tar cvzf /tmp/etc_rw.tar *
         /sbin/update /dev/mtd/0 0xf8000 0x4000
 # do not remove me!!! update will not work i promise dave:
         dd if=/tmp/etc_rw.tar of=$MTD0 bs=8192 count=2 seek=124 conv=notrunc
