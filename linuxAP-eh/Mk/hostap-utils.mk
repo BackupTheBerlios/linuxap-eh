@@ -14,10 +14,10 @@ hostap-utils-config:
 
 hostap-utils-build: hostap-utils-config
 	@echo -e "\nBuild hostap-utils version $(HOSTAP_UTILS_VERSION)."
-	#@$(MAKE) -C hostap-utils pccard \
+	#commented @$(MAKE) -C hostap-utils pccard \
 		CROSS_COMPILE=$(CROSS_COMPILE) \
 		> /tmp/hostap-utils-build 2>&1
-	#@mv /tmp/hostap-utils-build .
+	#commented @mv /tmp/hostap-utils-build .
 
 hostap-utils-install: hostap-utils-build
 	@echo -e "\nInstall hostap-utils version $(HOSTAP_UTILS_VERSION)."

@@ -61,8 +61,8 @@ kernel-install:
 	@$(MAKE) -C $(KERNEL_DIR) INSTALL_MOD_PATH=$(IMAGE_DIR) \
 		CROSS_COMPILE=$(CROSS_COMPILE) \
 		modules_install > /tmp/kernel-install.out 2>&1
-	# @find $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/kernel -type f -name '*.o' \
-	#	-exec $(STRIP) $(STRIPFLAGS) {} \;
+	#find $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/kernel -type f -name '*.o' \
+		-exec $(STRIP) $(STRIPFLAGS) {} \;
 	@find $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/kernel -type f -name '*.o' \
 		-exec $(STRIP) $(STRIPFLAGS) {} \;
 	@echo -e "kernel modules installed.\n"

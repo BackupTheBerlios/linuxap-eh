@@ -29,7 +29,7 @@ bridge-utils-install: bridge-utils-build
 	@rm -r $(IMAGE_DIR)/usr/man
 	@rm $(IMAGE_DIR)/usr/lib/libbridge.a
 	@$(STRIP) $(STRIPFLAGS) --strip-all $(IMAGE_DIR)/usr/sbin/brctl
-	#@$(STRIP) $(STRIPFLAGS) --strip-all $(IMAGE_DIR)/usr/sbin/brctld
+	#commented @$(STRIP) $(STRIPFLAGS) --strip-all $(IMAGE_DIR)/usr/sbin/brctld
 	@rm -f $(IMAGE_DIR)/usr/sbin/brctld
 
 bridge-utils-clean:
