@@ -1,7 +1,0 @@
-#!/bin/sh
-cmd="ls -CF"
-for arg
-do
-    cmd="$cmd \"$arg\""
-done
-eval $cmd
