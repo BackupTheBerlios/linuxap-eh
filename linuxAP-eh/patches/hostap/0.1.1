@@ -28,8 +28,9 @@ diff -Nur hostap-0.0.4/Makefile hostap-0.0.4.new/Makefile
 +DESTDIR=$(IMAGE_DIR)
  
 -CC=gcc
+-CFLAGS=-O2 -D__KERNEL__ -DMODULE -Wall -g -c $(EXTRA_CFLAGS)
 +CC=$(CROSS_COMPILE)gcc
- CFLAGS=-O2 -D__KERNEL__ -DMODULE -Wall -g -c $(EXTRA_CFLAGS)
++CFLAGS=-Os -D__KERNEL__ -DMODULE -Wall -g -c $(EXTRA_CFLAGS)
  
  include $(KERNEL_PATH)/.config
 @@ -236,15 +236,15 @@
