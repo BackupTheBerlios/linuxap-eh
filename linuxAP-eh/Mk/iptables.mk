@@ -40,12 +40,14 @@ ifeq ($(AP_BUILD),wl11000)
 	@rm -f $(IMAGE_DIR)/usr/sbin/iptables-restore
 	@rm -f $(IMAGE_DIR)/usr/sbin/iptables-save
 	@rm -f $(IMAGE_DIR)/usr/lib/iptables/*
-	@cp iptables/extensions/libipt_standard.so $(IMAGE_DIR)/usr/lib/iptables
+	@cp iptables/extensions/libipt_mac.so $(IMAGE_DIR)/usr/lib/iptables
+	@cp iptables/extensions/libipt_multiport.so $(IMAGE_DIR)/usr/lib/iptables
+	@cp iptables/extensions/libipt_state.so $(IMAGE_DIR)/usr/lib/iptables
 	@cp iptables/extensions/libipt_REJECT.so $(IMAGE_DIR)/usr/lib/iptables
 	@cp iptables/extensions/libipt_MASQUERADE.so $(IMAGE_DIR)/usr/lib/iptables
 	@cp iptables/extensions/libipt_REDIRECT.so $(IMAGE_DIR)/usr/lib/iptables
-	@cp iptables/extensions/libipt_multiport.so $(IMAGE_DIR)/usr/lib/iptables
-	@$(STRIP) $(STRIPFLAGS) $(IMAGE_DIR)/usr/lib/iptables/*
+	@cp iptables/extensions/libipt_TCPMSS.so $(IMAGE_DIR)/usr/lib/iptables
+	@cp iptables/extensions/libipt_standard.so $(IMAGE_DIR)/usr/lib/iptables
 	@$(STRIP) $(STRIPFLAGS) $(IMAGE_DIR)/usr/lib/iptables/*
 endif
 
