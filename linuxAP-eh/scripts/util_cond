@@ -20,14 +20,14 @@
 #                >> /tmp/destp-config" on destp's config rule, just after the
 #    call to scripts/util_config, so all conditional patches will be searched
 #    on all of the following directories (in order) and applied:
-#        o patches/condp/destp
-#        o patches/condp/destp-$(DESTP_VERSION)
-#        o patches/condp/$(CONDP_VERSION)/destp
-#        o patches/condp/$(CONDP_VERSION)/destp-$(DESTP_VERSION)
-#        o $(AP_BUILD)/patches/condp/destp
-#        o $(AP_BUILD)/patches/condp/destp-$(DESTP_VERSION)
-#        o $(AP_BUILD)/patches/condp/$(CONDP_VERSION)/destp
-#        o $(AP_BUILD)/patches/condp/$(CONDP_VERSION)/destp-$(DESTP_VERSION)
+#        o patches/condp/cond/destp
+#        o patches/condp/cond/destp-$(DESTP_VERSION)
+#        o patches/condp/cond/$(CONDP_VERSION)/destp
+#        o patches/condp/cond/$(CONDP_VERSION)/destp-$(DESTP_VERSION)
+#        o $(AP_BUILD)/patches/condp/cond/destp
+#        o $(AP_BUILD)/patches/condp/cond/destp-$(DESTP_VERSION)
+#        o $(AP_BUILD)/patches/condp/cond/$(CONDP_VERSION)/destp
+#        o $(AP_BUILD)/patches/condp/cond/$(CONDP_VERSION)/destp-$(DESTP_VERSION)
 #
 # When called with '+' as first argument, patches will  be normally applied,
 # and being the first argument '-', patches will be reversely applied
@@ -45,7 +45,7 @@ doit () {
 
 search () {
     # patch from any version
-    pfile=`dirname $dir`/$utility
+    pfile=`dirname $dir`/cond/$utility
     if [ -f $pfile ]
     then
 	doit
@@ -56,7 +56,7 @@ search () {
 	doit
     fi
     # patch from concrete version
-    pfile=$dir/$utility
+    pfile=$dir/cond/$utility
     if [ -f $pfile ]
     then
 	doit

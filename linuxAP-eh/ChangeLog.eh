@@ -1,4 +1,5 @@
 07-11-2004
+  * Move conditional patches to corresponding 'cond' dir
   * Default runlevel selector
   * Minor fixes
   * Reorder Makefile system
