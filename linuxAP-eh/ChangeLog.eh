@@ -1,3 +1,11 @@
+01-11-2003
+  * images directory created
+  * removed largefiles support on uClibc 0.9.21
+  * added malloc-glibc compatibility on uClibc to fix openvpn compilation
+  * size optimization for openvpn hostap hostapd
+  * fixed make distclean for RW.default hostap squashfs
+  * fixed startup links for hostapd
+
 31-10-2003
   * conf files on tar.gz format
 
