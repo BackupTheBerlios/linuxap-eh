@@ -23,14 +23,12 @@ else
 endif
 endif
 ifneq ($(CONFIG_HTTPD),y)
-	@cd busybox && patch -p1 < \
-		../$(AP_BUILD)/patches/busybox/$(BUSYBOX_VERSION)-nohttpd \
+	@(cd busybox && patch -p1 < \
+		../$(AP_BUILD)/patches/busybox/$(BUSYBOX_VERSION)-nohttpd) \
 		>> /tmp/busybox-config
 endif
 	@$(MAKE) -C busybox oldconfig \
 		KERNEL_DIR=$(KERNEL_DIR) \
-		CROSS_COMPILE=$(CROSS_COMPILE) \
-		CC=$(CC) \
 		>> /tmp/busybox-config 2>&1
 	@mv /tmp/busybox-config .
 
@@ -38,15 +36,13 @@ busybox-build: busybox-config
 	@echo -e "\nBuilding busybox version $(BUSYBOX_VERSION)."
 	@$(MAKE) -C busybox \
 		KERNEL_DIR=$(KERNEL_DIR) \
-		CROSS_COMPILE=$(CROSS_COMPILE) \
-		CC=$(CC) > /tmp/busybox-build 2>&1
+		> /tmp/busybox-build 2>&1
 	@mv /tmp/busybox-build .
 
 busybox-install: busybox-build
 	@echo -e "\nInstalling busybox version $(BUSYBOX_VERSION)."
 	@$(MAKE) -C busybox \
 		INSTALL=install \
-		CROSS_COMPILE=$(CROSS_COMPILE) \
 		PREFIX=$(IMAGE_DIR) \
 		STRIP=$(STRIP) \
 		STRIPFLAGS=$(STRIPFLAGS)\ --strip-all\
@@ -61,7 +57,6 @@ ifeq ($(CONFIG_WL11000),y)
 	@ln -s /var/etc/rw/httpd.conf $(IMAGE_DIR)/etc/httpd.conf
 endif
 	@mkdir -p -m 0755 $(IMAGE_DIR)/usr/share/udhcpc/
-	#@install busybox/examples/udhcp/simple.script $(IMAGE_DIR)/usr/share/udhcpc/default.script
 	@scripts/util_setup install busybox $(BUSYBOX_VERSION) \
 		>> /tmp/busybox-install 2>&1
 

@@ -15,7 +15,7 @@ hostapd-config:
 hostapd-build: hostapd-config
 	@echo -e "\nBuild hostapd version $(HOSTAPD_VERSION)."
 	@$(MAKE) -C hostapd hostapd \
-		CC=$(CROSS_COMPILE)gcc \
+		CC=$(CC) \
 		> /tmp/hostapd-build 2>&1
 	@mv /tmp/hostapd-build .
 
@@ -30,8 +30,10 @@ hostapd-install: hostapd-build
 
 
 hostapd-clean:
+	@echo -e "\nCleaning hostapd version $(HOSTAPD_VERSION)."
 	@rm -f hostapd-config
 	@rm -f hostapd-build
+	@-$(MAKE) -C hostapd clean > /dev/null 2>&1
 
 hostapd-distclean:
 	@echo -e "\nPurging hostapd version $(HOSTAPD_VERSION)"

@@ -19,7 +19,9 @@ bridge-utils-config:
 
 bridge-utils-build: bridge-utils-config
 	@echo -e "\nBuilding bridge-utils version $(BUTILS_VERSION)."
-	@$(MAKE) CC=$(CC) -C bridge-utils > /tmp/bridge-utils-build > /tmp/bridge-utils-build 2>&1
+	@$(MAKE) -C bridge-utils \
+		CC=$(CC) \
+		> /tmp/bridge-utils-build 2>&1
 	@mv /tmp/bridge-utils-build .
 
 bridge-utils-install: bridge-utils-build

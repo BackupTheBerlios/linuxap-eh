@@ -21,9 +21,11 @@ alios-build:
 	@$(MAKE) -C alios clean > /tmp/alios-build 2>&1
 ifeq (sram,$(findstring sram,$(MAKECMDGOALS)))
 	@$(MAKE) -C alios SFLAGS="-DCARD_BOOT $(SPEED)"  \
-		CONFIGURATION_1=0x1Fc000 >> /tmp/alios-build 2>&1
+		CONFIGURATION_1=0x1Fc000 CROSS_COMPILE="" \
+		>> /tmp/alios-build 2>&1
 else
-	@$(MAKE) -C alios SFLAGS="$(SPEED)" >> /tmp/alios-build 2>&1
+	@$(MAKE) -C alios SFLAGS="$(SPEED)" CROSS_COMPILE="" \
+		>> /tmp/alios-build 2>&1
 endif
 
 alios-clean:

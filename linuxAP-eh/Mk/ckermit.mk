@@ -21,7 +21,7 @@ ckermit-config:
 ckermit-build: ckermit-config
 	@echo -e "\nBuilding ckermit version $(CKERMIT_VERSION)."
 ifeq ($(CONFIG_UCLIBC),y)
-	@$(MAKE) -C ckermit CROSS_COMPILE=$(CROSS_COMPILE) uclinux > \
+	@$(MAKE) -C ckermit uclinux > \
 		/tmp/ckermit-build > /tmp/ckermit-build 2>&1
 else
 	@$(MAKE) -C ckermit linux > /tmp/ckermit-build > /tmp/ckermit-build 2>&1
