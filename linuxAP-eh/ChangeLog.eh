@@ -1,3 +1,6 @@
+15-10-2003
+  * Added ln to dhcpd at runlevel 3 and removed /rw from image final
+
 10-10-2003
   * changed pcmcia-cs patch to delete modutils tests
 
