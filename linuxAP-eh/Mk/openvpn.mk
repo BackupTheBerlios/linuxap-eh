@@ -28,7 +28,7 @@ openvpn-install: openvpn-build
 	@$(MAKE) -C openvpn install > /tmp/openvpn-install 2>&1
 	@$(STRIP) $(STRIPFLAGS) --strip-all $(IMAGE_DIR)/sbin/openvpn
 	@rm -rf $(IMAGE_DIR)/man/
-	@scripts/util_setup install openvpn $(OPENVPN_VERSION)
+	@scripts/util_setup install openvpn $(OPENVPN_VERSION) >> /tmp/openvpn-install 2>&1
 	@mkdir $(IMAGE_DIR)/dev/net/
 	@mknod $(IMAGE_DIR)/dev/net/tun c 10 200
 	@echo "alias char-major-10-200 tun" >> $(IMAGE_DIR)/etc/modules.conf

@@ -22,7 +22,7 @@ cipe-install: cipe-build
 	@echo -e "\nInstalling cipe version $(CIPE_VERSION)."
 	@$(MAKE) -C cipe install > /tmp/cipe-install 2>&1
 	@$(STRIP) $(STRIPFLAGS) --strip-all $(IMAGE_DIR)/usr/local/sbin/ciped-cb
-	@scripts/util_setup install cipe $(CIPE_VERSION)
+	@scripts/util_setup install cipe $(CIPE_VERSION) >> /tmp/cipe-install 2>&1
 	@ln -s /var/etc/rw/cipe  $(IMAGE_DIR)/etc/cipe
 
 cipe-clean:
