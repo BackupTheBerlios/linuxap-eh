@@ -7,10 +7,6 @@ SUBDIR_INSTALL  += kernel-aodv-install
 SUBDIR_CLEAN    += kernel-aodv-clean
 SUBDIR_DISTCLEAN+= kernel-aodv-distclean
 
-ifeq ($(AP_BUILD),wl11000)
-COND_BUSYBOX 	+= kernel-aodv/$(KERNEL_AODV_VERSION)
-endif
-
 KERNEL_AODV_INSMODIR = Image_final/lib/modules/$(KERNEL_VERSION)/net/
 KERNEL_AODV_MOD   = kernel-aodv/kernel_aodv.o
  
@@ -46,12 +42,6 @@ endif
 		>> /tmp/kernel-aodv-install 2>&1
 	@scripts/util_setup install kernel-aodv $(KERNEL_AODV_VERSION) \
 		>> /tmp/kernel-aodv-install 2>&1
-ifeq ($(AP_BUILD),wl11000)
-	@echo "Will remove httpd related files"
-REMOVE_FINAL += $(IMAGE_DIR)/html
-REMOVE_FINAL += `find $(IMAGE_DIR) -name *http*`
-REMOVE_FINAL += RW.default/httpd.conf
-endif
 
 kernel-aodv-clean:
 	@echo -e "\nCleaning kernel-aodv version $(KERNEL_AODV_VERSION)."
@@ -68,5 +58,3 @@ kernel-aodv-distclean:
 	@rm -rf kernel-aodv_$(KERNEL_AODV_VERSION) kernel-aodv
 	@scripts/util_setup clean kernel-aodv $(KERNEL_AODV_VERSION)
 	@(cd RW.default; patch -R -p1 < ../patches/kernel-aodv/netcfg)
-	@scripts/util_cond - busybox $(BUSYBOX_VERSION) kernel-aodv/$(KERNEL_AODV_VERSION)
-	@echo "   ATTENTION: Should clean busybox (make busybox-clean)"

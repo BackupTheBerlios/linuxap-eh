@@ -1,4 +1,5 @@
 27-10-2003
+  * Now kaodv fits flash image with http support
   * Global date/time format
 
 26-10-2003
