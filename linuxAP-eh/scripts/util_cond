@@ -77,6 +77,9 @@ fi
 utility=$2
 version=$3
 conditional=$4
+
+echo "Conditional patching for $utility: $conditional"
+
 if [ ! -f "$conditional" ]
 then
     if [ ! -d $utility ]
