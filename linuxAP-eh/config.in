@@ -63,7 +63,7 @@ fi
 if [ "$CONFIG_WL11000" = "" -a \
     "$CONFIG_SOEKRIS" = "" -a \
     "$CONFIG_ITX" = "" ]; then
-        define_bool CONFIG_SOEKRIS y
+        define_bool CONFIG_WL11000 y
 fi
 if [ "$CONFIG_NBD" = "" ]; then
         define_bool CONFIG_NBD y
