@@ -1,3 +1,6 @@
+?-?-?
+  * Añadido parche para poder compilar con con busybox 1.0-pre3
+
 26-09-2003
   * Cipe y Kernel AODV pasan a utilizar el nuevo scripts/util_setup para sus
     ficheros
