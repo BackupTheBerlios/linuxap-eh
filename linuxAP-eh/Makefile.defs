@@ -8,14 +8,29 @@ COMPILER_MASQ_DIR:=$(TOPDIR)/compiler_masq
 ifeq ($(CONFIG_UCLIBC),y)
     CROSSDIR:=/usr/i386-linux-uclibc
     LIBDIR:=/usr/i386-linux-uclibc/lib
+    ifeq ($(CONFIG_DISTCC),y)
+      CROSS_COMPILE:=i386-uclibc-
+      PATH:=$(CROSSDIR)/bin:$(PATH)
+    else
       ifeq ($(CONFIG_CCACHE),y)
         CROSS_COMPILE:=i386-uclibc-
         PATH:=$(CROSSDIR)/bin:$(PATH)
       else
         CROSS_COMPILE:=$(CROSSDIR)/bin/i386-uclibc-
       endif
+    endif
 else
   LIBDIR:=/lib
+endif
+
+MAKE_NOJ:=$(MAKE)
+ifeq ($(CONFIG_DISTCC),y)
+  DISTCC_LOG:=/tmp/distcc.log
+  DISTCC_VERBOSE:=1
+  PATH:=$(COMPILER_MASQ_DIR)/distcc:$(PATH)
+  MAKE:=$(MAKE) -j$(DISTCC_JOBS)
+else
+  CONFIG_DISTCC:=n
 endif
 
 ifeq ($(CONFIG_CCACHE),y)

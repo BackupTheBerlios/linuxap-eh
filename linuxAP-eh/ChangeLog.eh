@@ -1,4 +1,5 @@
 07-11-2004
+  * Added distcc support
   * Added ccache support
   * Move conditional patches to corresponding 'cond' dir
   * Default runlevel selector

@@ -232,6 +232,12 @@ comment "Compiling options"
 
 bool "Use ccache? (compiler cache)" CONFIG_CCACHE
 
+bool "Use distcc? (distributed compiler)" CONFIG_DISTCC
+if [ "$CONFIG_DISTCC" = "y" ]; then
+   ustring "Hosts list" DISTCC_HOSTS
+   int "Number of jobs (take a look on distcc man page)" DISTCC_JOBS
+fi
+
 
 # Others
 if [ "$CONFIG_WLRL_2" = "y" ]; then

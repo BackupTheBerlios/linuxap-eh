@@ -11,7 +11,7 @@ links-config: links.tgz
 	@mv /tmp/links-config .
 
 compiler_masq:
-	@echo -e "\nMasquerading compilers (ccache=$(CONFIG_CCACHE))"
+	@echo -e "\nMasquerading compilers (ccache=$(CONFIG_CCACHE) distcc=$(CONFIG_DISTCC))"
 	@rm -Rf $(COMPILER_MASQ_DIR)
 ifeq ($(CONFIG_CCACHE),y)
 	@if [ -z `which ccache` ]; then \
@@ -19,6 +19,13 @@ ifeq ($(CONFIG_CCACHE),y)
 		.FAIL; \
 	fi
 	@./scripts/compiler_masq ccache $(COMPILER_MASQ_DIR) $(CROSS_COMPILE) `which ccache`
+endif
+ifeq ($(CONFIG_DISTCC),y)
+	@if [ -z `which distcc` ]; then \
+		echo "ERROR!!! Could NOT find distcc binary in your PATH, please check if it's installed."; \
+		.FAIL; \
+	fi
+	@./scripts/compiler_masq distcc $(COMPILER_MASQ_DIR) $(CROSS_COMPILE) `which distcc`
 endif
 
 links-distclean:

@@ -23,6 +23,13 @@ include ./Makefile.defs
 DESTDIR=$(IMAGE_DIR)
 export CROSS_COMPILE KERNEL_DIR DESTDIR AP_BUILD PATH
 
+# Export external programs' variables
+ifeq ($(CONFIG_DISTCC), y)
+export DISTCC_HOSTS
+# uncomment for debugging purposes only
+#export DISTCC_VERBOSE DISTCC_LOG
+endif
+
 ifeq ($(CONFIG_UCLIBC),y)
 ifeq ($(CONFIG_WL11000),y)
 PRE_INSTALL=uClibc-install kernel-config-sram
