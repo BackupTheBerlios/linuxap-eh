@@ -1,4 +1,8 @@
 06-10-2003
+  * Changed openvpn default version to 1.4.3 (It's smaller)
+  * Added support to use uClibc 0.9.21
+  * Added support to select the iptables extensions to use with linuxAP-eh at
+    menuconfig
   * If Kernel AODV is selected, move all httpd support away
   * Added iptables' mac address, multiple port, and connection state match
     support
