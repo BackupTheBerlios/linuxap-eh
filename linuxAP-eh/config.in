@@ -19,7 +19,7 @@ define_ustring HOSTAP_VERSION       0.0.3
 define_ustring IPROUTE2_VERSION     current
 define_ustring IPTABLES_VERSION     1.2.7a
 define_ustring KERNEL_AODV_VERSION  v2.1
-define_ustring OPENVPN_VERSION      1.5-beta7
+define_ustring OPENVPN_VERSION      1.4.3
 define_ustring PCMCIA_VERSION       3.2.3
 define_ustring PSMISC_VERSION       21.2
 define_ustring SYSLINUX_VERSION     2.00
