@@ -5,7 +5,7 @@
 # Apply/Remove conditional patches
 #
 # When in the case of having 'destp' package in need to be patched if,
-# an only if, 'cond' is also used, programs' both makefiles must be
+# an only if, 'condp' is also used, programs' both makefiles must be
 # modified
 # - Mk/condp.mk:
 #  o put "COND_DESTP += condp/$(CONDP_VERSION)" on the header to make destp
@@ -78,7 +78,12 @@ utility=$2
 version=$3
 conditional=$4
 
-echo "Conditional patching for $utility: $conditional"
+if [ -z "$option" ]
+then
+    echo "Conditional patching for $utility: $conditional"
+else
+    echo "Conditional unpatching for $utility: $conditional"
+fi
 
 if [ ! -f "$conditional" ]
 then

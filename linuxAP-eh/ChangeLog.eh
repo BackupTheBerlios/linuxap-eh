@@ -1,4 +1,5 @@
 07-11-2004
+  * Minor fixes
   * Reorder Makefile system
   * Fully automated selection of iptables extensions
   * Added version comparator script
