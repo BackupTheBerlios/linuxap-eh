@@ -84,5 +84,5 @@ kernel-distclean:
 kernel-clean-flash:
 	@echo -e "\nBegin Cleaning flash's kernel image and source."
 	@rm -rf kernel kernel-config
-	@make -C linux clean
+	@$(MAKE) -C $(KERNEL_DIR) clean
 	@echo -e "Done Cleaning flash's kernel image and source.\n"
