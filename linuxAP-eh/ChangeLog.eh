@@ -1,4 +1,5 @@
 07-11-2004
+  * Added version comparator script
   * Cleanup and reorder config.in
 
 02-05-2004

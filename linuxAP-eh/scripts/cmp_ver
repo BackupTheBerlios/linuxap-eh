@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+# Compares two version numbers and echoes depending on its numbering:
+#	-1 : $1 is greater than $2
+#	 0 : $1 and $2 are equal
+#	 1 : $1 is lesser than $2
+#     FAIL : if one of the parameters is not a valid version number
+#            (the return value contains the failed parameter)
+
+ver1=$1
+ver2=$2
+mul=00
+
+if [ ! -z "`echo $ver1 | grep [^0-9.]`" ]; then
+    echo "FAIL"
+    exit 1
+fi
+
+if [ ! -z "`echo $ver2 | grep [^0-9.]`" ]; then
+    echo "FAIL"
+    exit 2
+fi
+
+ver2num () {
+    ver=`echo $1 | tr . " "`
+    num=0
+    for n in $ver; do
+	num=$num$mul
+	num=`expr $num + $n`
+    done
+    ret=$num
+}
+
+cmp_num () {
+    if [ $1 -gt $2 ]; then
+	ret="-1"
+	return
+    elif [ $1 -eq $2 ]; then
+	ret="0"
+	return
+    else
+	ret="1"
+	return
+    fi
+}
+
+ver2num $ver1
+num1=$ret
+
+ver2num $ver2
+num2=$ret
+
+cmp_num $num1 $num2
+echo $ret
+
