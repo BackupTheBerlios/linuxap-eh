@@ -96,7 +96,7 @@ static int httpd_write()
     }
 
     sprintf(bigbuf, "%s/httpd.conf", globs.cfgdir);
-    fd = open(bigbuf, O_WRONLY | O_CREAT, 0777);
+    fd = open(bigbuf, O_WRONLY | O_CREAT, 0664);
     if (fd < 0) {
 	printf("Open for write failed on %s\n", bigbuf);
 	exit(1);

@@ -3,42 +3,50 @@
 # configfs
 #
 MTD0=/dev/mtd/0
+DEF=/RW.default
+CONF=/tmp/etc.tar.gz
 case "$1" in
     start|S)
+	echo "Loading configuration"
         cd /etc/rw
 # Load the defaults
-        if [ -f /RW.default ]
+        if [ -f $DEF ]
         then
-            echo "loading default config."
-            tar xf /RW.default
+	    gunzip -c $DEF | tar xf - 2> /dev/null
+            echo "loaded default config."
         fi
-        dd if=$MTD0 bs=8192 count=2 skip=124 of=/tmp/etc.tar.gz
-        if [ -f /tmp/etc.tar.gz ]
+        dd if=$MTD0 bs=8192 count=2 skip=124 of=$CONF
+        if [ -f $CONF ]
         then
-            if gunzip -c /tmp/etc.tar.gz | tar xvf - 2>/dev/null
+	    if gunzip -t $CONF 2> /dev/null
+	    then
+		gunzip -c $CONF | tar xvf -
+		echo "loaded saved config."
+	    fi
+	    if tar xvf $CONF 2>/dev/null
             then
                 echo "loaded saved config."
             fi
-            rm -f /tmp/etc.tar.gz
+            rm -f $CONF
         fi
         echo "Done."
         ;;
     stop|1)
-        echo -n "Stopping $NAME: "
+        echo "Stopping $NAME: "
         rm -rf /etc/rw/*
         echo "Done."
         ;;
     commit)
-        echo -n "Committing $NAME: "
-        rm -f /tmp/etc.tar.gz
+        echo "Committing $NAME: "
+        rm -f $CONF
         cd /etc/rw
         tar cvf /tmp/etc.tar *
 	gzip /tmp/etc.tar
 # erase
-        /sbin/update /dev/mtd/0 0xf8000 0x4000
+        /sbin/update $MTD0 0xf8000 0x4000
 # write the new stuff
-        dd if=/tmp/etc.tar.gz of=$MTD0 bs=8192 count=2 seek=124 conv=notrunc
-        rm -f /tmp/etc.tar.gz
+        dd if=$CONF of=$MTD0 bs=8192 count=2 seek=124 conv=notrunc
+        rm -f $CONF
         echo "Done."
         ;;
     clear)

@@ -5,10 +5,6 @@ CC= $(CROSS_COMPILE)gcc -Os
 
 OFILES= setup.o utils.o network.o status.o udhcpd.o wlan.o telnetd.o httpd.o
 
-ifeq ($(CGI_ENVIRONMENT),y)
-CFLAGS+=-DCGI_ENVIRONMENT
-endif
-
 ifeq ($(CONFIG_CIPE),y)
 OFILES+= cipe.o
 CFLAGS+=-DCONFIG_CIPE
@@ -24,10 +20,11 @@ OFILES+= kaodv.o
 CFLAGS+=-DCONFIG_KERNEL_AODV
 endif
 
+
+
 HFILES=	setup.h linked_functions.h
 
 setup: $(OFILES)
-	echo $(CGI_ENVIRONMENT)
 	$(CC) $(OFILES) -o setup
 
 $(OFILES): $(HFILES)

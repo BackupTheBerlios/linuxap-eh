@@ -15,7 +15,7 @@ hostapd-config:
 hostapd-build: hostapd-config
 	@echo -e "\nBuild hostapd version $(HOSTAPD_VERSION)."
 	@$(MAKE) -C hostapd hostapd \
-		CROSS_COMPILE=$(CROSS_COMPILE) \
+		CC=$(CROSS_COMPILE)gcc \
 		> /tmp/hostapd-build 2>&1
 	@mv /tmp/hostapd-build .
 

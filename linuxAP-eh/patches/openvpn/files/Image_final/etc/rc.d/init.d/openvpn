@@ -2,9 +2,9 @@
 #
 # openvpn
 
-CFGDIR="/etc/rw/"
+CFGDIR="/etc/rw/openvpn"
 
-tunnels=`ls $CFGDIR vpn-*.conf 2> /dev/null`
+tunnels=`ls $CFGDIR 2> /dev/null`
 if [ -z "$tunnels" ]
 then
    echo "No tunnels to configure found"
@@ -19,7 +19,7 @@ case "$1" in
         # already done
 	#echo 1 > /proc/sys/net/ipv4/ip_forward
 	openvpn --cd $CFGDIR --daemon --config $tunnel
-	echo "Up tunnel `echo \"$tunnel\" | sed s/\"vpn-\"// | sed s/\"\.conf\"//`."
+	echo "Up tunnel $tunnel."
     done
     echo "Done."
   ;;

@@ -90,7 +90,7 @@ header(char *which) {
         printf("<html>\n");
         printf("<body background=/linuxap.png>\n");
         printf("<center>\n");
-        printf("<h2>OpenSTA Setup Screen</h2>\n");
+        printf("<h2>linuxAP-eh Setup Screen</h2>\n");
         printf("</center>\n");
         printf("<hr>\n");
     }
@@ -138,125 +138,22 @@ menu() {
 }
 
 
-#ifdef CGI_ENVIRONMENT
-//----------------------------------------------------------------------
-// DECODE_STRING
-//----------------------------------------------------------------------
-static char *decodeString(char *string)
-{
-    /* note that decoded string is always shorter than original */
-    char *orig = string;
-    char *ptr = string;
-    while (*ptr)
-    {
-	if (*ptr == '+') { *string++ = ' '; ptr++; }
-	else if (*ptr != '%') *string++ = *ptr++;
-	else
-	{
-	    unsigned int value;
-	    sscanf(ptr+1,"%2X",&value);
-	    *string++ = value;
-	    ptr += 3;
-	}
-    }
-    *string = '\0';
-    return orig;
-}
-
-//----------------------------------------------------------------------
-// ADD_ENV
-//----------------------------------------------------------------------
-static void addEnv(const char *name, const char *value)
-{
-    if (!value) value = "";
-    setenv(name,value,1);
-    debug(1,"DEBUG: setenv(%s,%s,1)",name,value);
-}
-
-
-//----------------------------------------------------------------------
-// ADD_ENV_CGI
-//----------------------------------------------------------------------
-static void addEnvCgi(const char *pargs)
-{
-    char *args;
-    if (pargs==0) return;
-
-    /* args are a list of name=value&name2=value2 sequences */
-    args = strdup(pargs);
-    while (args && *args) {
-	char *sep;
-	char *name=args;
-	char *value=strchr(args,'=');
-	char *cginame;
-	if (!value) break;
-	*value++=0;
-	sep=strchr(value,'&');
-	if (sep) {
-	    *sep=0;
-	    args=sep+1;
-	} else {
-	    sep = value + strlen(value);
-	    args = 0; /* no more */
-	}
-	cginame=(char*)malloc(strlen(decodeString(name))+5);
-	if (!cginame) break;
-	sprintf(cginame,"CGI_%s",name);
-	addEnv(cginame,decodeString(value));
-	free(cginame);
-    }
-}
-#endif
-
 //----------------------------------------------------------------------
 // PARSE_QUERY
 //----------------------------------------------------------------------
 int parse_query()
 {
-#ifdef CGI_ENVIRONMENT
-    int bodyLen;
-    char *body;
-#endif
     char *q=NULL, *p, *p1, *p2;
 
-    p = getenv("QUERY_STRING");
-    debug(1,"DEBUG: QUERY_STRING=%s",p);
-    debug(1,"DEBUG:       ==> length = %d <==",strlen(p));
-
-#ifdef CGI_ENVIRONMENT
-    if (!*p) {
-	p = getenv("CONTENT_LENGTH");
-	/* need to add CGI_xxx environmental variables by hand */
-	if (p == NULL)
-	    bodyLen = 0;
-	else
-	    bodyLen = atoi(p);
-	bodyLen = read(0,bigbuf,bodyLen); // sould be always able to read that
-	bigbuf[bodyLen] = '\0';
-	p = q = strdup(bigbuf);
-	addEnvCgi(bigbuf);
-	debug(1,"DEBUG: QUERY_BODY=%s",p);
-	debug(1,"DEBUG:       ==> length      = %d <==",strlen(p));
-	debug(1,"DEBUG:       ==> body length = %d <==",bodyLen);
-    } else {
-	p1 = strdup(p);
-	addEnvCgi(p1);
-	free(p1);
-    }
-#endif
-
-    debug(1,"DEBUG: pre  globs.cfg=%s",globs.cfg);
+    p = getenv("CGI_ARGLIST_");
     if(p == NULL) {
         globs.cfg = NULL;
         return(1);
     }
-#ifdef CGI_ENVIRONMENT
-    if (q == NULL)
-#endif
-	q = strdup(p);
+    q = strdup(p);
     p = p1 = q;
     while(*p){
-        while(*p && *p != '&') p++;
+        while(*p && *p != ' ') p++;
         p2 = p;
         if(*p) *p++ = 0;
         if(strncmp(p1, "cfg-", 4) == 0) {
@@ -267,7 +164,6 @@ int parse_query()
         p1 = p;
     }
     free(q);
-    debug(1,"DEBUG: post globs.cfg=%s",globs.cfg);
     return(1);
 }
 
@@ -341,7 +237,7 @@ main()
     int i,ix;
     char *f_click;
     
-    debug(1,"DEBUG : +++");
+    debug(1,"DEBUG: +++");
 
     parse_query();
     for(i=0; i < NUM_CFGS; i++) {

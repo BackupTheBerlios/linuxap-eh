@@ -1,4 +1,5 @@
 21-02-2004
+  * Minor fixes
   * Added iwlist support
   * Added tunning of wireless security options
   * Added tunning of iw_watch time

@@ -125,7 +125,20 @@ sram: $(PRE_INSTALL) kernel-sram flash
 	@./aptools/image_rdev ./kernel-sram 31 1
 	./scripts/build_flash.pl 2097152 sram # 2 * 1024 * 1024
 	@md5sum sram > sram.md5
-	@tar -cvzf images/linuxAP-eh-$(DATE)-$(ELAN_SPEED).tar.gz sram* flash*
+	@echo -e "\nFull package:"
+	@mv flash* package/
+	@mv sram* package/
+	@(cd package; tar -cvzf ../images/linuxAP-eh-$(DATE)-$(ELAN_SPEED).tar.gz *)
+	@mv package/flash* .
+	@mv package/sram*  .
+	@echo -e "\nSRAM package:"
+	@mv sram* package/
+	@(cd package; tar -cvzf ../images/linuxAP-eh-$(DATE)-$(ELAN_SPEED)-SRAM.tar.gz *)
+	@mv package/sram*  .
+	@echo -e "\nFLASH package:"
+	@mv flash* package/
+	@(cd package; tar -cvzf ../images/linuxAP-eh-$(DATE)-$(ELAN_SPEED)-FLASH.tar.gz *)
+	@mv package/flash* .
 
 flash: kernel image squashfs-build alios-build
 	@echo $(DATE_TIME) \
@@ -361,7 +374,7 @@ linuxAP-clean:
 	@$(RM) kernel linux/.config
 	@$(RM) ramfs.img ramdisk
 	@$(RM) image
-	@$(RM) RW.tar
+	@$(RM) RW.tar.gz
 	@$(RM) soekris-config wl11000-config
 	@rm -rf $(IMAGE_DIR)
 	@$(MAKE) -C conf/lxdialog clean > /dev/null 2>&1
@@ -369,7 +382,7 @@ linuxAP-clean:
 clean: $(SUBDIR_CLEAN) linuxAP-clean
 
 distclean: $(SUBDIR_DISTCLEAN) linuxAP-clean
-	@rm -f .config dirs.done links.done RW.default RW.tar.gz
+	@rm -f .config dirs.done links.done RW.default
 
 tar: distclean
 	@echo -e "\nBuilding Distribution File ..."

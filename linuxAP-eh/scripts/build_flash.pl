@@ -60,7 +60,7 @@ foreach my $file (@initial_files) {
 
 # create configuration file:
 
-    exe_prn("cd $rw_dir ; tar cvf - `ls -1 | grep -v CVS` | gzip | dd ibs=16384 of=../RW.tar.gz conv=sync" );
+    exe_prn("cd $rw_dir ; tar cvf - `find . -type f | grep -v CVS` | gzip | dd ibs=16384 of=../RW.tar.gz conv=sync" );
 
 # prepare the kernel
 { 

@@ -7,7 +7,12 @@ start|2|3|4)
     echo "Starting httpd daemon."
     cd /html
     sleep 2
-    httpd
+    if [ -f $CFGD/httpd.conf ]
+    then
+	httpd -c $CFGD/httpd.conf
+    else
+	httpd
+    fi
     sleep 1
     ;;
 stop|1)
