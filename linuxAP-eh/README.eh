@@ -1,5 +1,5 @@
 source:		linuxAP.eh[1]
-Versión:	?
+Version:	?
 
 Use:
 "make" linuxAP-eh gets configured and then you can compile it
