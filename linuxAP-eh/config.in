@@ -25,7 +25,7 @@ define_ustring PSMISC_VERSION       21.2
 define_ustring SYSLINUX_VERSION     2.00
 define_ustring SYSVINIT_VERSION     2.83
 define_ustring TINYLOGIN_VERSION    1.4
-define_ustring UCLIBC_VERSION       0.9.20
+define_ustring UCLIBC_VERSION       0.9.21
 define_ustring UDHCP_VERSION        0.9.8
 define_ustring UMSDOS_VERSION       1.32
 define_ustring WTOOLS_VERSION       25
