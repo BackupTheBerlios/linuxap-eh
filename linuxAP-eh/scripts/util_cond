@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh --debug
 #
 # conditional
 #
@@ -77,7 +77,7 @@ fi
 utility=$2
 version=$3
 conditional=$4
-if [ ! -z $conditional ]
+if [ ! -f "$conditional" ]
 then
     if [ ! -d $utility ]
     then
@@ -89,7 +89,8 @@ then
 	    exit 0
 	fi
     fi
-    cd $utility
+    echo $conditional
+	cd $utility
     for condition in $conditional
     do
 	didit=0
