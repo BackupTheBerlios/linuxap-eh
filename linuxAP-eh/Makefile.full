@@ -254,8 +254,7 @@ image:	Image_dir \
 	$(STRIP) --strip-debug `find $(IMAGE_DIR) -type f -exec file {} \; | grep "ELF 32-bit" | cut -f 1 -d :`
 	@echo ""
 	@echo "Removing dirs/files:"
-	@rm -Rf $(REMOVE_FINAL)
-	@echo "   $(REMOVE_FINAL)"
+	@rm -Rfv $(REMOVE_FINAL)
 
 Image_dir:
 	@echo -e "\nRebuilding Image_final"

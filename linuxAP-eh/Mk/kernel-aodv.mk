@@ -44,8 +44,9 @@ endif
 		>> /tmp/kernel-aodv-install 2>&1
 	@scripts/util_setup install kernel-aodv $(KERNEL_AODV_VERSION) \
 		>> /tmp/kernel-aodv-install 2>&1
-	@echo "Will remove /html directory"
+	@echo "Will remove httpd related files"
 REMOVE_FINAL += $(IMAGE_DIR)/html
+REMOVE_FINAL += `find $(IMAGE_DIR) -name *http*`
 
 kernel-aodv-clean:
 	@echo -e "\nCleaning kernel-aodv version $(KERNEL_AODV_VERSION)."
