@@ -1,3 +1,6 @@
+10-10-2003
+  * changed pcmcia-cs patch to delete modutils tests
+
 06-10-2003
   * Changed openvpn default version to 1.4.3 (It's smaller)
   * Added support to use uClibc 0.9.21
