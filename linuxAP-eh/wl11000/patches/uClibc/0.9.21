@@ -46,7 +46,7 @@
 +UCLIBC_HAS_LFS=y
 +# MALLOC is not set
 +MALLOC_930716=y
-+# MALLOC_GLIBC_COMPAT is not set
++MALLOC_GLIBC_COMPAT=y
 +# UCLIBC_DYNAMIC_ATEXIT is not set
 +# HAS_SHADOW is not set
 +# UNIX98PTY_ONLY is not set
