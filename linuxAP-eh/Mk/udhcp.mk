@@ -15,15 +15,16 @@ udhcp-config:
 
 udhcp-build: udhcp-config
 	@echo -e "\nBuilding udhcp version $(UDHCP_VERSION)."
-	@$(MAKE) -C udhcp CROSS_COMPILE=$(CROSS_COMPILE) \
+	@$(MAKE) -C udhcp \
 		> /tmp/udhcp-build > /tmp/udhcp-build 2>&1
 	@mv /tmp/udhcp-build .
 
 # Install the correct scripts
 udhcp-install: udhcp-build
 	@echo -e "\nInstalling udhcp version $(UDHCP_VERSION)."
-	@$(MAKE) IMAGE_DIR=$(IMAGE_DIR) CROSS_COMPILE=$(CROSS_COMPILE) \
-		-C udhcp install > /tmp/udhcp-install 2>&1
+	@$(MAKE) -C udhcp install \
+		IMAGE_DIR=$(IMAGE_DIR) \
+		> /tmp/udhcp-install 2>&1
 	@rm $(IMAGE_DIR)/usr/share/udhcpc/*
 	#@cp -a ./udhcp/samples/simple.script \
 	#	$(IMAGE_DIR)/usr/share/udhcpc/default.script

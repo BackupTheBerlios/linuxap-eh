@@ -15,7 +15,8 @@ syslinux-config:
 
 syslinux-build: syslinux-config
 	@echo -e "\nBuilding syslinux version $(SYSLINUX_VERSION)."
-	@$(MAKE) -C syslinux CC=$(CROSS_COMPILE)gcc \
+	@$(MAKE) -C syslinux \
+		CC=$(CC) \
 		> /tmp/syslinux-build > /tmp/syslinux-build 2>&1
 	mv /tmp/syslinux-build .
 

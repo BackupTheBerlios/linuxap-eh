@@ -15,7 +15,8 @@ sysvinit-config:
 
 sysvinit-build: sysvinit-config
 	@echo -e "\nBuilding sysvinit version $(SYSVINIT_VERSION)."
-	@$(MAKE) -C sysvinit/src CC=$(CROSS_COMPILE)gcc \
+	@$(MAKE) -C sysvinit/src \
+		CC=$(CC) \
 		> /tmp/sysvinit-build > /tmp/sysvinit-build 2>&1
 	mv /tmp/sysvinit-build .
 

@@ -6,6 +6,7 @@ SUBDIR_BUILD    += squashfs-build
 # SUBDIR_INSTALL  += squashfs-install
 # SUBDIR_CLEAN    += squashfs-clean
 SUBDIR_DISTCLEAN+= squashfs-distclean
+
 squashfs-config:
 	@echo -e "\nExtract and Configure squashfs utlities version $(SQUASHFS_VERSION)."
 	@scripts/util_config squashfs $(SQUASHFS_VERSION) $(ARCHIVE_DIR)\
@@ -14,7 +15,8 @@ squashfs-config:
 
 squashfs-build: squashfs-config
 	@echo -e "\nBuilding squashfs utilities version $(SQUASHFS_VERSION)."
-	@make -C squashfs/squashfs-tools  > /tmp/squashfs-build 
+	@$(MAKE) -C squashfs/squashfs-tools \
+		> /tmp/squashfs-build 2>&1
 	@mv /tmp/squashfs-build .
 
 squashfs-clean:

@@ -16,7 +16,7 @@ umsdos_progs-config:
 umsdos_progs-build: umsdos_progs-config
 	@echo -e "\nBuilding umsdos_progs version $(UMSDOS_VERSION)."
 	@$(MAKE) -C umsdos_progs \
-		GCC=$(CROSS_COMPILE)gcc \
+		GCC=$(CC) \
 		GPP=$(CROSS_COMPILE)g++ \
 		> /tmp/umsdos_progs-build > /tmp/umsdos_progs-build 2>&1
 	@mv /tmp/umsdos_progs-build .

@@ -16,14 +16,12 @@ nbd-config:
 nbd-build: nbd-config
 	@echo -e "\nBuilding Network Block Device utilities."
 	@$(MAKE) -C nbd IMAGE_DIR=$(IMAGE_DIR) \
-		CROSS_COMPILE=$(CROSS_COMPILE) \
 		> /tmp/nbd-build > /tmp/nbd-build 2>&1
 	@mv /tmp/nbd-build .
 
 nbd-install: nbd-build
 	@echo -e "\nInstalling Network Block Device dir."
 	@$(MAKE) -C nbd install \
-		CROSS_COMPILE=$(CROSS_COMPILE) \
 		IMAGE_DIR=$(IMAGE_DIR) \
 		STRIPFLAGS=$(STRIPFLAGS)\ --strip-all \
 		> /tmp/nbd-install > /tmp/nbd-install 2>&1

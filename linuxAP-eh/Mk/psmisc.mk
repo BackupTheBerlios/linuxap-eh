@@ -16,7 +16,8 @@ psmisc-config:
 
 psmisc-build: psmisc-config
 	@echo -e "\nBuilding psmisc version $(PSMISC_VERSION)."
-	@$(MAKE) -C psmisc/src CC=$(CROSS_COMPILE)gcc \
+	@$(MAKE) -C psmisc/src \
+		CC=$(CC) \
 		> /tmp/psmisc-build > /tmp/psmisc-build 2>&1
 	mv /tmp/psmisc-build .
 

@@ -13,7 +13,7 @@ pcmcia-cs-config: kernel-config
 	@scripts/util_config pcmcia-cs $(PCMCIA_VERSION) $(ARCHIVE_DIR) \
 		> /tmp/pcmcia-cs-config 2>&1
 	@cd pcmcia-cs && ./Configure -n --kernel=$(KERNEL_DIR) \
-		--target=$(IMAGE_DIR) --ucc=$(CC) --trust \
+		--target=$(IMAGE_DIR) --ucc=$(CC) --uflags="-Os" --trust \
 		--nocardbus --nopnp --noapm --srctree \
 		>> /tmp/pcmcia-cs-config 2>&1
 	@mv /tmp/pcmcia-cs-config .

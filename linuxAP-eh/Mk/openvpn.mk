@@ -15,12 +15,14 @@ openvpn-config:
 		> /tmp/openvpn-config
 	@(cd openvpn; \
 		./configure --disable-lzo --disable-crypto --disable-ssl \
-		--prefix=$(IMAGE_DIR)/ >> /tmp/openvpn-config 2>&1)
+		--prefix=$(IMAGE_DIR)/ \
+		CC=$(CC) CFLAGS="$(CFLAGS) -Os" \
+		>> /tmp/openvpn-config 2>&1)
 	@mv /tmp/openvpn-config .
 
 openvpn-build: openvpn-config
 	@echo -e "\nBuilding openvpn version $(OPENVPN_VERSION)."
-	@$(MAKE) -C openvpn CC=$(CC) > /tmp/openvpn-build 2>&1
+	@$(MAKE) -C openvpn > /tmp/openvpn-build 2>&1
 	@mv /tmp/openvpn-build .
 
 openvpn-install: openvpn-build
