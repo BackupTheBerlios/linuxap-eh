@@ -10,7 +10,7 @@ then
     rm /tmp/log.eh
 else
     echo `date '+%d-%m-20%y'` > /tmp/log.eh
-    echo "  * $1" >> /tmp/log.eh
+    echo -e "  * $1\n" >> /tmp/log.eh
     cat $logfile >> /tmp/log.eh
     cat /tmp/log.eh > $logfile
     rm /tmp/log.eh
