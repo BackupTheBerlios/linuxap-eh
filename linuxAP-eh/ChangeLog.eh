@@ -1,3 +1,8 @@
+10-11-2003
+  * fixed nbd/swap included in base kernel even if unselected
+  * added option to exclude httpd support and cgis
+  * now WL11000 is the default platform for make config
+
 01-11-2003
   * images directory created
   * removed largefiles support on uClibc 0.9.21
