@@ -32,7 +32,14 @@ set_parms()
     case "$runlevel" in
       2) iwconfig $iface mode Managed
         ;;
-      3|4) iwconfig $iface mode Master
+      3|4)
+        if [ 1 -gt "$channel" -o "$channel" -gt 16 ]
+	then
+	   channel=1
+	   echo -e "   ===> WARNING! Channel out of range"
+	   echo -e "        Defaulting to channel 1 (please reconfigure)\n"
+	fi
+        iwconfig $iface mode Master
         iwconfig $iface channel $channel
         prism2_param $iface max_wds $nwds
         prism2_param $iface autom_ap_wds 1
@@ -41,8 +48,8 @@ set_parms()
     esac
     [ "$essid" ] && iwconfig $iface essid $essid
     [ "$security" ] && prism2_param $iface enh_sec $security
-    [ "$w_txpower" ] && iwconfig $iface txpower $w_txpower
-    [ "$w_rate" ] && iwconfig $iface rate $w_rate
+    [ "$txpower" ] && iwconfig $iface txpower $txpower
+    [ "$rate" ] && iwconfig $iface rate $rate
     [ "$antsel_rx" ] && prism2_param $iface antsel_rx $antsel_rx
     [ "$antsel_tx" ] && prism2_param $iface antsel_tx $antsel_tx
     if [ "$wep" ]

@@ -1,3 +1,6 @@
+02-05-2004
+  * Fixed rate & txpower config and detect channel out of range on wlan.i
+
 21-02-2004
   * Minor fixes
   * Added iwlist support
