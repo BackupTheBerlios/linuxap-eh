@@ -24,7 +24,7 @@ define_ustring OPENVPN_VERSION      1.4.3
 define_ustring VTUN_VERSION         2.6
 define_ustring PCMCIA_VERSION       3.2.3
 define_ustring PSMISC_VERSION       21.2
-define_ustring SQUASHFS_VERSION      1.2
+define_ustring SQUASHFS_VERSION      1.3r2
 define_ustring SYSLINUX_VERSION     2.00
 define_ustring SYSVINIT_VERSION     2.83
 define_ustring TINYLOGIN_VERSION    1.4
