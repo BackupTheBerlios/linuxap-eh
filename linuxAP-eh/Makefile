@@ -21,7 +21,7 @@ include ./Makefile.defs
 # Export globally defaultly used variables
 # (no need to pass them to every make statement)
 DESTDIR=$(IMAGE_DIR)
-export KERNEL_DIR DESTDIR AP_BUILD
+export CROSS_COMPILE KERNEL_DIR DESTDIR AP_BUILD PATH
 
 ifeq ($(CONFIG_UCLIBC),y)
 ifeq ($(CONFIG_WL11000),y)
@@ -40,12 +40,12 @@ endif
 ifeq ($(AP_BUILD),)
   OBJS := menuconfig
 else
-  OBJS := links-config $(AP_BUILD)
+  OBJS := links-config compiler_masq $(AP_BUILD)
 endif
 
 all: $(OBJS)
 
-.PHONY: soekris itx wl11000 clean distclean menuconfig
+.PHONY: soekris itx wl11000 clean distclean menuconfig compiler_masq
 
 #----------------------------------------------------------------------
 # SOEKRIS

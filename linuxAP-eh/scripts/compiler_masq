@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+# Create the needed soft-link trees for masquerading compiling tools
+# (used in ccache and distcc)
+#---------------------------------------------------------------------------
+
+OBJ=$1
+DEST=$2
+PREFIX=$3
+BINARY=$4
+
+COMPILERS="c++ cc g++ gcc"
+COMPILERS_PREFIX="i386-linux-g++ i386-linux-gcc"
+
+do_ccache () {
+    mkdir -p $DEST/ccache
+    for i in $COMPILERS; do
+	ln -s $BINARY $DEST/ccache/$i
+	ln -s $BINARY $DEST/ccache/$PREFIX$i
+    done
+    for i in $COMPILERS_PREFIX; do
+	ln -s $BINARY $DEST/ccache/$i
+    done
+}
+
+do_distcc () {
+    mkdir -p $DEST/distcc
+    for i in $COMPILERS; do
+	ln -s $BINARY $DEST/distcc/$i
+	ln -s $BINARY $DEST/distcc/$PREFIX$i
+    done
+    for i in $COMPILERS_PREFIX; do
+	ln -s $BINARY $DEST/distcc/$i
+    done
+}
+
+case $OBJ in
+    ccache)
+      do_ccache
+      ;;
+    distcc)
+      do_distcc
+      ;;
+    *)
+      echo -e "\nERROR!!! Can't create compilr masequerading links for objective '$OBJ'\n"
+      ;;
+esac
+
