@@ -23,7 +23,7 @@ hostap-driver-build: hostap-driver-config
 	@echo -e "\nBuild hostap-driver version $(HOSTAP_DRIVER_VERSION)."
 	@$(MAKE) -C hostap-driver pccard \
 		KERNEL_PATH=$(KERNEL_DIR) \
-		CC=$(CROSS_COMPILE)gcc \
+		CC=$(CC) \
 		PCMCIA_PATH=$(PCMCIA_PATH) \
 		DESTDIR=$(IMAGE_DIR) \
 		EXTRA_CFLAGS="-DPRISM2_NO_DEBUG -DPRISM2_NO_PROCFS_DEBUG" \
@@ -34,17 +34,15 @@ hostap-driver-install: hostap-driver-build
 	@echo -e "\nInstall hostap-driver version $(HOSTAP_DRIVER_VERSION)."
 	@$(MAKE) -C hostap-driver \
 		KERNEL_PATH=$(KERNEL_DIR) \
-		CC=$(CROSS_COMPILE)gcc \
-		PCMCIA_PATH=$(PCMCIA_PATH) \
 		DESTDIR=$(IMAGE_DIR) \
 		install_pccard \
 		install_hostap \
 		install_crypt \
 		> /tmp/hostap-driver-install 2>&1
-	#@$(STRIP) --strip-debug $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/net/hostap*.o
 	@$(STRIP) --strip-debug $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/pcmcia/hostap_cs.o
 
 hostap-driver-clean:
+	@echo -e "\nCleaning hostap-driver version $(HOSTAP_DRIVER_VERSION)."
 	@rm -f hostap-driver-config
 	@rm -f hostap-driver-build
 	@-$(MAKE) -C hostap-driver clean >/dev/null 2>&1
