@@ -40,7 +40,7 @@ echo "Entering runlevel $lvl"
 
 # Custom Startup by level?
 # Take the first one that works
-for rcdir in /cf/etc/rc.d /etc/rw/rc.d /etc/rc.d
+for rcdir in /etc/rw/rc.d /etc/rc.d
 do
     if [ -d $rcdir ]
     then
