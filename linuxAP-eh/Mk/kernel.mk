@@ -2,7 +2,6 @@
 # kernel.mk
 #
 # Rebuild the kernel if we change the configuration
-# Need to fixup util_config to handle multiple patches
 #
 # Need wireless_tools to grab latest wireless.h
 #----------------------------------------------------------------------
@@ -22,7 +21,7 @@ kernel-config: kernel-patch $(AP_BUILD)/kernel-config/$(KERNEL_VERSION)
 	@touch /tmp/kernel-config
 	@cp $(AP_BUILD)/kernel-config/$(KERNEL_VERSION)/base linux/.config
 	@echo -e "condiciones $(COND_KERNEL)"
-	@scripts/util_cond + linux $(KERNEL_VERSION) `echo $(COND_KERNEL) | sed -e s/" "/";"/` \
+	@scripts/util_cond + linux $(KERNEL_VERSION) '$(COND_KERNEL)' \
 		> /tmp/kernel-config 2>&1
 	@$(MAKE) -C $(KERNEL_DIR) oldconfig >> /tmp/kernel-config 2>& 1
 	@$(MAKE) -C $(KERNEL_DIR) dep >> /tmp/kernel-config 2>&1

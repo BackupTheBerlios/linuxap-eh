@@ -16,7 +16,7 @@
 #    possibly add "make destp-clean" to force recompilation of package without
 #    conditional patch)
 # - Mk/destp.mk:
-#  o put "scripts/conditional + destp $(DESTP_VERSION) $(COND_DESTP)\
+#  o put "scripts/conditional + destp $(DESTP_VERSION) '$(COND_DESTP)' \
 #                >> /tmp/destp-config" on destp's config rule, just after the
 #    call to scripts/util_config, so all conditional patches will be searched
 #    on all of the following directories (in order) and applied:
@@ -90,12 +90,12 @@ then
 	fi
     fi
     cd $utility
-    for condition in $(echo "$conditional" | sed -e s/";"/" "/)
+    for condition in $conditional
     do
 	didit=0
 	dir=../patches/$condition
-	
-        search
+
+	search
 	if [ ! "$AP_BUILD" = "." ]
 	then
 	    dir=../$AP_BUILD/patches/$condition

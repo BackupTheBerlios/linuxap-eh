@@ -1,3 +1,6 @@
+26-10-2003
+  * Another fix to scripts/util_cond so it doesn't needs echo/sed
+
 24-10-2003
   * Added support to vtun as tunneling software
   * fixedo some problems in squashfs and config.in
