@@ -223,6 +223,9 @@ endif
 ifeq ($(CONFIG_KERNEL_AODV),y)
 include Mk/kernel-aodv.mk
 endif
+ifeq ($(CONFIG_VTUN),y)
+include Mk/vtun.mk
+endif
 ifeq ($(CONFIG_OPENVPN),y)
 include Mk/openvpn.mk
 endif
