@@ -39,8 +39,8 @@ endif
 ifeq ($(AP_BUILD),wl11000)
 	@rm -f $(IMAGE_DIR)/usr/sbin/iptables-restore
 	@rm -f $(IMAGE_DIR)/usr/sbin/iptables-save
-	@rm -f $(IMAGE_DIR)/usr/lib/iptables/*
 endif
+	@rm -f $(IMAGE_DIR)/usr/lib/iptables/*
 	@scripts/iptables_ext $(IMAGE_DIR)
 	@$(STRIP) $(STRIPFLAGS) --strip-all $(IMAGE_DIR)/usr/lib/iptables/*
 
