@@ -1,4 +1,5 @@
 02-05-2004
+  * Minor fixes
   * Fixed rate & txpower config and detect channel out of range on wlan.i
 
 21-02-2004
