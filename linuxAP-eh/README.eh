@@ -11,16 +11,18 @@ software (busybox, iptables, etc...)
 The next info is focused to  Eumitcom WL11000 SA-N platform, but there can be
 problematic versions of this software, and other that can run perfectly for you.
 
-The versions in the conf menu are:
+The versions in menuconfig are:
 
 Utility 		Available and tested versions
 -------- 		--------------------------------
 kernel 			2.4.20
-hostap 			2002-10-12, 0.0.3, 0.0.4, 0.1.1(*)
-hostap-utils            0.1.0
+hostap-driver		2002-10-12, 0.0.3, 0.0.4(+), 0.1.1, 0.1.2(*)
+hostap-utils            0.1.0, 0.1.2(*)
+hostapd 		0.1.0
 kernel-aodv 		v2.0, v2.1(*)
 
-(*) this version have no txpower (it makes distorsions on radio signal)
+(*) default used versions
+(+) this version has no txpower support (it makes distorsions on radio signal)
 
 
 The default versions of unchoosable version software from menuconfig are:
