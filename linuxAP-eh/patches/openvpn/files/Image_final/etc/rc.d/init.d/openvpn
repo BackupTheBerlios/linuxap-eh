@@ -1,6 +1,10 @@
 #!/bin/ash
 CFGDIR="/etc/rw/"
 CFG=$CFGDIR/vpn.conf
+if [ ! -f $CFG ]
+then
+    exit 0
+fi
 names=`grep "#--- +.* ---" $CFG | sed -e s/"#--- +"// | sed -e s/" ---"//`
 slines=`grep -n "#--- +.* ---" $CFG | sed -e s/:.*//g`
 elines=`grep -n "#--- -.* ---" $CFG | sed -e s/:.*//g`
