@@ -1,4 +1,7 @@
-?-?-?
+01-10-2003
+  * Various fixes to adapt distribution to CVS
+
+30-09-2003
   * Añadido parche para poder compilar con con busybox 1.0-pre3
 
 26-09-2003

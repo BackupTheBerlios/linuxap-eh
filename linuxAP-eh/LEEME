@@ -18,19 +18,18 @@ Utilidad 		Versiones disponibles y probadas
 -------- 		--------------------------------
 kernel 			2.4.20
 hostap 			2002-10-12, 0.0.3, 0.0.4 (*)
-kernel-aodv 		v2.0,v2.1 (**)
+kernel-aodv 		v2.0, v2.1
 
 (*) esta versión no es la utilizada por defecto porque no funciona la
 opción 'txpower' (retirada por provocar distorsiones en la señal)
 
-(**) en fase experimental, pues aun no funciona
 
 Para las versiones no escogibles desde el menu de configuracion:
 
 Utilidad		Versiones disponibles y probadas
 --------		--------------------------------
 bridge-utils		0.9.6
-busybox			0.60.5, 1.00-pre2(*)
+busybox			0.60.5, 1.00-pre2, 1.00-pre3(*)
 cipe			1.5.4
 cramfs			1.1
 iptables		1.2.7a

@@ -248,8 +248,14 @@ image:	Image_dir \
 	configure_links \
 	copy_libc
 	@echo -e "\nCleaning Image_final"
-	@find $(IMAGE_DIR) -type d -name CVS -exec rm -Rf {} \;
+	@rm -Rf `find $(IMAGE_DIR) -type d -name CVS`
+	@echo ""
+	@echo "Stripping binaries/modules (probably redundant)"
 	$(STRIP) --strip-debug `find $(IMAGE_DIR) -type f -exec file {} \; | grep "ELF 32-bit" | cut -f 1 -d :`
+	@echo ""
+	@echo "Removing dirs/files:"
+	@rm -Rf $(REMOVE_FINAL)
+	@echo "   $(REMOVE_FINAL)"
 
 Image_dir:
 	@echo -e "\nRebuilding Image_final"
@@ -341,7 +347,7 @@ linuxAP-clean:
 clean: $(SUBDIR_CLEAN) linuxAP-clean
 
 distclean: $(SUBDIR_DISTCLEAN) linuxAP-clean
-	@rm -f .config
+	@rm -f .config dirs.done links.done
 
 tar: distclean
 	@echo -e "\nBuilding Distribution File ..."
