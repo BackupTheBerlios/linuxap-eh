@@ -14,8 +14,6 @@ kernel-aodv-config:
 	@echo -e "\nExtract and Configure kernel-aodv version $(KERNEL_AODV_VERSION)."
 	@scripts/util_config kernel-aodv $(KERNEL_AODV_VERSION) $(ARCHIVE_DIR)\
 		> /tmp/kernel-aodv-config 2>&1
-	@(cd RW.default; patch -p1 < ../patches/kernel-aodv/netcfg \
-		>> /tmp/kernel-aodv-config 2>&1)
 	@mv /tmp/kernel-aodv-config .
 
 kernel-aodv-build: kernel-aodv-config
@@ -57,4 +55,3 @@ kernel-aodv-distclean:
 	@rm -f kernel-aodv-install
 	@rm -rf kernel-aodv_$(KERNEL_AODV_VERSION) kernel-aodv
 	@scripts/util_setup clean kernel-aodv $(KERNEL_AODV_VERSION)
-	@(cd RW.default; patch -R -p1 < ../patches/kernel-aodv/netcfg)
