@@ -1,0 +1,12 @@
+diff -Nur busybox-1.00-pre7/networking/httpd.c busybox-1.00-pre7.new/networking/httpd.c
+--- busybox-1.00-pre7/networking/httpd.c	2003-07-14 23:20:55.000000000 +0200
++++ busybox-1.00-pre7.new/networking/httpd.c	2003-08-22 22:04:42.000000000 +0200
+@@ -1196,7 +1196,7 @@
+     while (1) {
+       fd_set readSet;
+       fd_set writeSet;
+-      char wbuf[128];
++      char wbuf[256];
+       int nfound;
+       int count;
+ 
