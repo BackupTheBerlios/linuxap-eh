@@ -253,8 +253,10 @@ image:	Image_dir \
 	@echo "Stripping binaries/modules (probably redundant)"
 	$(STRIP) --strip-debug `find $(IMAGE_DIR) -type f -exec file {} \; | grep "ELF 32-bit" | cut -f 1 -d :`
 	@echo ""
+ifeq ($(AP_BUILD),wl11000)
 	@echo "Removing dirs/files:"
 	@rm -Rfv $(REMOVE_FINAL)
+endif
 
 Image_dir:
 	@echo -e "\nRebuilding Image_final"

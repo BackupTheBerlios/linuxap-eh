@@ -55,15 +55,20 @@ ifeq ($(CONFIG_WL11000),y)
 endif
 	@mkdir -p -m 0755 $(IMAGE_DIR)/usr/share/udhcpc/
 	@install busybox/examples/udhcp/simple.script $(IMAGE_DIR)/usr/share/udhcpc/default.script
+	@scripts/util_setup install busybox $(BUSYBOX_VERSION) \
+		>> /tmp/busybox-install 2>&1
+
 
 busybox-clean:
 	@echo -e "\nCleaning busybox version $(BUSYBOX_VERSION)."
 	@rm -f busybox-build
 	@rm -f busybox-config
 	@-$(MAKE) -C busybox clean > /dev/null 2>&1
+	@scripts/util_setup clean busybox $(BUSYBOX_VERSION)
 
 busybox-distclean:
 	@echo -e "\nPurging busybox version $(BUSYBOX_VERSION)."
 	@rm -f busybox-build
 	@rm -f busybox-config
 	@rm -rf busybox-$(BUSYBOX_VERSION) busybox
+	@scripts/util_setup clean busybox $(BUSYBOX_VERSION)
