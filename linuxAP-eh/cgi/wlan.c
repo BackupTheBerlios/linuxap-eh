@@ -13,11 +13,12 @@ static char *wlan_funcs[] = {
 
 enum { WLAN_OPTION, WLAN_MENU, WLAN_WRITE, WLAN_NULL };
 
-enum { WLK_ESSID, WLK_CHANNEL, WLK_ANTSEL_RX, WLK_ANTSEL_TX, WLK_RATE,
-       WLK_TXPOWER, WLK_WEP, WLK_NWDS, WLK_NULL };
+enum { WLK_ESSID, WLK_SECURITY, WLK_CHANNEL, WLK_ANTSEL_RX, WLK_ANTSEL_TX,
+       WLK_RATE, WLK_TXPOWER, WLK_WEP, WLK_NWDS, WLK_NULL };
 
 char *wckw[WLK_NULL+1] = {
 	"essid=",
+	"security=",
 	"channel=",
 	"antsel_rx=",
 	"antsel_tx=",
@@ -30,6 +31,7 @@ char *wckw[WLK_NULL+1] = {
 
 char *wpkw[WLK_NULL+1] = {
 	"CGI_essid",
+	"CGI_security",
 	"CGI_channel",
 	"CGI_antsel_rx",
 	"CGI_antsel_tx",
@@ -42,6 +44,7 @@ char *wpkw[WLK_NULL+1] = {
 
 char *wkw[WLK_NULL+1] = {
 	"essid",
+	"security",
 	"channel",
 	"antsel_rx",
 	"antsel_tx",
@@ -53,6 +56,7 @@ char *wkw[WLK_NULL+1] = {
 };
 
 char *wv[WLK_NULL+1] = {
+	"",
 	"",
 	"",
 	"",
@@ -127,6 +131,20 @@ static int wlan_menu() {
     otr("/");
 
     otr(NULL);
+    oth("Security options (*)");
+    {
+	char *sec_sel[] = {
+	    wkw[WLK_SECURITY], wv[WLK_SECURITY],
+	    "None",                             "0",
+	    "Hide SSID in beacon frames",       "1",
+	    "Ignore clients with \"ANY\" SSID", "2",
+	    "Both",                             "3",
+	    NULL };
+	    otd(sel("",sec_sel));
+    }
+    otr("/");
+
+    otr(NULL);
     oth("Channel");
     {
 	char *chan_sel[] = {
@@ -198,6 +216,8 @@ static int wlan_menu() {
     otr("/");
 
     otbl("/");
+
+    printf("(*) This option requires STA f/w ver 1.6.3 or newer\n");
 
     printf("<br><br>\n");
     ohid("menu","main");

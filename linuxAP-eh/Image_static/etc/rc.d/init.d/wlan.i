@@ -40,6 +40,7 @@ set_parms()
         ;;
     esac
     [ "$essid" ] && iwconfig $iface essid $essid
+    [ "$security" ] && prism2_param $iface enh_sec $security
     [ "$w_txpower" ] && iwconfig $iface txpower $w_txpower
     [ "$w_rate" ] && iwconfig $iface rate $w_rate
     [ "$antsel_rx" ] && prism2_param $iface antsel_rx $antsel_rx

@@ -1,4 +1,5 @@
 21-02-2004
+  * Added tunning of wireless security options
   * Added tunning of iw_watch time
   * Added hostap(d|-drivers|-utils) 0.1.3 support
   * Added binary package release files
