@@ -36,7 +36,7 @@
  *                                                                            *
  * Copyright 2001 telos EDV Systementwicklung GmbH, Hamburg                   *
  *                                                                            *
- * $Id: detect_dram.S,v 1.1 2003/09/27 20:12:10 kleynjans Exp $
+ * $Id: detect_dram.S,v 1.2 2003/09/29 21:52:20 xscript Exp $
  *                                                                            *
  * modified for GNU assembler                                                 *
  *                                                                            *

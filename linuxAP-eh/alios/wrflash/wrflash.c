@@ -9,7 +9,7 @@
 ;  Kolja Waschk, telos (KW),
 ;  Karl-Werner Ahlers, telos (KA)
 ;
-; $Revision: 1.1 $
+; $Revision: 1.2 $
 ;
 ; History (yyyymmdd au desc):
 ;

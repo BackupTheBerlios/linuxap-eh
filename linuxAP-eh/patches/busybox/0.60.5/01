@@ -59,7 +59,7 @@ diff -urN busybox-0.60.5/httpd.c busybox-new/httpd.c
 +/*
 + * httpd implementation for busybox
 + *
-+ *  $Revision: 1.1 $
++ *  $Revision: 1.2 $
 + *
 + * Copyright (C) 2002 Glenn Engel <glenne@engel.org>
 + *
@@ -1423,7 +1423,7 @@ diff -urN busybox-0.60.5/telnetd.c busybox-new/telnetd.c
 --- busybox-0.60.5/telnetd.c	Wed Dec 31 17:00:00 1969
 +++ busybox-new/telnetd.c	Mon Feb  3 00:36:05 2003
 @@ -0,0 +1,639 @@
-+/* $Id: 01,v 1.1 2003/09/27 20:15:21 kleynjans Exp $
++/* $Id: 01,v 1.2 2003/09/29 21:52:20 xscript Exp $
 + *
 + * Simple telnet server
 + * Bjorn Wesen, Axis Communications AB ([11]bjornw@axis.com)

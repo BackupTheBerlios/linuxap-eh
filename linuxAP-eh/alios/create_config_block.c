@@ -21,7 +21,7 @@
  *                                                                  *
  *  Author(s): Marco Budde                                          *
  *  Version:                                                        *
- *    $Id: create_config_block.c,v 1.1 2003/09/27 20:12:08 kleynjans Exp $
+ *    $Id: create_config_block.c,v 1.2 2003/09/29 21:52:20 xscript Exp $
  *                                                                  *
  *  This program can be used to create config block images, which   *
  *  are used to configure the alios bootloader.                     *

@@ -23,7 +23,7 @@
 #  Markus Thiesmeyer, telos (MT)
 #  Marco Budde, telos (MB)
 #
-# $Revision: 1.1 $
+# $Revision: 1.2 $
 #
 # Prerequisites to use this Makefile:
 #

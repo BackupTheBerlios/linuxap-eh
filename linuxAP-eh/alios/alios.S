@@ -32,7 +32,7 @@
   Markus Thiesmeyer, telos (MT)
 
  Version:
-  $Id: alios.S,v 1.1 2003/09/27 20:12:12 kleynjans Exp $	
+  $Id: alios.S,v 1.2 2003/09/29 21:52:20 xscript Exp $	
 	
  History (yyyymmdd au desc, most recent first):
 
