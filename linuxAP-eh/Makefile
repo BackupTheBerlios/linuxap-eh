@@ -16,7 +16,7 @@ ifeq ($(CONFIG_WL11000),y)
 	AP_BUILD = wl11000
 endif
 
-all: links.done
+all: links.done dirs.done
 	@make AP_BUILD=$(AP_BUILD) -f Makefile.full
 
 %:
@@ -26,3 +26,8 @@ links.done: links.tgz
 	@echo "Restoring links from links.tgz"
 	@tar zxf links.tgz
 	@touch links.done
+	
+dirs.done: dirs.tgz
+	@echo "Restoring empty dirs from dirs.tgz"
+	@tar zxf dirs.tgz
+	@touch dirs.done
