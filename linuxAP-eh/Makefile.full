@@ -264,7 +264,8 @@ image:	Image_dir \
 	@rm -Rf `find $(IMAGE_DIR) -type d -name CVS`
 	@echo ""
 	@echo "Stripping binaries/modules (probably redundant)"
-	$(STRIP) --strip-debug `find $(IMAGE_DIR) -type f -exec file {} \; | grep "ELF 32-bit" | cut -f 1 -d :`
+	#$(STRIP) --strip-debug `find $(IMAGE_DIR) -type f -exec file {} \; | grep "ELF 32-bit" | cut -f 1 -d :`
+	@$(STRIP) --strip-debug `find $(IMAGE_DIR) -type f -exec file {} \; | grep "ELF 32-bit" | cut -f 1 -d :`
 	@echo ""
 	@echo "Removing dirs/files:"
 	@rm -Rfv $(REMOVE_FINAL)
