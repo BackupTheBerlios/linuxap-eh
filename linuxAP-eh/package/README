@@ -1,22 +1,29 @@
-linuxAP-eh bundle package's README
+linuxAP-eh binary package's README
 ==================================
 
 WARNING: 66Mhz images may NOT work !!
 
-NOTE: if you are upgrading an old version of linuxAP-eh, follow the next
-      instructions to automatically upgrade your config files (if you don't
-      want to reflash with '-o' option)
-      Server:
+NOTE: if you are upgrading an old version of linuxAP-eh (before 2004-02-21),
+      follow the next instructions to automatically upgrade your config files
+      (if you're not going to reflash with '-o' option)
+
+      TFTP Server:
       	copy updateconfigs.sh on your tftp server directory
-      linuxAP-eh box (literally tiped):
-        cd /etc/rw/
-	tftp -g -l updateconfigs.sh -r updateconfigs.sh IP_tftp_server
-	chmod 0777 updateconfigs.sh
-	./updateconfigs.sh
-	rm updateconfigs.sh
-	save_config
-	reboot
-	
+
+      linuxAP-eh box:
+        # cd /etc/rw/
+	# tftp -g -l updateconfigs.sh -r updateconfigs.sh IP_tftp_server
+	# chmod 0777 updateconfigs.sh
+	# ./updateconfigs.sh
+	      [ ... some script output ... ]
+	# rm updateconfigs.sh
+	# save_config
+	# reboot
+
+NOTE: The 'no_kaodv' package has no kaodv support.
+      The 'no_nbd' package has no NBD client (but has nbd kernel support, it
+      was just to recover some space).
+
 
 
 Flash Images
