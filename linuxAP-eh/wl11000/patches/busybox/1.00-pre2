@@ -136,7 +136,7 @@ diff -Nur busybox/.config busybox.new/.config
 +CONFIG_FALSE=y
 +# CONFIG_FOLD is not set
 +CONFIG_HEAD=y
-+# CONFIG_FEATURE_FANCY_HEAD is not set
++CONFIG_FEATURE_FANCY_HEAD=y
 +# CONFIG_HOSTID is not set
 +CONFIG_ID=y
 +# CONFIG_LENGTH is not set
