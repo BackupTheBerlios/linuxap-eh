@@ -1,3 +1,7 @@
+22-10-2003
+  * Now works with squashfs, in a non aodv config and with openvp the flash image have 38kb free comparing with 5 kb in cramfs
+  * Fiexed util_cond to work with ';' instead of ' ' 
+
 21-10-2003
   * Changed kernel's iptables support to conditional patching
 

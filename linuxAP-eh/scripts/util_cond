@@ -95,7 +95,6 @@ then
 	didit=0
 	dir=../patches/$condition
 	
-        echo -e "Buscando $condition de $conditional"
         search
 	if [ ! "$AP_BUILD" = "." ]
 	then

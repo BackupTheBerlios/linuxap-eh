@@ -13,7 +13,6 @@ define_ustring BUSYBOX_VERSION      1.00-pre3
 define_ustring BUTILS_VERSION       0.9.6
 define_ustring CKERMIT_VERSION      206
 define_ustring CIPE_VERSION         1.5.4
-define_ustring CRAMFS_VERSION       1.1
 define_ustring GLIBC_VERSION        2.2.5
 define_ustring HOSTAP_VERSION       0.0.3
 define_ustring IPROUTE2_VERSION     current
@@ -22,6 +21,7 @@ define_ustring KERNEL_AODV_VERSION  v2.1
 define_ustring OPENVPN_VERSION      1.4.3
 define_ustring PCMCIA_VERSION       3.2.3
 define_ustring PSMISC_VERSION       21.2
+define_ustring SQUASHFS_VERSION      1.2
 define_ustring SYSLINUX_VERSION     2.00
 define_ustring SYSVINIT_VERSION     2.83
 define_ustring TINYLOGIN_VERSION    1.4
@@ -179,7 +179,7 @@ fi
 
 if [ "$CONFIG_WL11000" = "y" ]; then
     define_bool CONFIG_ALIOS y
-    define_bool CONFIG_CRAMFS y
+    define_bool CONFIG_SQUASHFS y
     define_bool CONFIG_APTOOLS y
     define_bool CONFIG_UCLIBC y
     define_bool CONFIG_HOSTAP y

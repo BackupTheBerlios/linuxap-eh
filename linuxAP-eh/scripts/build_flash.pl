@@ -13,7 +13,7 @@ use FileHandle;
 my $kernel_img;
 my $add_kernel_args = '';
 
-my $mkcramfs          = "./cramfs/mkcramfs";
+my $mksquasfs          = "./squashfs/squashfs-tools/mksquashfs";
 my ($flash_size, $flash) = @ARGV;
 # 2 * 1024 * 1024;
 
@@ -52,7 +52,7 @@ foreach my $file (@initial_files) {
 
 # create the Filesystem Image
 {
-    exe_prn("$mkcramfs $rootfs_dir $flash");
+    exe_prn("$mksquasfs $rootfs_dir $flash");
 }
 
 # create configuration file:
