@@ -1,5 +1,5 @@
---- .config.nokaodv	2003-10-02 21:49:30.000000000 +0200
-+++ .config	2003-10-02 21:50:39.000000000 +0200
+--- busybox/.config	2003-10-02 21:49:30.000000000 +0200
++++ busybox.new/.config	2003-10-02 21:50:39.000000000 +0200
 @@ -283,17 +283,7 @@
  # CONFIG_FTPGET is not set
  # CONFIG_FTPPUT is not set

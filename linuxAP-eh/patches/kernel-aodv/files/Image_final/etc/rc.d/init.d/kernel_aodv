@@ -27,9 +27,9 @@ case "$1" in
 	    iptables -A FORWARD -i $kaodv_gw_aif -o $kaodv_gw_gif -j ACCEPT
 	    echo "    Enabling Masquerading on $kaodv_gw_gif"
 	    iptables -t nat -A POSTROUTING -o $kaodv_gw_gif -j MASQUERADE
-	    $BLOCK_DEV="block_dev=$kaodv_gw_gif"
-	    $USE_DEV="aodv_dev=$kaodv_gw_aif"
-	    $SUBNET="aodv_subnet=$kaodv_gw_subnet"
+	    BLOCK_DEV="block_dev=$kaodv_gw_gif"
+	    USE_DEV="aodv_dev=$kaodv_gw_aif"
+	    SUBNET="aodv_subnet=$kaodv_gw_subnet"
 	else
 	    echo "  Normal mode..."
 	    echo -n "    Using interfaces: "

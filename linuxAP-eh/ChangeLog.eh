@@ -1,3 +1,9 @@
+06-10-2003
+  * If Kernel AODV is selected, move all httpd support away
+  * Added iptables' mac address, multiple port, and connection state match
+    support
+  * Minor Kernel AODV's scripts fixes
+
 01-10-2003
   * Various fixes to adapt distribution to CVS
 
