@@ -1,0 +1,27 @@
+#! /bin/sh
+
+IFACE="wlan0"
+INTERVAL="30"
+
+case "$1" in
+  start|2|3|4)
+       echo "Starting iw_watch: "
+       . /etc/rw/netcfg
+
+       iw_watchdog $IFACE $CHANNEL $INTERVAL &
+
+       # Wait iw_watchdog to come up
+       sleep 2
+       echo "Done."
+       ;;
+  stop)
+       echo -n "Stopping iw_watch: "
+       # Get the PID for iw_watchdog and kill it
+       IWWDPID=`ps | grep iw_watchdog | grep -v grep | cut -f 1 -d "r"`
+       kill -9 $IWWDPID
+
+       echo "Done."
+       ;;
+  restart)
+
+esac

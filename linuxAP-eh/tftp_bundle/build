@@ -1,0 +1,250 @@
+#!/bin/sh
+#----------------------------------------------------------------------
+# build
+#
+# Build tftp config files for stations
+#
+# Created by: Keith Edwin Smith / Digital Designs
+#
+# Assumes stations are listed sta-XXX where XXX will be
+# the last octet of the IP address.  There is lots of site
+# specific code in here.
+#
+# Modification History:
+# 2002/06/10 Keith Edwin Smith
+# o Created constants at top of file for much of the hard
+#   coded site specifics.  Still, ...
+#----------------------------------------------------------------------
+
+# These should work for all configurations
+BASEDIR=/home/wireless
+WLAN_NETWORK=192.168.65
+ETH_NETWORK=65.223.47
+TFTPBOOT=/tftpboot
+
+# Set size to empty to turn off
+SWAPFILE_SIZE=4096
+SWAPFILE_PREFIX=$BASEDIR/nbd/$NETWORK
+
+# The directory to find the file with our CIPE key
+CIPE_DIR=/etc/cipe/peers
+
+# This is pretty site specific, set to empty to turn off config
+DHCPD_CONF=/etc/dhcpd.conf
+
+#----------------------------------------------------------------------
+# FIX_TELNETD_HOSTS
+# Allow telnet from the eth0 side at the station
+#----------------------------------------------------------------------
+fix_telnetd_hosts()
+{
+    cat 000000000000/telnetd.hosts | awk \
+        -v sta=$sta \
+        -v eth_network=$ETH_NETWORK \
+'
+    {
+    print $0
+}
+END {
+    printf "%s.%d\n", eth_network, sta
+}
+' > /tmp/$sta/telnetd.hosts
+}
+
+#----------------------------------------------------------------------
+# FIX_UDHCPD
+#----------------------------------------------------------------------
+fix_udhcpd()
+{
+    cat 000000000000/udhcpd.conf | awk \
+        -v sta=$sta \
+        -v eth_network=$ETH_NETWORK \
+'
+/^start/ {
+    printf "start           %s.%d\n", eth_network, sta
+    next
+}
+/^end/ {
+    printf "end             %s.%d\n", eth_network, sta
+    next
+}
+    {
+        print $0
+}
+' > /tmp/$sta/udhcpd.conf
+}
+
+#----------------------------------------------------------------------
+# FIX_CIPE
+# Tons of site specific assumptions here
+#----------------------------------------------------------------------
+fix_cipe()
+{
+    key=`grep "^key" $CIPE_DIR/sta-$sta`
+    if [ -z "$key" ]
+    then
+        echo "CIPE disabled."
+        return 0
+    fi
+    cat 000000000000/cipe/host | awk \
+        -v sta=$sta \
+        -v key="$key" \
+        -v wlan_network=$WLAN_NETWORK \
+'
+/^ipaddr/ {
+    printf "ipaddr  192.168.66.%d\n", sta
+    next
+}
+/^peer/ {
+    port = 4500 + sta
+    printf "peer    %s.1:%d\n", wlan_network, port
+    next
+}
+/^key/ {
+    printf "%s\n", key
+    next
+}
+    {
+    print $0
+}
+' > /tmp/$sta/cipe/host
+}
+
+
+#----------------------------------------------------------------------
+# CREATE_TFTP
+# Create the tftp file
+#----------------------------------------------------------------------
+create_tftp()
+{
+    cd /tmp/$sta
+    rm -f $TFTPBOOT/tmp
+    rm -f $TFTPBOOT/$mac
+    tar cf $TFTPBOOT/tmp .
+    mv $TFTPBOOT/tmp $TFTPBOOT/$mac
+    cd $BASEDIR
+}
+
+
+#----------------------------------------------------------------------
+# UPDATE_DHCP
+# This is very site specific, modify to fit your dhcpd.conf
+#----------------------------------------------------------------------
+update_dhcp()
+{
+    if [ -z "$DHCPD_CONF" ]
+    then
+        return 0
+    fi
+    /bin/echo "Update DHCP Configuration"
+    sta=$1
+    mac=$2
+    cat $DHCPD_CONF | awk \
+        -v sta=$sta \
+        -v mac=$mac \
+        -v wlan_network=$WLAN_NETWORK \
+'
+function print_dhcp_entry(stanum,mac) {
+    printf "        host sta-%d {\n", stanum
+    printf "            hardware ethernet %s:%s:%s:%s:%s:%s;\n",
+        substr(mac,1,2), substr(mac,3,2), substr(mac,5,2),
+        substr(mac,7,2), substr(mac,9,2), substr(mac,11,2)
+    printf "            fixed-address %s.%d;\n", wlan_network, stanum
+    printf "        }\n";
+}
+BEGIN {
+    look = 0
+    printed = 0
+}
+/# WIRELESS/ {
+    look = 1
+}
+look > 0 && /host sta-/ {
+    if(printed) {
+        look = 0
+    } else {
+        look = 1
+        stanum = substr(sta, 5)
+        stacur = substr($2, 5)
+        if (stacur >= stanum) {
+            print_dhcp_entry(stanum, mac);
+            printed = 1
+        }
+        if ($2 == sta) {
+            look = 2
+        } else {
+            look = 1
+        }
+    }
+}
+look < 2 {
+    print $0
+}
+' > /tmp/dhcpd.new
+    mv /tmp/dhcpd.new $DHCPD_CONF
+}
+
+#----------------------------------------------------------------------
+# BUILD_BOOT
+#----------------------------------------------------------------------
+build_boot()
+{
+    sta=`expr "$1" : "sta-\\(.*\\)"`
+    mac=$2
+    echo station is $sta mac is $mac
+    if [ "$sta" != "" ]
+    then
+        rm -rf /tmp/$sta
+        cp -a 000000000000 /tmp/$sta
+        fix_udhcpd
+        fix_cipe
+        fix_telnetd_hosts
+        create_tftp
+        rm -rf /tmp/$sta
+    fi
+# Build a swapfile for this one.
+    if [ -z "$SWAPFILE_SIZE" ]
+    then
+        return 0
+    fi
+    if [ ! -f $BASEDIR/nbd/$WLAN_NETWORK.$sta ]
+    then
+        dd if=/dev/zero of=$BASEDIR/nbd/$WLAN_NETWORK.$sta \
+            bs=1024 count=$SWAPFILE_SIZE
+    fi
+}
+
+#----------------------------------------------------------------------
+# MAIN
+#----------------------------------------------------------------------
+cd $BASEDIR
+dhcpd_bkup=$DHCPD_CONF-`date +%Y%m%d-%H%M%S`
+cp -va $DHCPD_CONF $dhcpd_bkup
+case "$1" in
+    sta-*)
+        if stline=`grep "^$1" stations`
+        then
+            build_boot $stline
+            update_dhcp $stline
+        fi
+        ;;
+    all)
+        cat stations | grep -v '^#' | while read stline
+        do
+            build_boot $stline
+            update_dhcp $stline
+        done
+        ;;
+esac
+
+echo "Checking dhcp configuration diff"
+if diff $DHCPD_CONF $dhcpd_bkup >& /dev/null
+then
+    rm $dhcpd_bkup
+else
+    echo "Restart DHCP"
+    /etc/rc.d/M/23dhcp restart
+fi
+
+# Update iptables
+/etc/rc.d/M/16.0.iptables

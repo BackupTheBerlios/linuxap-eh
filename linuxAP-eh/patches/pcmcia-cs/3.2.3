@@ -1,0 +1,26 @@
+diff -urN pcmcia-cs/Configure pcmcia.new/Configure
+--- pcmcia-cs/Configure	2002-11-04 20:51:26.000000000 -0700
++++ pcmcia.new/Configure	2003-01-08 01:00:29.000000000 -0700
+@@ -972,14 +972,14 @@
+ fi
+ 
+ HAS_XAW=n
+-echo "#include <X11/Xaw/XawInit.h>" > tmp.c
+-echo "int main() { void *x = &XawInitializeWidgetSet; return 0; }" >> tmp.c
+-if $UCC $UFLAGS $XINCS tmp.c -L/usr/X11R6/lib -L/usr/X11/lib \
+-    -lX11 -lXaw 2>/dev/null ; then
+-    HAS_XAW=y
+-else
+-    echo "The X11/Xaw libraries are not available."
+-fi
++#echo "#include <X11/Xaw/XawInit.h>" > tmp.c
++#echo "int main() { void *x = &XawInitializeWidgetSet; return 0; }" >> tmp.c
++#if $UCC $UFLAGS $XINCS tmp.c -L/usr/X11R6/lib -L/usr/X11/lib \
++#    -lX11 -lXaw 2>/dev/null ; then
++#    HAS_XAW=y
++#else
++#    echo "The X11/Xaw libraries are not available."
++#fi
+ write_bool HAS_XAW
+ 
+ HAS_GTK=n

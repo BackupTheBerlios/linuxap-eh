@@ -1,0 +1,42 @@
+diff -Nur RW.default.orig/netcfg RW.default/netcfg
+--- RW.default.orig/netcfg	2003-09-15 19:29:48.000000000 +0200
++++ RW.default/netcfg	2003-09-15 19:30:12.000000000 +0200
+@@ -47,3 +47,38 @@
+ # Only for RL/3
+ NWDS=0
+ #--- -wlan0 ---
++#--- +kernel_aodv ---
++#
++# kernel_aodv
++#
++
++# Use kernel AODV
++kaodv=disabled
++
++# Use internet gatewaying mode
++kaodv_gw=disabled
++
++# Use loopback
++kaodv_lo=disabled
++
++# NORMAL MODE
++
++# AODV interfaces sparated by commas,
++# if no interfaces present, will use all
++kaodv_if=
++
++# Block interfaces' Hello Messages
++kaodv_bl=
++
++# GATEWAY MODE
++
++# Gatewaying interface
++# (will disable hello sending)
++kaodv_gw_gif=eth0
++
++# AODV interface
++kaodv_gw_aif=wlan0
++
++# AODV subnet (0's as wildcards)
++kaodv_gw_subnet=10.0.0.0
++#--- -kernel_aodv ---

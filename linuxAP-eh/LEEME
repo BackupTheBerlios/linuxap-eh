@@ -1,0 +1,46 @@
+Fuente:		linuxAP de Keith Smith [1]
+Versión:	2003-09-01
+
+Uso:
+Usando make se configura y luego compila
+make menuconfig para reconfigurar y luego make para compilar
+make clean para limpiar los fuentes
+make distclean para borrar los fuentes de los paquetes asociados (listo para
+distribuir)
+
+La sieguiente informacion es basandose en la plataforma Eumitcom WL11000 SA-N
+que es sobre la que se vuelcan los esfuerzos, pero puede que algunas de las
+versiones aqui listadas den problemas u otras que no aparecen tb funcionen ;)
+
+Las versiones que se pueden escoger en el menú de configuración son:
+
+Utilidad 		Versiones disponibles y probadas
+-------- 		--------------------------------
+kernel 			2.4.20
+hostap 			2002-10-12, 0.0.3, 0.0.4 (*)
+kernel-aodv 		v2.0,v2.1 (**)
+
+(*) esta versión no es la utilizada por defecto porque no funciona la
+opción 'txpower' (retirada por provocar distorsiones en la señal)
+
+(**) en fase experimental, pues aun no funciona
+
+Para las versiones no escogibles desde el menu de configuracion:
+
+Utilidad		Versiones disponibles y probadas
+--------		--------------------------------
+bridge-utils		0.9.6
+busybox			0.60.5, 1.00-pre2(*)
+cipe			1.5.4
+cramfs			1.1
+iptables		1.2.7a
+linux			2.4.20
+openvpn			1.5-beta7
+pcmcia-cs		3.2.3
+uClibc			0.9.17, 0.9.20(*)
+wireless_tools		25
+
+(*) version usada por defecto
+
+[1] http://linuxap.ksmith.com
+

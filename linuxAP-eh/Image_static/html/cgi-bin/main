@@ -1,0 +1,15 @@
+option() {
+    :
+}
+
+
+#----------------------------------------------------------------------
+# WRITE_RUNLEVEL
+#----------------------------------------------------------------------
+write()
+{
+    echo "$CGI_runlevel" > $CFGDIR/runlevel
+#     echo -e "</pre>\nwrote $runlevel to $CFGDIR/runlevel</pre>"
+}
+
+$1

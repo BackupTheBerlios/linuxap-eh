@@ -1,0 +1,174 @@
+#----------------------------------------
+# kaodv
+# 3 functions option, menu, write
+#----------------------------------------
+
+
+option()
+{
+    echo -e "
+  <tr>
+    <td>
+    <input type=\"image\" src=\"/buttons/plus.png\"
+        name=\"cfg-kaodv\" alt=\"KAODV\">
+    </td>
+    <td>Configure Kernel AODV (NOT WORKING YET (kernel panic)!!!!)</td>
+  </tr>
+"
+}
+
+
+menu()
+{
+    . $CFGDIR/netcfg
+    sel1=
+    sel2=
+    case "$kaodv" in
+        enabled) sel1="SELECTED" ;;
+        disabled) sel2="SELECTED" ;;
+    esac
+
+    echo -e "
+<form method=POST action="/cgi-bin/setup">
+<input type=hidden name=\"last_menu\" value=\"kaodv\">
+<h3>General Setup</h3>
+<table>
+<tr>
+<th align=right>Use Kernel AODV</th>
+<td>
+  <select name=\"kaodv\">
+  <option value=\"enabled\" $sel1>Enabled
+  <option value=\"disabled\" $sel2>Disabled
+  </select>
+</td>
+</tr>
+"
+    sel1=
+    sel2=
+    case "$kaodv_gw" in
+        enabled) sel1="SELECTED" ;;
+        disabled) sel2="SELECTED" ;;
+    esac
+
+    echo -e "
+<tr>
+<th align=right>Kernel AODV Mode</th>
+Gateway mode redirects traffic from AODV enabled interface to the exterior
+(internet) through the gatewaying interface
+<td>
+  <select name=\"kaodv_gw\">
+  <option value=\"enabled\" $sel1>Gateway
+  <option value=\"disabled\" $sel2>Normal
+  </select>
+</td>
+</tr>
+"
+    sel1=
+    sel2=
+    case "$kaodv_lo" in
+        enabled) sel1="SELECTED" ;;
+        disabled) sel2="SELECTED" ;;
+    esac
+
+    echo -e "
+<tr>
+<th align=right>Use loopback Interface</th>
+<td>
+  <select name=\"kaodv_lo\">
+  <option value=\"enabled\" $sel1>Enabled
+  <option value=\"disabled\" $sel2>Disabled
+  </select>
+</td>
+</tr>
+</table>
+<br>
+<h3>Normal Mode Setup</h3>
+<table>
+<tr>
+<th align=right>AODV Interfaces (*)</th>
+<td><input type=text name=kaodv_if value=\"$kaodv_if\" size=15></td>
+</tr>
+<tr>
+<th align=right>Block AODV Interfaces' Hello Messages</th>
+<td><input type=text name=kaodv_bl value=\"$kaodv_bl\" size=15></td>
+</tr>
+</table>
+(*) Sepparated by commas
+<br>&nbsp;&nbsp;&nbsp;&nbsp;If no interfaces present, will use all
+<h3>Gatewaying Mode Setup</h3>
+<table>
+<tr>
+<th align=right>Gatewaying Interface (*)</th>
+<td><input type=text name=kaodv_gw_gif value=\"$kaodv_gw_gif\" size=15></td>
+</tr>
+<tr>
+<th align=right>AODV Interface</th>
+<td><input type=text name=kaodv_gw_aif value=\"$kaodv_gw_aif\" size=15></td>
+</tr>
+<tr>
+<th align=right>AODV Subnet (use 0's as wildcards)</th>
+<td><input type=text name=kaodv_gw_subnet value=\"$kaodv_gw_subnet\" size=15></td>
+</tr>
+</table>
+(*) Will disable Hello Messages
+<br><br>
+
+<input type=hidden name=menu value=main>
+<input type=submit name=submit value=OK>
+&nbsp;
+&nbsp;
+&nbsp;
+<input type=submit name=submit value=CANCEL>
+</form>
+"
+}
+
+
+write()
+{
+
+    pre=`head -n \`grep -n "#--- +kernel_aodv ---" $CFGDIR/netcfg|cut -f 1 -d :\` $CFGDIR/netcfg`
+    total=`wc -l $CFGDIR/netcfg|tr -s " "|cut -f 2 -d " "`
+    end=`grep -n "#--- -kernel_aodv ---" $CFGDIR/netcfg|cut -f 1 -d :`
+    post=`tail -n \`expr $total - $end + 1\` $CFGDIR/netcfg`
+    echo -e "$pre
+#
+# kernel_aodv
+#
+
+# Use kernel AODV
+kaodv=$CGI_kaodv
+
+# Use internet gatewaying mode
+kaodv_gw=$CGI_kaodv_gw
+
+# Use loopback
+kaodv_lo=$CGI_kaodv_lo
+
+# NORMAL MODE
+
+# AODV interfaces sparated by commas,
+# if no interfaces present, will use all
+kaodv_if=$CGI_kaodv_if
+
+# Block interfaces' Hello Messages
+kaodv_bl=$CGI_kaodv_bl
+
+# GATEWAY MODE
+
+# Gatewaying interface
+# (will disable hello sending)
+kaodv_gw_gif=$CGI_kaodv_gw_gif
+
+# AODV interface
+kaodv_gw_aif=$CGI_kaodv_gw_aif
+
+# AODV subnet (0's as wildcards)
+kaodv_gw_subnet=$CGI_kaodv_gw_subnet
+$post" > $CFGDIR/netcfg
+}
+
+#----------------------------------------
+# MAIN
+#----------------------------------------
+$1

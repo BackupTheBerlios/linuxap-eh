@@ -1,0 +1,60 @@
+#!/bin/ash
+CFGDIR="/etc/rw/"
+CFG=$CFGDIR/vpn.conf
+names=`grep "#--- +.* ---" $CFG | sed -e s/"#--- +"// | sed -e s/" ---"//`
+slines=`grep -n "#--- +.* ---" $CFG | sed -e s/:.*//g`
+elines=`grep -n "#--- -.* ---" $CFG | sed -e s/:.*//g`
+
+set -e
+case "$1" in
+  start|2|3|4)
+    i=0
+    for name in $names
+    do
+        j=0
+        for name in $names; do
+            if [ $j -eq $i ]; then
+                break
+            fi
+            j=`expr $j + 1`
+        done
+        j=0
+        for eline in $elines; do
+            if [ $j -eq $i ]; then
+                break
+            fi
+            j=`expr $j + 1`
+        done
+        j=0
+        for sline in $slines; do
+            if [ $j -eq $i ]; then
+                break
+            fi
+            j=`expr $j + 1`
+        done
+	parms=`head -n \`expr $eline - 1\` $CFG | tail -n \`expr $eline - $sline - 1\``
+	openvpn --cd $CFGDIR --daemon $parms
+	i=`expr $i + 1`
+	echo "Up tunnel $name."
+    done
+    echo "Done."
+  ;;
+  stop|0|1|6)
+    killall openvpn
+    echo "Done."
+  ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+  ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}" >&2
+    exit 1
+  ;;
+esac
+
+exit 0
+
+
+

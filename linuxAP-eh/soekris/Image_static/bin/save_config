@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# save_config
+#
+umount /cf
+mount -t vfat /dev/hda1 /cf
+mkdir -p /cf/etc/conf
+cp /etc/conf/* /cf/etc/conf
+umount /cf
+mount -r -t vfat /dev/hda1 /cf

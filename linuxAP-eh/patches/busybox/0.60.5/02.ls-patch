@@ -1,0 +1,89 @@
+--- busybox/ls.c	Sun Sep 15 22:53:01 2002
++++ busybox.new/ls.c	Wed Feb 12 13:20:42 2003
+@@ -184,12 +184,10 @@
+ #endif
+ 
+ static unsigned short column = 0;
+-#ifdef BB_FEATURE_AUTOWIDTH
+ static unsigned short terminal_width = TERMINAL_WIDTH;
+ static unsigned short column_width = COLUMN_WIDTH;
++#ifdef BB_FEATURE_AUTOWIDTH
+ static unsigned short tabstops = COLUMN_GAP;
+-#else
+-static unsigned short column_width = COLUMN_WIDTH;
+ #endif
+ 
+ static int status = EXIT_SUCCESS;
+@@ -225,6 +223,7 @@
+ {
+     if (column > 0) {
+         putchar('\n');
++//        printf("\nnewline column = %d\n", column);
+         column = 0;
+     }
+ }
+@@ -274,7 +273,7 @@
+ 	int n=0;
+ 
+ 	if (column > 0) {
+-		n= nexttab - column;
++		n = nexttab - column;
+ 		if (n < 1) n= 1;
+ 		while (n--) {
+ 			putchar(' ');
+@@ -460,13 +459,13 @@
+ static void showfiles(struct dnode **dn, int nfiles)
+ {
+ 	int i, ncols, nrows, row, nc;
+-#ifdef BB_FEATURE_AUTOWIDTH
++//#ifdef BB_FEATURE_AUTOWIDTH
+ 	int len;
+-#endif
++//#endif
+ 
+ 	if(dn==NULL || nfiles < 1) return;
+ 
+-#ifdef BB_FEATURE_AUTOWIDTH
++// #ifdef BB_FEATURE_AUTOWIDTH
+ 	/* find the longest file name-  use that as the column width */
+ 	column_width= 0;
+ 	for (i=0; i<nfiles; i++) {
+@@ -483,9 +482,10 @@
+ 		ncols = 1;
+ 		column_width = COLUMN_WIDTH;
+ 	}
+-#else
+-	ncols= TERMINAL_WIDTH;
+-#endif
++// #else
++//	ncols = (int)(terminal_width / (column_width + COLUMN_GAP));
++// #endif
++//    printf("ncols = %d\n",ncols);
+ 	switch (style_fmt) {
+ 		case STYLE_LONG:	/* one record per line, extended info */
+ 		case STYLE_SINGLE:	/* one record per line */
+@@ -502,6 +502,7 @@
+ 	if ((nrows * ncols) < nfiles) nrows++; /* round up fractionals */
+ 
+ 	if (nrows > nfiles) nrows= nfiles;
++//    printf("nrows = %d ncols = %d\n",nrows, ncols);
+ 	for (row=0; row<nrows; row++) {
+ 		for (nc=0; nc<ncols; nc++) {
+ 			/* reach into the array based on the column and row */
+@@ -788,6 +789,16 @@
+ 	char **av;
+ #ifdef BB_FEATURE_AUTOWIDTH
+ 	struct winsize win = { 0, 0, 0, 0 };
++#else
++	char *colenv;
++	colenv = getenv("COLUMNS");
++	if(colenv != NULL) {
++		terminal_width = atoi(colenv);
++	} else {
++		terminal_width = TERMINAL_WIDTH;
++		column_width = COLUMN_WIDTH;
++	}
++// 	printf("Terminal width = %d\n", terminal_width);
+ #endif
+ 
+ 	disp_opts= DISP_NORMAL;

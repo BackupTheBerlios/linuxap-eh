@@ -1,0 +1,125 @@
+#!/bin/sh
+#
+# wlan0
+#
+
+option()
+{
+    echo -e "
+  <tr>
+    <td>
+    <input type=\"image\" src=\"/buttons/plus.png\"
+        name=\"cfg-wlan0\" alt=Wireless>
+    </td>
+    <td>Configure Wireless Parameters</td>
+  </tr>
+"
+}
+
+
+#----------------------------------------------------------------------
+# WRITE
+#----------------------------------------------------------------------
+write()
+{
+    pre=`head -n \`grep -n "#--- +wlan0 ---" $CFGDIR/netcfg|cut -f 1 -d :\` $CFGDIR/netcfg`
+    total=`wc -l $CFGDIR/netcfg|tr -s " "|cut -f 2 -d " "`
+    end=`grep -n "#--- -wlan0 ---" $CFGDIR/netcfg|cut -f 1 -d :`
+    post=`tail -n \`expr $total - $end + 1\` $CFGDIR/netcfg`
+    echo -e "$pre
+#
+# wlan0
+#
+SSID=$CGI_SSID
+# S/B one of 1,6,11
+CHANNEL=$CGI_CHANNEL
+wep=$CGI_wep
+# Only for RL/3
+NWDS=$CGI_NWDS
+$post" > $CFGDIR/netcfg
+}
+
+
+#----------------------------------------------------------------------
+# MENU
+#----------------------------------------------------------------------
+menu()
+{
+    . $CFGDIR/netcfg
+
+    echo -e "
+<form method=POST action="/cgi-bin/setup">
+<input type=hidden name=\"last_menu\" value=\"wlan0\">
+<h3>Wireless Configuration Options</h3>
+<table>
+<tr>
+<th align=right>SSID</th>
+<td><input size=12 name=\"SSID\" value=\"$SSID\"></td>
+</tr>
+<tr>
+<th align=right>Channel</th>
+<td>
+  <select name=\"CHANNEL\">
+"
+    for sel in 1 2 3 4 5 6 7 8 9 10 11 12 13
+    do
+        selx=
+        if [ "$sel" = "$CHANNEL" ]
+        then
+            selx="SELECTED"
+        fi
+        echo -e "   <option value=\"$sel\" $selx>Channel $sel"
+    done
+    echo -e "
+  </select>
+</td>
+</tr>
+<tr>
+<th align=right>WEP Key</th>
+<td>
+  0x0x-0x0x-0x0x-0x0x-0x0x-0x0x-0x<br>
+  <input size=38 name=\"wep\" value=\"$wep\">
+</td>
+</tr>
+<tr>
+<th align=right>Number of WDS Entries<br>
+    Ignored Unless RL/3
+</th>
+<td>
+  <select name=\"NWDS\">
+"
+    i=0
+    while [ $i -le 16 ]
+    do
+        echo -e "<option value=\"$i\"\c"
+        if [ $NWDS -eq $i ]
+        then
+            echo -e " selected>\c"
+        else
+            echo -e ">\c"
+        fi
+        if [ $i -eq 0 ]
+        then
+            echo "None"
+        else
+            echo "&nbsp;&nbsp;$i"
+        fi
+        i=`expr $i + 1`
+    done
+    echo -e "
+  </select>
+</td>
+</tr>
+</table>
+<input type=hidden name=menu value=main>
+<input type=submit name=submit value=OK>
+&nbsp;
+&nbsp;
+&nbsp;
+<input type=submit name=submit value=CANCEL>
+</form>
+"
+}
+
+
+$1
