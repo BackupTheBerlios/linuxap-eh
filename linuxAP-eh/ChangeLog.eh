@@ -1,3 +1,6 @@
+24-11-2004
+  * Added script to retrieve automatically source code files, get_tarfiles. wlan
+
 07-11-2004
   * Added distcc support
   * Added ccache support
