@@ -278,6 +278,7 @@ Image_dir:
 	@( cd $(AP_BUILD)/Image_static ; tar cf - . | \
 		( cd $(IMAGE_DIR); tar xf - ) )
 	@scripts/util_dev $(IMAGE_DIR)/dev/ `cat scripts/util_dev.$(AP_BUILD)`
+	@mkdir $(IMAGE_DIR)/proc
 ifneq ($(CONFIG_HTTPD),y)
 	@rm -rf $(IMAGE_DIR)/html
 	@rm -f $(IMAGE_DIR)/etc/rc.d/init.d/httpd
