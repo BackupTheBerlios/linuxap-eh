@@ -5,14 +5,15 @@ IFACES="wlan0"
 
 [ -f $CFGD/netcfg ] && . $CFGD/netcfg
 [ ! "$iw_watch_if" = "" ] && IFACES=$iw_watch_if
+[ ! "$iw_watch_time" = "" ] && INTERVAL=$iw_watch_time
 
 case "$1" in
   start|2|3|4)
        echo "Starting iw_watch: "
        for i in $IFACES
        do
-	   echo -n " $i"
-	   if [ ! -f $CFGD/wlan/$i ]; then echo -n "(unexisting)"
+	   echo -n " $i "
+	   if [ ! -f $CFGD/wlan/$i ]; then echo "(no conf)"
 	   else
 	       . $CFGD/wlan/$i
 	       iw_watchdog $i $channel $INTERVAL &
@@ -21,7 +22,7 @@ case "$1" in
 	   fi
        done
 
-       echo "Done."
+       echo " Done."
        ;;
   stop)
        echo -n "Stopping iw_watch: "
@@ -31,7 +32,7 @@ case "$1" in
 	   kill -9 $i
        done
 
-       echo "Done."
+       echo " Done."
        ;;
   restart)
        $0 stop

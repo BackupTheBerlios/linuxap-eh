@@ -15,7 +15,7 @@ enum { NETWORK_OPTION, NETWORK_MENU, NETWORK_WRITE, NETWORK_NULL };
 enum { NV_P_DHCP, NV_P_ADDRESS, NV_P_NETMASK, NV_P_BROADCAST, NV_S_DHCP,
        NV_S_ADDRESS, NV_S_NETMASK, NV_S_BROADCAST, NV_TFTPHOST, NV_LOGSVR,
        NV_TIMESVR, NV_ROUTER, NV_SWAPSVR, NV_SWAPPORT, NV_MASQ_NET,
-       NV_IW_WATCHDOG_IF, NV_NULL };
+       NV_IW_WATCHDOG_IF, NV_IW_WATCHDOG_TIME, NV_NULL };
 
 char *nckw[] = {
 	"p_dhcp=",
@@ -34,6 +34,7 @@ char *nckw[] = {
 	"swapport=",
 	"masq_net=",
 	"iw_watchdog_if=",
+	"iw_watchdog_time=",
 	NULL
 };
 
@@ -54,6 +55,7 @@ char *npkw[] = {
 	"CGI_swapport",
 	"CGI_masq_net",
 	"CGI_iw_watchdog_if",
+	"CGI_iw_watchdog_time",
 	NULL
 };
 
@@ -74,6 +76,7 @@ char *nkw[] = {
 	"swapport",
 	"masq_net",
 	"iw_watchdog_if",
+	"iw_watchdog_time",
 	NULL
 };
 
@@ -94,6 +97,7 @@ char *nv[] = {
 	"",
 	"",
 	"wlan0",
+	"30",
 	NULL
 };
 
@@ -205,6 +209,11 @@ static int network_menu()
     otr("/");
 
     otr(NULL);
+    oth("Watchdog time interval (sec)");
+    otd(itext(nkw[NV_IW_WATCHDOG_TIME], nv[NV_IW_WATCHDOG_TIME], 18,15));
+    otr("/");
+
+    otr(NULL);
     oth("Remote Date Host");
     otd(itext(nkw[NV_TIMESVR], nv[NV_TIMESVR], 18,15));
     otr("/");
@@ -281,6 +290,7 @@ network_write()
 
     fprintf(f,"\n");
     out_config(NV_IW_WATCHDOG_IF,f,nckw,npkw);
+    out_config(NV_IW_WATCHDOG_TIME,f,nckw,npkw);
 
     fprintf(f,"\n\
 # Network Swapping\n");
