@@ -5,8 +5,8 @@
 
 mainmenu_name "linuxAP Configuration"
 
-define_ustring CF_BASEDEV           /dev/sda
-define_ustring CF_MOUNTPOINT        /mnt/cf
+#define_ustring CF_BASEDEV           /dev/sda
+#define_ustring CF_MOUNTPOINT        /mnt/cf
 
 # Some version defines we may ask for at a later date
 define_ustring BUSYBOX_VERSION      1.00-pre3
@@ -14,7 +14,7 @@ define_ustring BUTILS_VERSION       0.9.6
 define_ustring CKERMIT_VERSION      206
 define_ustring CIPE_VERSION         1.5.4
 define_ustring GLIBC_VERSION        2.2.5
-#define_ustring HOSTAP_VERSION       0.1.2
+#define_ustring HOSTAP_DRIVER_VERSION 0.1.2
 #define_ustring HOSTAP_UTILS_VERSION 0.1.2
 #define_ustring HOSTAPD_VERSION       0.1.0
 define_ustring IPROUTE2_VERSION     current
@@ -38,8 +38,8 @@ define_bool CONFIG_PCMCIA y
 define_bool CONFIG_UDHCP n
 define_bool CONFIG_WTOOLS y
 
-if [ "$CONFIG_HOSTAP" = "" ]; then
-    define_bool CONFIG_HOSTAP y
+if [ "$CONFIG_HOSTAP_DRIVER" = "" ]; then
+    define_bool CONFIG_HOSTAP_DRIVER y
 fi
 if [ "$CONFIG_BUTILS" = "" ]; then
     define_bool CONFIG_BUTILS y
@@ -86,8 +86,10 @@ choice 'Tunneling Support' \
 	 OpenVPN	CONFIG_OPENVPN	\
 	 Cipe		CONFIG_CIPE \
          VTUN           CONFIG_VTUN"
+
 bool "HOSTAP sepparate utils packages?" CONFIG_HOSTAP_UTILS
 bool "HOSTAP 802.1x daemon?" CONFIG_HOSTAPD
+
 if [ "$CONFIG_HTTPD" = "" ]; then
     define_bool CONFIG_HTTPD y
 fi
@@ -176,9 +178,9 @@ if [ "$CONFIG_WL11000" != "y" ]; then
         if [ "$CONFIG_GLIBC" = "y" ]; then
             bool "System V Style Init?"     CONFIG_SYSVINIT
         fi
-        bool "HostAP Driver?"   CONFIG_HOSTAP
+        bool "HostAP Driver?"   CONFIG_HOSTAP_DRIVER
 
-        if [ "$CONFIG_HOSTAP" = "y" ]; then
+        if [ "$CONFIG_HOSTAP_DRIVER" = "y" ]; then
             bool "PCI HostAP Driver?"   CONFIG_HOSTAP_PCI
             bool "PCMCIA HostAP Driver?"   CONFIG_HOSTAP_PCMCIA
         fi
@@ -193,7 +195,7 @@ if [ "$CONFIG_WL11000" = "y" ]; then
     define_bool CONFIG_SQUASHFS y
     define_bool CONFIG_APTOOLS y
     define_bool CONFIG_UCLIBC y
-    define_bool CONFIG_HOSTAP y
+    define_bool CONFIG_HOSTAP_DRIVER y
     #define_bool CONFIG_HOSTAP_UTILS y
     #define_bool CONFIG_HOSTAPD y
     define_bool CONFIG_HOSTAP_PCMCIA y
@@ -204,8 +206,8 @@ if [ "$CONFIG_WL11000" = "y" ]; then
     WL_Slow-Speed           CONFIG_WLSPD_SLOW"
 fi
 
-if [ "$CONFIG_HOSTAP" = "y" ]; then
-    ustring 'Hostap Version' HOSTAP_VERSION 0.1.2
+if [ "$CONFIG_HOSTAP_DRIVER" = "y" ]; then
+    ustring 'Hostap Version' HOSTAP_DRIVER_VERSION 0.1.2
 fi
 if [ "$CONFIG_HOSTAP_UTILS" = "y" ]; then
     ustring 'Hostap utils Version' HOSTAP_UTILS_VERSION 0.1.2

@@ -1,6 +1,53 @@
+2003-09-13
+    o Extensive work on the cgi/C setup.  Got some good stuff
+	  and some junk in there.  All is working except for the
+	  status page.  More importantly . . .  It's reasonably fast
+	  on the wl11000.  Roughly the same size, though I can think
+	  of a few things to improve that.
+	  
+2003-09-12
+    o New 'C' based cgi for setup :: Performance reasons
+	  got front menu and Network Menu working., CIPE menu is close
+	  still dinking with some of the functions and layout.
+	  
+2003-09-10
+    o Script cleanup for new dhcp vars
+    o Changes to busybox patches Mk and configuration
+    o hostap -> version 0.0.4
+    o Change some variable names to match udhcp
+    o More reflash cleanups, check for $tftpsrv
+    o udhcpd startup fix
+    o fixed wlan.i shutdown (Lluis <xscript@gmx.net>)
+        
+2003-09-09
+    o WL11000: reflash can pick up tftphost from /etc/rw
+    o Web page mods
+    o Add a bunch of value requests to udhcpc
+    o New dhcp script to keep values.  Should be able to pick
+      up various host info from dhcp instead of the way I'm
+      doing it now.
+    o add dhcp values pickup to scripts as override for predefines
+    o Cipe Configuration Menu (HTML)
+    o Create _html file with quick macro's, re-arrange some of the html
+      functionality in the cgi-bin directory
+      
+2003-09-08
+    o Added variables to wlan0 config screen and config
+      file for tweaking other formerly hard-coded values
+      rate/antsel_rx&tx
+    o rdate missing in soekris image --> globalized
+
+2003-09-03
+    o Fixed bug in config.in CF_ vars should not be defined.
+    o Fixed missing /tmp in soekris image
+    o Changed ./soekris/Image_static/bin/save_config
+    o New scripts/mkcf for Compact Flash Images
+    o libncurses is needed for kermit to function
+    o as is libgpm
+
 2003-08-29
     o tweak dhcpd file
-    o fixed WL1100/2.4.40 patch of limits.h (Lluis <xscript@gmx.net>)
+    o fixed WL1100/2.4.20 patch of limits.h (Lluis <xscript@gmx.net>)
     o Minor Changes to Configuration scripts, status now refreshes
 
 2003-08-28

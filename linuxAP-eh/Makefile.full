@@ -48,7 +48,7 @@ soekris: FORCE
 	touch soekris-config
 
 cflash:
-	./scripts/cf_setup soekris
+#	./scripts/cf_setup soekris
 
 endif
 
@@ -77,6 +77,8 @@ endif
 #----------------------------------------------------------------------
 ifeq ($(CONFIG_RAMDISK),y)
 ramdisk: syslinux-config $(PRE_INSTALL) kernel image
+	@echo $(DATE_TIME) \
+		> $(IMAGE_DIR)/etc/linuxAP-version
 ifeq ($(CONFIG_SYSVINIT),y)
 	mv $(IMAGE_DIR)/etc/itab-sysv $(IMAGE_DIR)/etc/inittab
 	rm -f $(IMAGE_DIR)/etc/itab-bb
@@ -88,7 +90,6 @@ endif
 	@rm -f $(RAMFS).gz ramdisk
 	@dd if=/dev/zero of=$(RAMFS) bs=1024 count=$(RAMDISK_SIZE) \
 		> /dev/null 2>&1
-	# @yes | mkfs.ext2 $(RAMFS) > /dev/null 2>&1
 	@yes | mkfs.minix $(RAMFS) > /dev/null 2>&1
 	@mount -o loop $(RAMFS) /mnt/image
 	@cd $(IMAGE_DIR) && tar cf - . | ( cd /mnt/image ; tar xf - )
@@ -158,14 +159,16 @@ include Mk/kernel.mk
 include Mk/busybox.mk
 include Mk/pcmcia_cs.mk
 include Mk/wireless_tools.mk
+include Mk/cgi.mk
 
 # This is every other package
 ifeq ($(MAKECMDGOALS),distclean)
 include Mk/alios.mk
 include Mk/bridge-utils.mk
+include Mk/cipe.mk
 include Mk/ckermit.mk
 include Mk/squashfs.mk
-include Mk/hostap.mk
+include Mk/hostap-driver.mk
 include Mk/hostap-utils.mk
 include Mk/hostapd.mk
 include Mk/iproute2.mk
@@ -177,7 +180,6 @@ include Mk/sysvinit.mk
 include Mk/aptools.mk
 include Mk/uClibc.mk
 include Mk/umsdos_progs.mk
-include Mk/cipe.mk
 include Mk/kernel-aodv.mk
 include Mk/openvpn.mk
 include Mk/tinylogin.mk
@@ -188,9 +190,6 @@ else
 # Selective if not distclean
 ifeq ($(CONFIG_TINY_LOGIN),y)
 include Mk/tinylogin.mk
-endif
-ifeq ($(CONFIG_CIPE),y)
-include Mk/cipe.mk
 endif
 ifeq ($(CONFIG_ALIOS),y)
 include Mk/alios.mk
@@ -204,14 +203,17 @@ endif
 ifeq ($(CONFIG_BUTILS),y)
 include Mk/bridge-utils.mk
 endif
+ifeq ($(CONFIG_CIPE),y)
+include Mk/cipe.mk
+endif
 ifeq ($(CONFIG_CKERMIT),y)
 include Mk/ckermit.mk
 endif
 ifeq ($(CONFIG_NBD),y)
 include Mk/nbd.mk
 endif
-ifeq ($(CONFIG_HOSTAP),y)
-include Mk/hostap.mk
+ifeq ($(CONFIG_HOSTAP_DRIVER),y)
+include Mk/hostap-driver.mk
 endif
 ifeq ($(CONFIG_HOSTAP_UTILS),y)
 include Mk/hostap-utils.mk
@@ -298,7 +300,7 @@ endif
 endif
 ifeq ($(CONFIG_SOEKRIS),y)
 	@ln -s ../proc/mounts $(IMAGE_DIR)/etc/mtab
-	@ln -s /var/tmp $(IMAGE_DIR)/tmp
+	mkdir $(IMAGE_DIR)/tmp
 endif
 
 copy_libc:
@@ -328,6 +330,7 @@ else
 	cp -a /lib/libdl-$(GLIBC_VERSION).so $(IMAGE_DIR)/lib
 	cp -a /lib/libm-$(GLIBC_VERSION).so $(IMAGE_DIR)/lib
 	cp -a /lib/libmemusage.so $(IMAGE_DIR)/lib
+	cp -a /lib/libncurses.so.5.2 $(IMAGE_DIR)/lib
 	cp -a /lib/libnsl-$(GLIBC_VERSION).so $(IMAGE_DIR)/lib
 	cp -a /lib/libnss_compat-$(GLIBC_VERSION).so $(IMAGE_DIR)/lib
 	cp -a /lib/libnss_db*.so $(IMAGE_DIR)/lib
@@ -342,6 +345,7 @@ else
 	cp -a /lib/librt-$(GLIBC_VERSION).so $(IMAGE_DIR)/lib
 	cp -a /lib/libthread_db*.so $(IMAGE_DIR)/lib
 	cp -a /lib/libutil-$(GLIBC_VERSION).so $(IMAGE_DIR)/lib
+	cp -a /lib/libgpm.so.1.18.0 $(IMAGE_DIR)/lib
 	-$(STRIP) --strip-debug $(IMAGE_DIR)/lib/*
 #	-$(STRIP) --strip-unneeded $(IMAGE_DIR)/lib/*
 	ln -s libc-$(GLIBC_VERSION).so $(IMAGE_DIR)/lib/libc.so.6
@@ -374,3 +378,12 @@ tar: distclean
 		--exclude=./linuxAP-eh/tarfiles \
 		--exclude=./linuxAP-eh/ariel \
 		./linuxAP-eh
+
+#post: tar                
+#       [ -d /www/linuxAP.ksmith.com/htdocs/archive/linuxAP-tar ] && \
+#       cp ../linuxAP-$DATE.tar.bz2 \
+#               /www/linuxAP.ksmith.com/htdocs/archive/linuxAP-tar && \
+#        ( cd /www/linuxAP.ksmith.com/htdocs/archive ; \
+#          rm -r linuxAP; \
+#          tar xvfj linuxAP-tar/linuxAP-`date +%Y-%m-%d`.tar.bz2 )
+
