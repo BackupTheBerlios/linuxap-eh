@@ -278,6 +278,11 @@ Image_dir:
 		( cd $(IMAGE_DIR); tar xf - ) )
 	@mkdir -p $(IMAGE_DIR)/dev
 	@scripts/util_dev $(IMAGE_DIR)/dev/ `cat scripts/util_dev.$(AP_BUILD)`
+ifneq ($(CONFIG_HTTPD),y)
+        @rm -rf $(IMAGE_DIR)/html
+	@rm -f $(IMAGE_DIR)/etc/rc.d/init.d/httpd
+	@rm -f `find $(IMAGE_DIR)/etc/rc.d -type l -name "*\.httpd"`
+endif
 
 configure_links:
 	@echo -e "\nConfigure image symlinks"

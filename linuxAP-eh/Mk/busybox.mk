@@ -18,6 +18,11 @@ ifeq ($(CONFIG_SOEKRIS),y)
 		>> /tmp/busybox-config
 endif
 endif
+ifneq ($(CONFIG_HTTPD),y)
+	@cd busybox && patch -p1 < \
+		../$(AP_BUILD)/patches/busybox/$(BUSYBOX_VERSION)-nohttpd \
+		>> /tmp/busybox-config
+endif
 	@$(MAKE) -C busybox oldconfig \
 		KERNEL_DIR=$(KERNEL_DIR) \
 		CROSS_COMPILE=$(CROSS_COMPILE) \

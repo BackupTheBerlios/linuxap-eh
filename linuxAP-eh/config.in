@@ -88,6 +88,10 @@ choice 'Tunneling Support' \
          VTUN           CONFIG_VTUN"
 bool "HOSTAP sepparate utils packages?" CONFIG_HOSTAP_UTILS
 bool "HOSTAP 802.1x daemon?" CONFIG_HOSTAPD
+if [ "$CONFIG_HTTPD" = "" ]; then
+    define_bool CONFIG_HTTPD y
+fi
+bool "HTTPD daemon?" CONFIG_HTTPD
 
 bool "IPTABLES Support?"    CONFIG_IPTABLES
 
