@@ -88,3 +88,14 @@
  write_bool HAS_XAW
  
  HAS_GTK=n
+--- pcmcia-cs/cardmgr/cardmgr.c	2002-10-16 08:17:10.000000000 +0200
++++ pcmcia-cs/cardmgr/cardmgr.c.new	2003-10-29 11:34:11.000000000 +0100
+@@ -712,7 +712,7 @@
+ 		unsetenv("MAJOR");
+ 		unsetenv("MINOR");
+ 	    }
+-	    ret |= execute_on_dev(cmd, class, bind->name);
++/*	    ret |= execute_on_dev(cmd, class, bind->name); */
+ 	}
+     return ret;
+ }

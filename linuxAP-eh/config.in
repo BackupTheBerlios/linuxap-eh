@@ -16,6 +16,7 @@ define_ustring CIPE_VERSION         1.5.4
 define_ustring GLIBC_VERSION        2.2.5
 #define_ustring HOSTAP_VERSION       0.1.1
 #define_ustring HOSTAP_UTILS_VERSION 0.1.0
+#define_ustring HOSTAPD_VERSION       0.1.0
 define_ustring IPROUTE2_VERSION     current
 define_ustring IPTABLES_VERSION     1.2.7a
 #define_ustring KERNEL_AODV_VERSION  v2.1
@@ -86,6 +87,7 @@ choice 'Tunneling Support' \
 	 Cipe		CONFIG_CIPE \
          VTUN           CONFIG_VTUN"
 bool "HOSTAP sepparate utils packages?" CONFIG_HOSTAP_UTILS
+bool "HOSTAP 802.1x daemon?" CONFIG_HOSTAPD
 
 bool "IPTABLES Support?"    CONFIG_IPTABLES
 
@@ -189,6 +191,7 @@ if [ "$CONFIG_WL11000" = "y" ]; then
     define_bool CONFIG_UCLIBC y
     define_bool CONFIG_HOSTAP y
     #define_bool CONFIG_HOSTAP_UTILS y
+    #define_bool CONFIG_HOSTAPD y
     define_bool CONFIG_HOSTAP_PCMCIA y
     define_bool CONFIG_HOSTAP_PCI n
     choice 'Elan Speed Selection' \
@@ -202,6 +205,9 @@ if [ "$CONFIG_HOSTAP" = "y" ]; then
 fi
 if [ "$CONFIG_HOSTAP_UTILS" = "y" ]; then
     ustring 'Hostap utils Version' HOSTAP_UTILS_VERSION 0.1.0
+fi
+if [ "$CONFIG_HOSTAPD" = "y" ]; then
+    ustring 'Hostapd Version' HOSTAPD_VERSION 0.1.0
 fi
 
 ustring 'Kernel Version' KERNEL_VERSION '2.4.20'

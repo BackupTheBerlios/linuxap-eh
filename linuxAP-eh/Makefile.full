@@ -167,6 +167,7 @@ include Mk/ckermit.mk
 include Mk/squashfs.mk
 include Mk/hostap.mk
 include Mk/hostap-utils.mk
+include Mk/hostapd.mk
 include Mk/iproute2.mk
 include Mk/iptables.mk
 include Mk/nbd.mk
@@ -181,6 +182,7 @@ include Mk/kernel-aodv.mk
 include Mk/openvpn.mk
 include Mk/tinylogin.mk
 include Mk/udhcp.mk
+include Mk/vtun.mk
 else
 
 # Selective if not distclean
@@ -213,6 +215,9 @@ include Mk/hostap.mk
 endif
 ifeq ($(CONFIG_HOSTAP_UTILS),y)
 include Mk/hostap-utils.mk
+endif
+ifeq ($(CONFIG_HOSTAPD),y)
+include Mk/hostapd.mk
 endif
 ifeq ($(CONFIG_IPTABLES),y)
 include Mk/iptables.mk

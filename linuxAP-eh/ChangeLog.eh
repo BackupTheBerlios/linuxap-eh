@@ -1,3 +1,9 @@
+30-10-2003
+  * removed ./network msg from pcmcia-cs
+  * fiexed wireless_tools with CFLAGS=-Os
+  * removed brctld from bridge-utils
+  * added support to hostad
+
 27-10-2003
   * Fix to scripts/util_dev
   * Now kaodv fits flash image with http support

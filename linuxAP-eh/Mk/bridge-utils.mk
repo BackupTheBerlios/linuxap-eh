@@ -29,7 +29,8 @@ bridge-utils-install: bridge-utils-build
 	@rm -r $(IMAGE_DIR)/usr/man
 	@rm $(IMAGE_DIR)/usr/lib/libbridge.a
 	@$(STRIP) $(STRIPFLAGS) --strip-all $(IMAGE_DIR)/usr/sbin/brctl
-	@$(STRIP) $(STRIPFLAGS) --strip-all $(IMAGE_DIR)/usr/sbin/brctld
+	#@$(STRIP) $(STRIPFLAGS) --strip-all $(IMAGE_DIR)/usr/sbin/brctld
+	@rm -f $(IMAGE_DIR)/usr/sbin/brctld
 
 bridge-utils-clean:
 	@echo -e "\nCleaning bridge-utils version $(BUTILS_VERSION)."
