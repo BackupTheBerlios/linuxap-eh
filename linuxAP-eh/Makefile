@@ -19,6 +19,9 @@ endif
 all: links.done
 	@make AP_BUILD=$(AP_BUILD) -f Makefile.full
 
+distclean: distclean-links
+	@make distclean AP_BUILD=$(AP_BUILD) -f Makefile.full
+
 %:
 	@make AP_BUILD=$(AP_BUILD) -f Makefile.full $@
 
@@ -26,3 +29,7 @@ links.done: links.tgz
 	@echo "Restoring links from links.tgz"
 	@tar zxf links.tgz
 	@touch links.done
+
+distclean-links:
+	@echo "Removing links from links.tgz"
+	@rm -f `tar ztf links.tgz`
