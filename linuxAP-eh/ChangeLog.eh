@@ -1,3 +1,10 @@
+17-02-2004
+  * Updated and adapted linuxAP-eh to original linuxAP version 2003-09-13
+  * Reversed the order of directory deletion on clean operation (bottom-up)
+  * Fixed corruption of terminal bug because of an unselected config option
+    ('%m' to 'strerror(errno)' conversion) on uClibc 0.9.21
+  * Added support for busybox-1.00-pre7 (deleting pre2)
+
 24-11-2003
   * Default wlan's txpower to auto (as changing power is sometimes bad for
     certain cards)

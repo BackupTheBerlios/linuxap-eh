@@ -9,7 +9,7 @@ mainmenu_name "linuxAP Configuration"
 #define_ustring CF_MOUNTPOINT        /mnt/cf
 
 # Some version defines we may ask for at a later date
-define_ustring BUSYBOX_VERSION      1.00-pre3
+define_ustring BUSYBOX_VERSION      1.00-pre7
 define_ustring BUTILS_VERSION       0.9.6
 define_ustring CKERMIT_VERSION      206
 define_ustring CIPE_VERSION         1.5.4

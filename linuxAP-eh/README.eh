@@ -3,13 +3,14 @@ Version:	2003-09-01
 
 Usage:
 "make" linuxAP-eh gets configured and then you can compile it
-"make menuconfig" to reconfigure it and after it make to compile
+"make menuconfig" to reconfigure it and after that make to compile
 "make clean" to clean up the binaries 
 "make distclean" it cleans all and even the binary and sources of the unpackaged
 software (busybox, iptables, etc...)
 
-The next info is focused to  Eumitcom WL11000 SA-N platform, but there can be
-problematic versions of this software, and other that can run perfectly for you.
+When more than one version is listed, all except the last are always from the
+original linuxAP, while the last can be (if not from original linuxAP itself) from
+linuxAP-eh (focused on Eumitcom WL11000 SA-N platform).
 
 The versions in menuconfig are:
 
@@ -30,7 +31,7 @@ The default versions of unchoosable version software from menuconfig are:
 Utility		        Available and tested versions
 --------		--------------------------------
 bridge-utils		0.9.6
-busybox			0.60.5, 1.00-pre2, 1.00-pre3(*)
+busybox			0.60.5, 1.00-pre7(*)
 cipe			1.5.4
 cramfs			1.1
 squashfs                1.2
