@@ -227,6 +227,12 @@ if [ "`./scripts/cmp_ver $KERNEL_VERSION 2.5.0`" = "1" ]; then
 fi
 
 
+# ---
+comment "Compiling options"
+
+bool "Use ccache? (compiler cache)" CONFIG_CCACHE
+
+
 # Others
 if [ "$CONFIG_WLRL_2" = "y" ]; then
    define_int CONFIG_WLRL "2"
