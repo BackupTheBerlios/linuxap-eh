@@ -1,0 +1,39 @@
+BODY
+{
+    background-color: #5588f6;
+}
+
+IMG
+{
+    border: 0;
+}
+
+#logo
+{
+    vertical-align: center;
+}
+
+#title
+{
+    background-color: #533fba;
+    text-align: center;
+    vertical-align: center;
+}
+
+#menu
+{
+    text-align: left;
+    vertical-align: top;
+}
+
+#contents
+{
+    vertical-align: top;
+}
+
+#footer
+{
+    text-align: left;
+    vertical-align: center;
+}
+
