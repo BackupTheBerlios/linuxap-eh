@@ -18,7 +18,7 @@ case "$1" in
             if [ `tar xvf /tmp/etc.tar 2>/dev/null` ]
             then
                 echo "loaded saved config."
-	    elif [ `tar xvzf /tmp/etc.tar 2>/dev/null` ]
+	    elif [ `tar xvzf /tmp/etc.tar >/dev/null` ]
 	    then
 		echo "loaded saved config"
             fi
