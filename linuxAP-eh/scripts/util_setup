@@ -61,8 +61,12 @@ clean() {
 	    if [ "$dirs" != "" ]
 	    then
 		echo "Removing (if empty) directories:"
-		echo "$dirs"
-		rmdir --ignore-fail-on-non-empty $dirs
+		for d in $dirs
+		do
+		    rdirs="$d $rdirs"
+		done
+		echo "$rdirs"
+		rmdir --ignore-fail-on-non-empty $rdirs
 	    fi
 	fi
     done
