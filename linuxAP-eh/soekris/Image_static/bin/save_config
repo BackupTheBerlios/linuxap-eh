@@ -2,9 +2,12 @@
 #
 # save_config
 #
-umount /cf
-mount -t vfat /dev/hda1 /cf
+mount -o remount -rw  /cf
 mkdir -p /cf/etc/conf
-cp /etc/conf/* /cf/etc/conf
-umount /cf
-mount -r -t vfat /dev/hda1 /cf
+for dir in /etc/conf
+do
+    cd $dir
+    tar cf - . | ( cd /cf$dir ; tar xvf - )
+done
+cd /
+mount -o remount -r /cf

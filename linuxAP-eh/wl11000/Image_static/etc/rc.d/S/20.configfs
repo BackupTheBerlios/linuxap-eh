@@ -12,17 +12,14 @@ case "$1" in
             echo "loading default config."
             tar xf /RW.default
         fi
-        dd if=$MTD0 bs=8192 count=2 skip=124 of=/tmp/etc.tar
-        if [ -f /tmp/etc.tar ]
+        dd if=$MTD0 bs=8192 count=2 skip=124 of=/tmp/etc.tar.gz
+        if [ -f /tmp/etc.tar.gz ]
         then
-            if [ `tar xvf /tmp/etc.tar 2>/dev/null` ]
+            if gunzip -c /tmp/etc.tar.gz | tar xvf - 2>/dev/null
             then
                 echo "loaded saved config."
-	    elif [ `tar xvzf /tmp/etc.tar >/dev/null` ]
-	    then
-		echo "loaded saved config"
             fi
-            rm -f /tmp/etc.tar
+            rm -f /tmp/etc.tar.gz
         fi
         echo "Done."
         ;;
@@ -33,13 +30,15 @@ case "$1" in
         ;;
     commit)
         echo -n "Committing $NAME: "
-        rm -f /tmp/etc_rw.tar
+        rm -f /tmp/etc.tar.gz
         cd /etc/rw
-        tar cvzf /tmp/etc_rw.tar *
+        tar cvf /tmp/etc.tar *
+	gzip /tmp/etc.tar
+# erase
         /sbin/update /dev/mtd/0 0xf8000 0x4000
-# do not remove me!!! update will not work i promise dave:
-        dd if=/tmp/etc_rw.tar of=$MTD0 bs=8192 count=2 seek=124 conv=notrunc
-        rm -f /tmp/etc_rw.tar
+# write the new stuff
+        dd if=/tmp/etc.tar.gz of=$MTD0 bs=8192 count=2 seek=124 conv=notrunc
+        rm -f /tmp/etc.tar.gz
         echo "Done."
         ;;
     clear)

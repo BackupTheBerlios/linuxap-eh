@@ -20,12 +20,12 @@ s_broadcast=10.0.1.255
 # These should pull from dhcp ...
 router=
 tftphost=
-logaddr=
+logsvr=
 
-timehost=
+timesvr=
 
 # Network Swapping
-swaphost=
+swapsvr=
 swapport=4401
 
 # Masqerading support ... Masquerade this network
@@ -33,4 +33,4 @@ swapport=4401
 # Will Masquerade 10.1.0.0-10.1.0.31
 # This assumes you've set up eth0 appropriately
 # elsewhere
-masq_net=10.0.1.0/27
+masq_net=

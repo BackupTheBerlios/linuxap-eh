@@ -48,7 +48,7 @@ ext_search()
 #----------------------------------------------------------------------
 extract_archive()
 {
-    for pun in "-" "." "_" "" "-driver-"
+    for pun in "-" "." "_" ""
     do
         if [ "$archive" ]
         then

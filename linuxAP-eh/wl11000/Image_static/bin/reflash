@@ -22,10 +22,6 @@ tftp_prep()
         /etc/rc 1
         rval=1
     fi
-    if [ "$tftphost" = "" ]
-    then
-        . /etc/rw/netcfg
-    fi
     return $rval
 }
 
@@ -33,10 +29,14 @@ tftp_prep()
 #----------------------------------------------------------------------
 # MAIN
 #----------------------------------------------------------------------
+[ -f /etc/rw/netcfg ] && . /etc/rw/netcfg
+[ -f /var/udhcpc.lease ] && . /var/udhcpc.lease
+[ "$tftp" ] && tftphost=$tftp
+[ ! "$tftphost" -a "$serverid" ] && tftphost=$tftp
+
 cd /tmp
 tftp=TRUE
 flashfile=
-tftphost=
 save_config="-s"
 
 while [ ! -z "$1" ]
@@ -62,7 +62,8 @@ do
     shift
 done
 
-if [ -z "$flashfile" -o \( "$tftp" = "FALSE" -a ! -f "$flashfile" \) ]
+if [ -z "$flashfile" -o \( "$tftp" = "FALSE" -a ! -f "$flashfile" \) -o \
+    -z "$tftphost" ]
 then
 	echo "Usage: $0 [-o] [-s] [-f] flashfile [tftphost]
     -o      Overwrite configuration data

@@ -1,20 +1,22 @@
 #!/bin/sh
-CFGDIR="/etc/cipe"
-CFGFILE="cipe.conf"
+CFGDIR="/etc/cipe/peers"
 set -e
-[ -f $CFGDIR/$CFGFILE ] || exit 0
+[ -d $CFGDIR ] || exit 0
 
 case "$1" in
   start|2|3|4)
     kver=`cat /proc/version | cut -d ' ' -f 3`
     /sbin/insmod -o cipcb0 /lib/modules/$kver/misc/cipcb.o
-    chmod 600 $CFGDIR
-    chmod 600 $CFGDIR/$CFGFILE
-    /usr/local/sbin/ciped-cb -o $CFGDIR/$CFGFILE
+    for cfg in $CFGDIR
+    do
+      [ ! -f "$cfg" ] && continue
+      /usr/sbin/ciped-cb -o $cfg
+    done 
     echo "Done."
   ;;
   stop|0|1|6)
     killall ciped-cb
+    sleep 3
     /sbin/rmmod cipcb0
     echo "Done."
   ;;

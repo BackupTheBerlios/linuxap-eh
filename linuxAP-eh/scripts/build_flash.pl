@@ -3,8 +3,11 @@
 # build_flash.pl
 #
 # Modification History:
-# 2002/06/11 Keith Edwin Smith
 #
+# 2003/09/12 Keith Edwin Smith
+# o gz RW.default
+#
+# 2002/06/11 Keith Edwin Smith
 # o Add RW.default into image to flash
 #
 use strict;
@@ -57,7 +60,7 @@ foreach my $file (@initial_files) {
 
 # create configuration file:
 
-    exe_prn("cd $rw_dir ; tar cvzf - `ls -1|grep -v CVS` | dd ibs=16384 of=../RW.tar conv=sync" );
+    exe_prn("cd $rw_dir ; tar cvf - `ls -1 | grep -v CVS` | gzip | dd ibs=16384 of=../RW.tar.gz conv=sync" );
 
 # prepare the kernel
 { 
@@ -111,7 +114,7 @@ foreach my $file (@initial_files) {
     exe_prn("cat $kernel_img >> $flash");
     pad_file($flash, $kernel_pad_size);
 #    pad_file($flash, 16*1024); # pad over the two config blocks
-    exe_prn("cat ./RW.tar >> $flash");
+    exe_prn("cat ./RW.tar.gz >> $flash");
 
 # example of bootargs that do ip autoconfig then mount rootfs over nfs
 # "console=ttyS0,${port_speed}n8 root=/dev/nfs rw nfsroot=192.168.0.104:/var/nfsroot/dwhedon ip=192.168.0.58:192.168.0.104:192.168.0.1:255.255.255.0:i802ap:eth0:none" );
@@ -127,7 +130,7 @@ foreach my $file (@initial_files) {
     print "filesystem image is $rootfs_size_kb Kb\n"; 
     print "kernel image is $kernel_size_kb Kb\n";
     print "free space in flash = $free Kb ($free_b b)\n";
-    my $RW_tar_size_kb = int(get_size_b("./RW.tar")/1024);
+    my $RW_tar_size_kb = int(get_size_b("./RW.tar.gz")/1024);
     print "configs dir is $RW_tar_size_kb Kb\n";
 }
 
