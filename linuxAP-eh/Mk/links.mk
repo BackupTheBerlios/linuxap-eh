@@ -12,5 +12,5 @@ links-config: links.tgz
 
 links-distclean:
 	@echo "Removing links from links.tgz"
-	@rm -f `tar ztf links.tgz`
+	@rm -f `tar ztf links.tgz` links-config
 
