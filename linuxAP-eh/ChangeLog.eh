@@ -1,3 +1,6 @@
+07-11-2004
+  * Cleanup and reorder config.in
+
 02-05-2004
   * Minor fixes
   * Fixed rate & txpower config and detect channel out of range on wlan.i
