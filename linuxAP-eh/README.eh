@@ -16,9 +16,9 @@ The versions in the conf menu are:
 Utility 		Available and tested versions
 -------- 		--------------------------------
 kernel 			2.4.20
-hostap 			2002-10-12, 0.0.3, 0.0.4 (*), 0.1.1
-hostap-utils            x.x.x
-kernel-aodv 		v2.0, v2.1
+hostap 			2002-10-12, 0.0.3, 0.0.4, 0.1.1(*)
+hostap-utils            0.1.0
+kernel-aodv 		v2.0, v2.1(*)
 
 (*) this version have no txpower (it makes distorsions on radio signal)
 
