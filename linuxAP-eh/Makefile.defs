@@ -6,11 +6,22 @@ COMPILER_MASQ_DIR:=$(TOPDIR)/compiler_masq
 
 
 ifeq ($(CONFIG_UCLIBC),y)
-  CROSSDIR:=/usr/i386-linux-uclibc
-  LIBDIR:=/usr/i386-linux-uclibc/lib
-  CROSS_COMPILE:=$(CROSSDIR)/bin/i386-uclibc-
+    CROSSDIR:=/usr/i386-linux-uclibc
+    LIBDIR:=/usr/i386-linux-uclibc/lib
+      ifeq ($(CONFIG_CCACHE),y)
+        CROSS_COMPILE:=i386-uclibc-
+        PATH:=$(CROSSDIR)/bin:$(PATH)
+      else
+        CROSS_COMPILE:=$(CROSSDIR)/bin/i386-uclibc-
+      endif
 else
   LIBDIR:=/lib
+endif
+
+ifeq ($(CONFIG_CCACHE),y)
+  PATH:=$(COMPILER_MASQ_DIR)/ccache:$(PATH)
+else
+  CONFIG_CCACHE:=n
 endif
 
 CC=$(CROSS_COMPILE)gcc
