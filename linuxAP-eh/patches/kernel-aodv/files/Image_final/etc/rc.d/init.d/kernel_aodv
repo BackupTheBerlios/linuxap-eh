@@ -33,14 +33,14 @@ case "$1" in
 	else
 	    echo "  Normal mode..."
 	    echo -n "    Using interfaces: "
-	    if [ -z $kaodv_if ]; then
+	    if [ -z "$kaodv_if" ]; then
 		echo "all"
 	    else
 		echo $kaodv_if
 		USE_DEV="aodv_dev=$kaodv_if"
 	    fi
 	    echo "    Blocking interfaces: $kaodv_ibl"
-	    if [ ! -z $kaodv_bl ]; then
+	    if [ ! -z "$kaodv_bl" ]; then
 		BLOCK_DEV="block_dev=$kaodv_bl"
 	    fi
 	fi
@@ -50,7 +50,7 @@ case "$1" in
 	else
 	    echo "    Not using loopback"
 	fi
-	if [ -z "$USE_DEV" -o ! -z `echo $USE_DEV | grep wlan0` ]; then
+	if [ -z "$USE_DEV" -o ! -z "`echo $USE_DEV | grep wlan0`" ]; then
 	    echo "  Forcing ad-hoc mode on wlan0"
 	    iwconfig wlan0 mode ad-hoc
 	fi
