@@ -12,7 +12,7 @@ option()
     <input type=\"image\" src=\"/buttons/plus.png\"
         name=\"cfg-kaodv\" alt=\"KAODV\">
     </td>
-    <td>Configure Kernel AODV (NOT WORKING YET (kernel panic)!!!!)</td>
+    <td>Configure Kernel AODV</td>
   </tr>
 "
 }
