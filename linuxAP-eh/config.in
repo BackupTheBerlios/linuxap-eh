@@ -140,7 +140,7 @@ fi
 # ---
 comment "Networking options"
 
-bool "IPv6 support?" CONFIG_IPV6
+#bool "IPv6 support?" CONFIG_IPV6
 
 if [ "$CONFIG_WL11000" != "y" ]; then
    bool "Tiny Login?"          CONFIG_TINYLOGIN

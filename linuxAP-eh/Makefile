@@ -20,6 +20,7 @@ include ./Makefile.defs
 
 # Export globally defaultly used variables
 # (no need to pass them to every make statement)
+DESTDIR=$(IMAGE_DIR)
 export KERNEL_DIR DESTDIR AP_BUILD
 
 ifeq ($(CONFIG_UCLIBC),y)

@@ -25,7 +25,6 @@ hostap-driver-build: hostap-driver-config
 		KERNEL_PATH=$(KERNEL_DIR) \
 		CC=$(CC) \
 		PCMCIA_PATH=$(PCMCIA_PATH) \
-		DESTDIR=$(IMAGE_DIR) \
 		EXTRA_CFLAGS="-DPRISM2_NO_DEBUG -DPRISM2_NO_PROCFS_DEBUG" \
 		> /tmp/hostap-driver-build 2>&1
 	@mv /tmp/hostap-driver-build .
@@ -34,7 +33,6 @@ hostap-driver-install: hostap-driver-build
 	@echo -e "\nInstall hostap-driver version $(HOSTAP_DRIVER_VERSION)."
 	@$(MAKE) -C hostap-driver \
 		KERNEL_PATH=$(KERNEL_DIR) \
-		DESTDIR=$(IMAGE_DIR) \
 		install_pccard \
 		install_hostap \
 		install_crypt \
