@@ -14,11 +14,11 @@ define_ustring BUTILS_VERSION       0.9.6
 define_ustring CKERMIT_VERSION      206
 define_ustring CIPE_VERSION         1.5.4
 define_ustring GLIBC_VERSION        2.2.5
-define_ustring HOSTAP_VERSION       0.1.1
-define_ustring HOSTAP_UTILS_VERSION 0.1.0
+define_ustring HOSTAP_VERSION_DEFAULT       0.1.1
+define_ustring HOSTAP_UTILS_VERSION_DEFAULT 0.1.0
 define_ustring IPROUTE2_VERSION     current
 define_ustring IPTABLES_VERSION     1.2.7a
-define_ustring KERNEL_AODV_VERSION  v2.1
+define_ustring KERNEL_AODV_VERSION_DEFAULT  v2.1
 define_ustring OPENVPN_VERSION      1.4.3
 define_ustring PCMCIA_VERSION       3.2.3
 define_ustring PSMISC_VERSION       21.2
@@ -196,10 +196,10 @@ if [ "$CONFIG_WL11000" = "y" ]; then
 fi
 
 if [ "$CONFIG_HOSTAP" = "y" ]; then
-    ustring 'Hostap Version' HOSTAP_VERSION HOSTAP_VERSION
+    ustring 'Hostap Version' HOSTAP_VERSION HOSTAP_VERSION_DEFAULT
 fi
 if [ "$CONFIG_HOSTAP_UTILS" = "y" ]; then
-    ustring 'Hostap utils Version' HOSTAP_UTILS_VERSION HOSTAP_UTILS_VERSION
+    ustring 'Hostap utils Version' HOSTAP_UTILS_VERSION HOSTAP_UTILS_VERSION_DEFAULT
 fi
 
 ustring 'Kernel Version' KERNEL_VERSION '2.4.20'
@@ -208,7 +208,7 @@ bool "NBD/Swap Support?"    CONFIG_NBD
 
 bool "Kernel AODV dynamic routing?" CONFIG_KERNEL_AODV
 if [ "$CONFIG_KERNEL_AODV" = "y" ]; then
-    ustring 'Kernel AODV Version' KERNEL_AODV_VERSION KERNEL_AODV_VERSION
+    ustring 'Kernel AODV Version' KERNEL_AODV_VERSION KERNEL_AODV_VERSION_DEFAULT
 fi
 
 if [ "$CONFIG_GLIBC" = "y" ]; then
@@ -216,4 +216,3 @@ if [ "$CONFIG_GLIBC" = "y" ]; then
 else
     define_bool CONFIG_PSMISC n
 fi
-endmenu

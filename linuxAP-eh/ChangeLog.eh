@@ -1,4 +1,5 @@
 24-10-2003
+  * fixedo some problems in squashfs and config.in
   * Added suport to hostap 0.1.1 with txpower activated thanks to ed0
 
 22-10-2003
