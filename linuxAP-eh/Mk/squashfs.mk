@@ -27,4 +27,4 @@ squashfs-distclean:
 	@echo -e "\nPurging squashfs utilities version $(SQUASHFS_VERSION)."
 	@rm -f squashfs-build
 	@rm -f squashfs-config
-	@rm -rf squashfs-$(SQUASHFS_VERSION) squashfs
+	@rm -rf squashfs$(SQUASHFS_VERSION) squashfs

@@ -46,4 +46,4 @@ hostap-distclean:
 	@echo -e "\nPurging hostap version $(HOSTAP_VERSION)"
 	@rm -f hostap-config
 	@rm -f hostap-build
-	@rm -rf hostap-$(HOSTAP_VERSION) hostap
+	@rm -rf hostap-driver-$(HOSTAP_VERSION) hostap
