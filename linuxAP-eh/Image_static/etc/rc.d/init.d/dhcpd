@@ -7,7 +7,7 @@ then
     echo "No udhcpd configuration aborting script"
     exit 0
 fi
-if grep "udhcpd.conf disable" $CFGD/udhcpd.conf
+if grep "enable *no" $CFGD/udhcpd.conf
 then
     echo "udhcpd disabled"
     exit 0
@@ -15,7 +15,7 @@ fi
 case "$1" in
 start|2|3|4)
     set `grep lease_file $CFGD/udhcpd.conf`
-    [ ! -f $2 ] && touch $2
+    [ ! -f $2 ] && > $2
     udhcpd $CFGD/udhcpd.conf
     ;;
 stop|0|1|6)

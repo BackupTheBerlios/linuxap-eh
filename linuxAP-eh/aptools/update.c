@@ -1,4 +1,4 @@
-//----------------------------------------------------------------------  
+///----------------------------------------------------------------------  
 //     update.c - userspace front-end to flash device.
 //
 //     Copyright (C) 2001-2001 Instant 802 Networks, All Rights Reserved.
@@ -153,7 +153,7 @@ int boundary_check(region_info_t *regioninfo, unsigned int region_count,
 	return 0; // fail
 
  success:
-	//printf("boundary check for offset %d(0x%x) returning region %d block %d\n",
+	// printf("boundary check for offset %d(0x%x) returning region %d block %d\n",
 	//     offset, offset, i, (offset - region_start) / region_blocksize);
 	return 1; // success
 

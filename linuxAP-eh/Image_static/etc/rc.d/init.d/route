@@ -4,6 +4,7 @@
 #
 
 [ -f $CFGD/netcfg ] && . $CFGD/netcfg
+[ -f /var/udhcpc.lease ] && . /var/udhcpc.lease
 
 case "$1" in
     2|3|4)

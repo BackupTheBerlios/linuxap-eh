@@ -4,15 +4,16 @@
 #
 
 [ -f $CFGD/netcfg ] && . $CFGD/netcfg
+[ -f /var/udhcpc.lease ] && . /var/udhcpc.lease
 
-if [ -z "$swaphost" ]
+if [ -z "$swapsvr" ]
 then
     exit 0
 fi
 
 case "$1" in
     start|2|3|4)
-        nbd-client $swaphost $swapport /dev/nd0 -swap
+        nbd-client $swapsvr $swapport /dev/nd0 -swap
         mkswap /dev/nd0
         swapon /dev/nd0
         ;;
