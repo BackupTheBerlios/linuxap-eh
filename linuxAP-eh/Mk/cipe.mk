@@ -24,9 +24,6 @@ cipe-install: cipe-build
 	@$(STRIP) $(STRIPFLAGS) --strip-all $(IMAGE_DIR)/usr/local/sbin/ciped-cb
 	@scripts/util_setup install cipe $(CIPE_VERSION)
 	@ln -s /var/etc/rw/cipe  $(IMAGE_DIR)/etc/cipe
-	@ln -s /var/etc/rw/udhcpd.conf $(IMAGE_DIR)/etc/udhcpd.conf
-	@ln -s /var/etc/rw/udhcpd.leases $(IMAGE_DIR)/etc/udhcpd.leases
-
 
 cipe-clean:
 	@echo -e "\nCleaning cipe version $(CIPE_VERSION)."

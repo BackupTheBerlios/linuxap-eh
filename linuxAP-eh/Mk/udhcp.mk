@@ -30,6 +30,8 @@ udhcp-install: udhcp-build
 	@chmod 0775 $(IMAGE_DIR)/usr/share/udhcpc/default.script
 ifeq ($(AP_BUILD),wl11000)
 	rm -rf $(IMAGE_DIR)/usr/bin/dumpleases
+	@ln -s /var/etc/rw/udhcpd.conf $(IMAGE_DIR)/etc/udhcpd.conf
+	@ln -s /var/etc/rw/udhcpd.leases $(IMAGE_DIR)/etc/udhcpd.leases
 endif
 
 udhcp-clean:
