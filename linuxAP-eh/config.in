@@ -128,10 +128,6 @@ mainmenu_option next_comment
     bool 'libipt_ULOG' libipt_ULOG
     bool 'libipt_unclean' libipt_unclean
 endmenu
-
-#choice 'Iptables extensions' \
-#        "mac mac \
-#         mac2 mac2"
 fi
 
 if [ "$CONFIG_IPTABLES" = "y"]; then
