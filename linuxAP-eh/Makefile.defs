@@ -1,5 +1,5 @@
 #TOPDIR      := $(shell pwd)
-TOPDIR      := /usr/src/linuxAP
+TOPDIR      := /usr/src/linuxAP-eh
 KERNEL_DIR  := $(TOPDIR)/linux
 IMAGE_DIR   := $(TOPDIR)/Image_final
 
