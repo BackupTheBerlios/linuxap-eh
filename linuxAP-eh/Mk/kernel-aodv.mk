@@ -19,9 +19,7 @@ kernel-aodv-config:
 kernel-aodv-build: kernel-aodv-config
 	@echo -e "\nBuilding kernel-aodv version $(KERNEL_AODV_VERSION)."
 	@$(MAKE) -C kernel-aodv \
-		CROSS_COMPILE=$(CROSS_COMPILE) \
 		KERNEL_VERSION=$(KERNEL_VERSION) \
-		DESTDIR=$(IMAGE_DIR) \
 		> /tmp/kernel-aodv-build 2>&1
 	@mv /tmp/kernel-aodv-build .
 
@@ -30,7 +28,6 @@ kernel-aodv-install: kernel-aodv-build
 ifeq ($(KERNEL_AODV_VERSION), "v2.1")
 	@$(MAKE) -C kernel-aodv install \
 		KERNEL_VERSION=$(KERNEL_VERSION) \
-		DESTDIR=$(IMAGE_DIR) \
 		> /tmp/kernel-aodv-install 2>&1
 else
 	@cp $(KERNEL_AODV_MOD) $(KERNEL_AODV_INSMODIR)/ \

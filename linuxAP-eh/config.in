@@ -40,14 +40,28 @@ define_bool CONFIG_UDHCP n
 define_bool CONFIG_WTOOLS y
 
 # Defaults if undefined
-if [ "$CONFIG_HOSTAP_DRIVER" = "" ]; then
-   define_bool CONFIG_HOSTAP_DRIVER y
-fi
 if [ "$CONFIG_BUTILS" = "" ]; then
    define_bool CONFIG_BUTILS y
 fi
 if [ "$CONFIG_GLIBC" = "" -a "$CONFIG_UCLIBC" = "" ]; then
    define_bool CONFIG_UCLIBC y
+fi
+if [ "$CONFIG_HOSTAP_DRIVER" = "" ]; then
+   define_bool CONFIG_HOSTAP_DRIVER y
+fi
+if [ "$CONFIG_HTTPD" = "" ]; then
+   define_bool CONFIG_HTTPD y
+fi
+if [ "$CONFIG_IPV6" = "" ]; then
+   define_bool CONFIG_IPV6 n
+fi
+if [ "$CONFIG_NBD" = "" ]; then
+   define_bool CONFIG_NBD y
+fi
+if [ "$CONFIG_NOTUNNELING" = "" -a \
+    "$CONFIG_OPENVPN" = "" -a \
+    "$CONFIG_CIPE" = "" ]; then
+   define_bool CONFIG_NOTUNNELING y
 fi
 if [ "$CONFIG_WLSPD_SLOW" = "" -a \
     "$CONFIG_WLSPD_NORMAL" = "" -a \
@@ -60,17 +74,6 @@ if [ "$CONFIG_WL11000" = "" -a \
    define_bool CONFIG_WL11000 y
    define_bool CONFIG_SOEKRIS n
    define_bool CONFIG_ITX n
-fi
-if [ "$CONFIG_NBD" = "" ]; then
-   define_bool CONFIG_NBD y
-fi
-if [ "$CONFIG_NOTUNNELING" = "" -a \
-    "$CONFIG_OPENVPN" = "" -a \
-    "$CONFIG_CIPE" = "" ]; then
-   define_bool CONFIG_NOTUNNELING y
-fi
-if [ "$CONFIG_HTTPD" = "" ]; then
-   define_bool CONFIG_HTTPD y
 fi
 
 

@@ -19,7 +19,7 @@ iptables-build: iptables-config
 	@$(MAKE) -C iptables \
 		CC=$(CC) \
 		KERNEL_DIR=$(KERNEL_DIR) \
-		DESTDIR=$(IMAGE_DIR) \
+		PREFIX=/usr \
 		COPT_FLAGS=-Os \
 		> /tmp/iptables-build 2>&1
 	@mv /tmp/iptables-build .
@@ -29,7 +29,7 @@ iptables-install: iptables-build
 	@$(MAKE) -C iptables \
 		CC=$(CC) \
 		KERNEL_DIR=$(KERNEL_DIR) \
-		DESTDIR=$(IMAGE_DIR) \
+		PREFIX=/usr \
 		install > /tmp/iptables-install 2>&1
 	@rm -rf $(IMAGE_DIR)/usr/man $(IMAGE_DIR)/usr/share/man
 	@$(STRIP) $(STRIPFLAGS) --strip-all $(IMAGE_DIR)/usr/sbin/iptables
