@@ -1,3 +1,6 @@
+24-10-2003
+  * Added suport to hostap 0.1.1 with txpower activated thanks to ed0
+
 22-10-2003
   * Now works with squashfs, in a non aodv config and with openvp the flash image have 38kb free comparing with 5 kb in cramfs
   * Fiexed util_cond to work with ';' instead of ' ' 
