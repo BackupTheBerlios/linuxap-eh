@@ -28,7 +28,7 @@ uClibc-config: uClibc-patch
 	@echo -e "\nConfiguring uClibc version $(UCLIBC_VERSION)."
 	@touch /tmp/uClibc-config
 ifneq ($(UCLIBC_VERSION),0.9.12)
-	make -C uClibc oldconfig >> /tmp/uClibc-config
+	@$(MAKE) -C uClibc oldconfig >> /tmp/uClibc-config
 endif
 	@mv /tmp/uClibc-config .
 
