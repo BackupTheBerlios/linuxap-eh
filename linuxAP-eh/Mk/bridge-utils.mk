@@ -12,8 +12,8 @@ bridge-utils-config:
 	@scripts/util_config bridge-utils $(BUTILS_VERSION) $(ARCHIVE_DIR)\
 		> /tmp/bridge-utils-config
 	@cd bridge-utils && ./configure \
-		--with-linux=/usr/src/linuxAP/linux \
-                --prefix=/usr/src/linuxAP/Image_final/usr \
+		--with-linux=$(KERNEL_DIR) \
+                --prefix=$(IMAGE_DIR)/usr \
 		>> /tmp/bridge-utils-config
 	@mv /tmp/bridge-utils-config .
 
