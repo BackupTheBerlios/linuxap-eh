@@ -25,10 +25,13 @@ case "$1" in
         insmod i82365 # ignore=1
         insmod ds
     fi
-    insmod hostap_crypt
-    insmod hostap_crypt_wep
+    if [ -f /lib/modules/$kver/net/hostap_crypt.o ]
+    then
+        insmod hostap_crypt
+    fi
     insmod hostap
     insmod $DRIVER ignore_cis_vcc=1 essid=$SSID $pargs
+    insmod hostap_crypt_wep
     cardmgr -o
     if ifconfig wlan0 > /dev/null 2>&1
     then
@@ -40,7 +43,7 @@ case "$1" in
     fi
     if [ "$wep" ]
     then
-        iwconfig wlan0 key $wep
+        iwconfig wlan0 enc $wep
         prism2_param wlan0 host_encrypt 1
         prism2_param wlan0 host_decrypt 1
     fi

@@ -169,6 +169,7 @@ include Mk/bridge-utils.mk
 include Mk/ckermit.mk
 include Mk/squashfs.mk
 include Mk/hostap.mk
+include Mk/hostap-utils.mk
 include Mk/iproute2.mk
 include Mk/iptables.mk
 include Mk/nbd.mk
@@ -212,6 +213,9 @@ include Mk/nbd.mk
 endif
 ifeq ($(CONFIG_HOSTAP),y)
 include Mk/hostap.mk
+endif
+ifeq ($(CONFIG_HOSTAP_UTILS),y)
+include Mk/hostap-utils.mk
 endif
 ifeq ($(CONFIG_IPTABLES),y)
 include Mk/iptables.mk

@@ -31,10 +31,10 @@ hostap-install: hostap-build
 		install_hostap \
 		install_crypt \
 		> /tmp/hostap-install 2>&1
-	@cp -va hostap/utils/prism2_param $(IMAGE_DIR)/sbin > /dev/null 2>&1
-	@$(STRIP) --strip-debug $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/net/hostap.o
-	@$(STRIP) --strip-debug $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/net/hostap_crypt.o
-	@$(STRIP) --strip-debug $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/net/hostap_crypt_wep.o
+ifeq ($(HOSTAP_UTILS),y)
+	cp -va hostap/utils/prism2_param $(IMAGE_DIR)/sbin > /dev/null 2>&1
+endif
+	@$(STRIP) --strip-debug $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/net/hostap*.o
 	@$(STRIP) --strip-debug $(IMAGE_DIR)/lib/modules/$(KERNEL_VERSION)/pcmcia/hostap_cs.o
 
 hostap-clean:
