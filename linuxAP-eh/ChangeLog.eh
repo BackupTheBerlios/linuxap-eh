@@ -1,3 +1,6 @@
+31-10-2003
+  * conf files on tar.gz format
+
 30-10-2003
   * removed ./network msg from pcmcia-cs
   * fiexed wireless_tools with CFLAGS=-Os
