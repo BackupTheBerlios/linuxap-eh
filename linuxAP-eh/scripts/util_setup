@@ -60,7 +60,7 @@ clean() {
 	    cd $actual
 	    if [ "$dirs" != "" ]
 	    then
-		echo "Removing (if empty) directories:"
+		echo "Removing directories (if empty):"
 		for d in $dirs
 		do
 		    rdirs="$d $rdirs"

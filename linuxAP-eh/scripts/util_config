@@ -102,9 +102,9 @@ rm -rf $utility-$version $utility $utility-build $utility-config
 # Extract the archive
 extract_archive
 
-if [ -d "kernel-source-2.4.20" ]
+if [ -d "kernel-source-$version" ]
 then
-    mv kernel-source-2.4.20 linux-2.4.20
+    mv kernel-source-$version linux-$version
 fi
 
 # Apply patches if any
@@ -119,8 +119,11 @@ do
     then
         for pfile in $patch/*
         do
-            echo "Patching from $pfile"
-            patch -p1 < $pfile
+	    if [ -f $pfile ]
+	    then
+		echo "Patching from $pfile"
+		patch -p1 < $pfile
+	    fi
         done
     fi
 done
