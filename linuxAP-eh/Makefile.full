@@ -359,7 +359,7 @@ linuxAP-clean:
 clean: $(SUBDIR_CLEAN) linuxAP-clean
 
 distclean: $(SUBDIR_DISTCLEAN) linuxAP-clean
-	@rm -f .config dirs.done links.done
+	@rm -f .config dirs.done links.done RW.default
 
 tar: distclean
 	@echo -e "\nBuilding Distribution File ..."
