@@ -1,3 +1,7 @@
+24-11-2003
+  * Default wlan's txpower to auto (as changing power is sometimes bad for
+    certain cards)
+
 23-11-2003
   * Modified configuration, init scripts and web configuration files to get back to the splitted file format
 

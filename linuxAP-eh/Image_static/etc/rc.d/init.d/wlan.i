@@ -35,7 +35,7 @@ case "$1" in
     cardmgr -o
     if ifconfig wlan0 > /dev/null 2>&1
     then
-        iwconfig wlan0 txpower 20
+        #iwconfig wlan0 txpower 20
         iwconfig wlan0 rate 11Mb
 # Set the eth0 interface to the same mac
         HWADDR=`/sbin/ifconfig wlan0 | sed -n 's/.*HWaddr\(.*\)/\1/p'`
