@@ -1,3 +1,6 @@
+27-10-2003
+  * Global date/time format
+
 26-10-2003
   * Another fix to scripts/util_cond so it doesn't needs echo/sed
 

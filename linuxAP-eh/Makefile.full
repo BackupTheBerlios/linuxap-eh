@@ -12,9 +12,6 @@
 # Busybox is heavily patched, and build dependent.
 #----------------------------------------------------------------------
 
-#to unify the time
-DATE=`date "+%d-%m-20%y"`
-
 ifeq (.config,$(wildcard .config))
 include .config
 endif
@@ -127,10 +124,10 @@ sram: $(PRE_INSTALL) kernel-sram flash
 	@./aptools/image_rdev ./kernel-sram 31 1
 	./scripts/build_flash.pl 2097152 sram # 2 * 1024 * 1024
 	@md5sum sram > sram.md5
-	@tar -cvzf  images/$(DATE)-$(ELAN_SPEED).tar.gz sram* flash*
+	@tar -cvzf images/linuxAP-eh-$(DATE)-$(ELAN_SPEED).tar.gz sram* flash*
 
 flash: kernel image squashfs-build alios-build
-	@echo "`date "+%Y%m%d.%T"` " \
+	@echo $(DATE_TIME) \
 		> $(IMAGE_DIR)/etc/linuxAP-version
 	@echo "3" > RW.default/runlevel
 	@./aptools/image_rdev ./kernel 31 0
@@ -258,16 +255,14 @@ image:	Image_dir \
 	$(SUBDIR_INSTALL) \
 	configure_links \
 	copy_libc
-	@echo -e "\nCleaning Image_final"
+	@echo -e "\nCleaning CVS directories from Image_final"
 	@rm -Rf `find $(IMAGE_DIR) -type d -name CVS`
 	@echo ""
 	@echo "Stripping binaries/modules (probably redundant)"
 	$(STRIP) --strip-debug `find $(IMAGE_DIR) -type f -exec file {} \; | grep "ELF 32-bit" | cut -f 1 -d :`
 	@echo ""
-ifeq ($(AP_BUILD),wl11000)
 	@echo "Removing dirs/files:"
 	@rm -Rfv $(REMOVE_FINAL)
-endif
 
 Image_dir:
 	@echo -e "\nRebuilding Image_final"
@@ -363,8 +358,8 @@ distclean: $(SUBDIR_DISTCLEAN) linuxAP-clean
 
 tar: distclean
 	@echo -e "\nBuilding Distribution File ..."
-	rm -f ../linuxAP-`date +%Y-%m-%d`.tar.bz2
-	cd .. && tar -c -j -v -f linuxAP-`date +%Y-%m-%d`.tar.bz2 \
-		--exclude=./linuxAP/tarfiles \
-		--exclude=./linuxAP/ariel \
-		./linuxAP
+	rm -f ../linuxAP-eh-$(DATE).tar.bz2
+	cd .. && tar -c -j -v -f linuxAP-eh-$(DATE).tar.bz2 \
+		--exclude=./linuxAP-eh/tarfiles \
+		--exclude=./linuxAP-eh/ariel \
+		./linuxAP-eh

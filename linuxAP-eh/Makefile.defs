@@ -35,5 +35,9 @@ CFLAGS       =-Wall -Wstrict-prototypes
 #
 SRAM_SIZE=2
 
+# date/time global format
+DATE=`date "+%Y-%m-%d"`
+DATE_TIME=`date "+%Y-%m-%d.%T"`
+
 #----------------------------------------------------------------------
 
