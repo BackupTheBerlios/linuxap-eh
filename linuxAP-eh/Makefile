@@ -17,65 +17,76 @@ include .config
 endif
 include ./Makefile.defs
 
-# For Pathing with no setting
-AP_BUILD	:= .
+
+# Export globally defaultly used variables
+# (no need to pass them to every make statement)
+export KERNEL_DIR DESTDIR AP_BUILD
 
 ifeq ($(CONFIG_UCLIBC),y)
 ifeq ($(CONFIG_WL11000),y)
-PRE_INSTALL=kernel-config-sram uClibc-install
+PRE_INSTALL=uClibc-install kernel-config-sram
 else
-PRE_INSTALL=kernel-config uClibc-install
+PRE_INSTALL=uClibc-install kernel-config
 endif
 else
 PRE_INSTALL=
 endif
 
+
 #----------------------------------------------------------------------
 # The primary targets
 #----------------------------------------------------------------------
+ifeq ($(AP_BUILD),)
+  OBJS := menuconfig
+else
+  OBJS := links-config $(AP_BUILD)
+endif
+
+all: $(OBJS)
+
+.PHONY: soekris itx wl11000 clean distclean menuconfig
 
 #----------------------------------------------------------------------
 # SOEKRIS
 #----------------------------------------------------------------------
-ifeq ($(CONFIG_SOEKRIS),y)
-soekris: FORCE
+soekris: pre-soekris ramdisk post-soekris
+
+pre-soekris:
 	@if [ -f wl11000-config ]; then \
 		 make distclean; \
 	fi
-	@echo -e "Building soekris images."
-	@make AP_BUILD=soekris ramdisk
+	@echo -e "\nBuilding soekris images."
+
+post-soekris:
 	@echo -e "Done."
 	touch soekris-config
 
 cflash:
 #	./scripts/cf_setup soekris
 
-endif
-
 
 #----------------------------------------------------------------------
 # ITX
 #----------------------------------------------------------------------
-ifeq ($(CONFIG_ITX),y)
-itx: FORCE
+itx: pre-itx ramdisk post-itx
+
+pre-itx:
 	@if [ -f wl11000-config ]; then \
 		 make distclean; \
 	fi
-	@echo -e "Building itx images."
-	@make AP_BUILD=itx KERNEL_VERSION=$(KERNEL_VERSION) ramdisk
+	@echo -e "\nBuilding itx images."
+
+post-itx:
 	@echo -e "Done."
 	touch soekris-config
 
 cflash:
 	./scripts/cf_setup itx
 
-endif
-
 
 #----------------------------------------------------------------------
 # RAMDISK
 #----------------------------------------------------------------------
-ifeq ($(CONFIG_RAMDISK),y)
 ramdisk: syslinux-config $(PRE_INSTALL) kernel image
 	@echo $(DATE_TIME) \
 		> $(IMAGE_DIR)/etc/linuxAP-version
@@ -100,18 +111,21 @@ endif
 	@gzip -9 $(RAMFS)
 	@mv $(RAMFS).gz ramdisk
 	@echo -e ""
-endif
 
 
 #----------------------------------------------------------------------
 # WL11000
 #----------------------------------------------------------------------
-ifeq ($(CONFIG_WL11000),y)
-wl11000: FORCE
-	if [ -f soekris-config ]; then \
+wl11000: pre-wl11000 sram post-wl11000
+
+pre-wl11000:
+	@if [ -f soekris-config ]; then \
 		 make distclean; \
 	fi
-	make AP_BUILD=wl11000 sram
+	@echo -e "\nBuilding wl11000 images."
+
+post-wl11000:
+	@echo -e "Done."
 	touch wl11000-config
 
 sram: $(PRE_INSTALL) kernel-sram flash
@@ -127,14 +141,15 @@ sram: $(PRE_INSTALL) kernel-sram flash
 	@md5sum sram > sram.md5
 	@echo -e "\nSRAM package:"
 	@mv sram* package/
-	@(cd package; tar -cvzf ../images/linuxAP-eh-$(DATE)-$(ELAN_SPEED)-SRAM.tar.gz *)
+	@(cd package; tar --exclude CVS -cvzf ../images/linuxAP-eh-$(DATE)-$(ELAN_SPEED)-SRAM.tar.gz *)
 	@mv package/sram*  .
 	@echo -e "\nFLASH package:"
 	@mv flash* package/
-	@(cd package; tar -cvzf ../images/linuxAP-eh-$(DATE)-$(ELAN_SPEED)-FLASH.tar.gz *)
+	@(cd package; tar --exclude CVS -cvzf ../images/linuxAP-eh-$(DATE)-$(ELAN_SPEED)-FLASH.tar.gz *)
 	@mv package/flash* .
 
 flash: kernel image squashfs-build alios-build
+	@echo ""
 	@echo $(DATE_TIME) \
 		> $(IMAGE_DIR)/etc/linuxAP-version
 	@echo "3" > RW.default/runlevel
@@ -144,68 +159,64 @@ flash: kernel image squashfs-build alios-build
 	@./aptools/image_rdev ./kernel-sram 31 0
 	@./scripts/build_flash.pl 1048576 flash # 1024 * 1024
 	@md5sum flash > flash.md5
-
-endif
+	@echo ""
 
 
 # Fall thru to here if no configuration
 menuconfig:
+	# delete iptables' extensions menuconfig list
+	rm -f /tmp/MCtmp*
 	make -C conf/lxdialog
 	conf/Menuconfig
+	rm -Rf /tmp/MCdir
 
 config: menuconfig
 
-FORCE:
 
 #----------------------------------------------------------------------
 # The meat and potatos
 #----------------------------------------------------------------------
 
 # These are required for all builds
-include Mk/kernel.mk
+include Mk/links.mk
 include Mk/busybox.mk
+include Mk/kernel.mk
 include Mk/pcmcia_cs.mk
 include Mk/wireless_tools.mk
-include Mk/cgi.mk
 
 # This is every other package
 ifeq ($(MAKECMDGOALS),distclean)
 include Mk/alios.mk
+include Mk/aptools.mk
 include Mk/bridge-utils.mk
+include Mk/cgi.mk
 include Mk/cipe.mk
 include Mk/ckermit.mk
-include Mk/squashfs.mk
 include Mk/hostap-driver.mk
 include Mk/hostap-utils.mk
 include Mk/hostapd.mk
 include Mk/iproute2.mk
 include Mk/iptables.mk
+include Mk/kernel-aodv.mk
 include Mk/nbd.mk
+include Mk/openvpn.mk
 include Mk/psmisc.mk
+include Mk/squashfs.mk
 include Mk/syslinux.mk
 include Mk/sysvinit.mk
-include Mk/aptools.mk
-include Mk/uClibc.mk
-include Mk/umsdos_progs.mk
-include Mk/kernel-aodv.mk
-include Mk/openvpn.mk
 include Mk/tinylogin.mk
+include Mk/uClibc.mk
 include Mk/udhcp.mk
+include Mk/umsdos_progs.mk
 include Mk/vtun.mk
 else
 
 # Selective if not distclean
-ifeq ($(CONFIG_TINY_LOGIN),y)
-include Mk/tinylogin.mk
-endif
 ifeq ($(CONFIG_ALIOS),y)
 include Mk/alios.mk
 endif
 ifeq ($(CONFIG_APTOOLS),y)
 include Mk/aptools.mk
-endif
-ifeq ($(CONFIG_SQUASHFS),y)
-include Mk/squashfs.mk
 endif
 ifeq ($(CONFIG_BUTILS),y)
 include Mk/bridge-utils.mk
@@ -216,9 +227,6 @@ endif
 ifeq ($(CONFIG_CKERMIT),y)
 include Mk/ckermit.mk
 endif
-ifeq ($(CONFIG_NBD),y)
-include Mk/nbd.mk
-endif
 ifeq ($(CONFIG_HOSTAP_DRIVER),y)
 include Mk/hostap-driver.mk
 endif
@@ -228,14 +236,17 @@ endif
 ifeq ($(CONFIG_HOSTAPD),y)
 include Mk/hostapd.mk
 endif
+ifeq ($(CONFIG_HTTPD),y)
+include Mk/cgi.mk
+endif
 ifeq ($(CONFIG_IPTABLES),y)
 include Mk/iptables.mk
 endif
 ifeq ($(CONFIG_KERNEL_AODV),y)
 include Mk/kernel-aodv.mk
 endif
-ifeq ($(CONFIG_VTUN),y)
-include Mk/vtun.mk
+ifeq ($(CONFIG_NBD),y)
+include Mk/nbd.mk
 endif
 ifeq ($(CONFIG_OPENVPN),y)
 include Mk/openvpn.mk
@@ -243,11 +254,17 @@ endif
 ifeq ($(CONFIG_PSMISC),y)
 include Mk/psmisc.mk
 endif
+ifeq ($(CONFIG_SQUASHFS),y)
+include Mk/squashfs.mk
+endif
 ifeq ($(CONFIG_SYSLINUX),y)
 include Mk/syslinux.mk
 endif
 ifeq ($(CONFIG_SYSVINIT),y)
 include Mk/sysvinit.mk
+endif
+ifeq ($(CONFIG_TINY_LOGIN),y)
+include Mk/tinylogin.mk
 endif
 ifeq ($(CONFIG_TRAFFIC),y)
 include Mk/iproute2.mk
@@ -261,6 +278,9 @@ endif
 ifeq ($(CONFIG_UMSDOS),y)
 include Mk/umsdos_progs.mk
 endif
+ifeq ($(CONFIG_VTUN),y)
+include Mk/vtun.mk
+endif
 
 endif
 
@@ -273,7 +293,6 @@ image:	Image_dir \
 	@rm -Rf `find $(IMAGE_DIR) -type d -name CVS`
 	@echo ""
 	@echo "Stripping binaries/modules (probably redundant)"
-	#$(STRIP) --strip-debug `find $(IMAGE_DIR) -type f -exec file {} \; | grep "ELF 32-bit" | cut -f 1 -d :`
 	@$(STRIP) --strip-debug `find $(IMAGE_DIR) -type f -exec file {} \; | grep "ELF 32-bit" | cut -f 1 -d :`
 	@echo ""
 	@echo "Removing dirs/files:"
@@ -316,7 +335,7 @@ ifeq ($(CONFIG_UCLIBC),y)
 	@mkdir -p $(IMAGE_DIR)/usr/i386-linux-uclibc-$(UCLIBC_VERSION)/lib
 	@mkdir -p $(IMAGE_DIR)/lib
 	@for lib in $(LIBS) ; do \
-		cp -a /usr/i386-linux-uclibc/lib/$$lib \
+		cp -a $(LIBDIR)/$$lib \
 			$(IMAGE_DIR)/usr/i386-linux-uclibc-$(UCLIBC_VERSION)/lib ; \
 	done
 	@ln -s /usr/i386-linux-uclibc-$(UCLIBC_VERSION)/lib/ld-uClibc.so.0 \
@@ -376,7 +395,7 @@ linuxAP-clean:
 clean: $(SUBDIR_CLEAN) linuxAP-clean
 
 distclean: $(SUBDIR_DISTCLEAN) linuxAP-clean
-	@rm -f .config dirs.done links.done RW.default
+	@rm -f .config
 
 tar: distclean
 	@echo -e "\nBuilding Distribution File ..."
