@@ -11,6 +11,10 @@
 # This tango && extracts are not up to speed as of yet.
 # Busybox is heavily patched, and build dependent.
 #----------------------------------------------------------------------
+
+#to unify the time
+DATE=`date "+%d-%m-20%y"`
+
 ifeq (.config,$(wildcard .config))
 include .config
 endif
@@ -118,13 +122,14 @@ sram: $(PRE_INSTALL) kernel-sram flash
 	@rm -rf $(IMAGE_DIR)/etc/conf
 	@mkdir -p $(IMAGE_DIR)/etc/conf
 	@echo "6" > $(IMAGE_DIR)/etc/conf/runlevel
-	@cp flash $(IMAGE_DIR)/flash
-	@cp flash.md5 $(IMAGE_DIR)/flash.md5
+	@cp flash-$(DATE)-$(ELAN_SPEED) $(IMAGE_DIR)/flash
+	@cp flash-$(DATE)-$(ELAN_SPEED).md5  $(IMAGE_DIR)/flash.md5	
+	@echo "sram build"
 	@$(MKNOD) $(IMAGE_DIR)/dev/mtd1 c 90 2
 	@./aptools/image_rdev ./kernel-sram 31 1
-	./scripts/build_flash.pl 2097152 sram # 2 * 1024 * 1024
-	@md5sum sram > sram.md5
-
+	@./scripts/build_flash.pl 2097152 sram-$(DATE)-$(ELAN_SPEED) # 2 * 1024 * 1024
+	@md5sum sram-$(DATE)-$(ELAN_SPEED)  > sram-$(DATE)-$(ELAN_SPEED).md5
+	@tar -cvzf  images/$(DATE)-$(ELAN_SPEED).tar.gz *$(DATE)-$(ELAN_SPEED)*
 flash: kernel image cramfs-build alios-build
 	@echo "`date "+%Y%m%d.%T"` " \
 		> $(IMAGE_DIR)/etc/linuxAP-version
@@ -133,8 +138,8 @@ flash: kernel image cramfs-build alios-build
 	@touch pcmcia-cs-config
 	@touch pcmcia-cs-build
 	@./aptools/image_rdev ./kernel-sram 31 0
-	./scripts/build_flash.pl 1048576 flash # 1024 * 1024
-	@md5sum flash > flash.md5
+	@./scripts/build_flash.pl 1048576 flash-$(DATE)-$(ELAN_SPEED) # 1024 * 1024
+	@md5sum flash-$(DATE)-$(ELAN_SPEED) > flash-$(DATE)-$(ELAN_SPEED).md5
 
 endif
 
@@ -336,7 +341,7 @@ endif
 #----------------------------------------------------------------------
 linuxAP-clean:
 	@echo -e "\nRemove Images and Marker Files ..."
-	@$(RM) flash flash.md5 sram sram.md5
+	@$(RM) flash* sram*
 	@$(RM) kernel linux/.config
 	@$(RM) ramfs.img ramdisk
 	@$(RM) image

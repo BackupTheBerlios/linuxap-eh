@@ -49,6 +49,14 @@ if [ "$CONFIG_WLSPD_SLOW" = "" -a \
     "$CONFIG_WLSPD_HYPER" = "" ]; then
         define_bool CONFIG_WLSPD_NORMAL y
 fi
+if [ "$CONFIG_WLSPD_SLOW" = "y" ]; then
+  define_ustring ELAN_SPEED 8mhz 
+elif [ "$CONFIG_WLSPD_HYPER" = "y" ]; then
+  define_ustring ELAN_SPEED 66mhz
+else 
+  define_ustring ELAN_SPEED 33mhz
+fi
+
 if [ "$CONFIG_WL11000" = "" -a \
     "$CONFIG_SOEKRIS" = "" -a \
     "$CONFIG_ITX" = "" ]; then

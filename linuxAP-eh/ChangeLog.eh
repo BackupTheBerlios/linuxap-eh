@@ -1,3 +1,6 @@
+17-10-2003
+  * now images have the speed and the date and are packages at images directory
+
 15-10-2003
   * dhcpd.conf at br0 now by default
   * Added ln to dhcpd at runlevel 3 and removed /rw from image final
