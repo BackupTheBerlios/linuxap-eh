@@ -6,7 +6,6 @@ SUBDIR_BUILD    += iptables-build
 SUBDIR_INSTALL  += iptables-install
 SUBDIR_CLEAN    += iptables-clean
 SUBDIR_DISTCLEAN+= iptables-distclean
-
 COND_KERNEL     += iptables/$(IPTABLES_VERSION)
 
 iptables-config:
