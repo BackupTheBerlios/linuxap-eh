@@ -191,7 +191,7 @@ ustring 'Kernel Version' KERNEL_VERSION '2.4.20'
 
 bool "NBD/Swap Support?"    CONFIG_NBD
 
-bool "Kernel AODV dynamic routing? (not working yet)" CONFIG_KERNEL_AODV
+bool "Kernel AODV dynamic routing?" CONFIG_KERNEL_AODV
 if [ "$CONFIG_KERNEL_AODV" = "y" ]; then
     ustring 'Kernel AODV Version' KERNEL_AODV_VERSION KERNEL_AODV_VERSION
 fi
