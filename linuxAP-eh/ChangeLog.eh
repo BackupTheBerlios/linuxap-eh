@@ -1,3 +1,6 @@
+20-10-2003
+  * Added script ./pack_links.sh to automate links.tgz creation
+
 17-10-2003
   * now images have the speed and the date and are packages at images directory
 
