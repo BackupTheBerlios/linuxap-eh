@@ -276,6 +276,7 @@ Image_dir:
 	@( cd Image_static ; tar cf - . | ( cd $(IMAGE_DIR) ; tar xf - ))
 	@( cd $(AP_BUILD)/Image_static ; tar cf - . | \
 		( cd $(IMAGE_DIR); tar xf - ) )
+	@mkdir -p $(IMAGE_DIR)/dev
 	@scripts/util_dev $(IMAGE_DIR)/dev/ `cat scripts/util_dev.$(AP_BUILD)`
 
 configure_links:
