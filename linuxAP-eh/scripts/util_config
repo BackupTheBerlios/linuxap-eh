@@ -102,6 +102,11 @@ rm -rf $utility-$version $utility $utility-build $utility-config
 # Extract the archive
 extract_archive
 
+if [ -d "kernel-source-2.4.20" ]
+then
+    mv kernel-source-2.4.20 linux-2.4.20
+fi
+
 # Apply patches if any
 cd $utility
 for patch in ../$patch1 ../$patch2
