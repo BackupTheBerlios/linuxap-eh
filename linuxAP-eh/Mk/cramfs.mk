@@ -14,7 +14,7 @@ cramfs-config:
 
 cramfs-build: cramfs-config
 	@echo -e "\nBuilding cramfs utilities version $(CRAMFS_VERSION)."
-	@cd cramfs && $(MAKE) \
+	@$(MAKE) -C cramfs \
 		> /tmp/cramfs-build > /tmp/cramfs-build 2>&1
 	@mv /tmp/cramfs-build .
 
