@@ -247,6 +247,8 @@ image:	Image_dir \
 	$(SUBDIR_INSTALL) \
 	configure_links \
 	copy_libc
+	@echo -e "\nCleaning Image_final"
+	@find $(IMAGE_DIR) -type d -name CVS -exec rm -Rf {} \;
 	$(STRIP) --strip-debug `find $(IMAGE_DIR) -type f -exec file {} \; | grep "ELF 32-bit" | cut -f 1 -d :`
 
 Image_dir:
